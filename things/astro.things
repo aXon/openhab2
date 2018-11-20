@@ -1,0 +1,4 @@
+astro:sun:home  [ geolocation="51.2458279,-0.7582737", interval=120 ]
+astro:moon:home [ geolocation="52.5200066,13.4049540", interval=120 ]
+
+// vim: syntax=Xtend

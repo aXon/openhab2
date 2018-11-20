@@ -1,0 +1,89 @@
+/* House groups - physical */
+Group gFF           "First Floor"   <firstfloor>
+Group gGF           "Ground Floor"  <groundfloor>
+
+/* Persistence groups*/
+
+Group gHistory
+
+/* Rooms */
+Group GF_Living     "Living & Dining Room"  <video>     (gGF)
+Group GF_Kitchen    "Breakfast Room"        <kitchen>   (gGF)
+Group GF_Hallway    "Hallway"               <corridor>  (gGF)
+
+Group FF_MasterBed   "Master Bedroom"        <bedroom>   (gFF)
+Group FF_MiddleBed   "Middle Bedroom"        <bedroom>   (gFF)
+Group FF_BackBed   "Back Bedroom"          <bedroom>   (gFF)
+
+/* Type groups */
+Group TRVSetTemperature "Radiator Set Temperatures"
+
+/* Environmental groups */
+Group Weather       "Weather"       <sun>
+
+/* Special group? */
+Group Status
+
+Group:Number:AVG                TemperatureAVG "Avg. Room Temperature [%.1f °C]"   <temperature>   (Status)
+
+/* Presence detection */
+Switch OnePlus3Presence { channel="network:pingdevice:oneplus3:online" }
+Number OnePlus3ResponseTime { channel="network:pingdevice:oneplus3:latency" }
+DateTime OnePlus3LastSeen "Date [%1$tA, %1$td.%1$tm.%1$tY]" { channel="network:pingdevice:oneplus3:lastseen" }
+
+/* Generic info */
+
+DateTime   NTPDateTime   "Date [%1$tA, %1$td.%1$tm.%1$tY]"   {channel="ntp:ntp:demo:dateTime"}
+
+
+/* Heating items */
+Number   BackBedroom_0SIGNALSTRENGTH       "Signal Strength"        {channel="homematic:HM-CC-RT-DN:e5c60107:OEQ1710187:0#SIGNAL_STRENGTH"}
+Switch   BackBedroom_0LOWBAT               "Low Battery"            {channel="homematic:HM-CC-RT-DN:e5c60107:OEQ1710187:0#LOWBAT"}
+Number   BackBedroom_4SETTEMPERATURE       "Back bedroom Set Temperature"    <temperature> (TRVSetTemperature)    {channel="homematic:HM-CC-RT-DN:e5c60107:OEQ1710187:4#SET_TEMPERATURE"}
+Number   BackBedroom_4VALVESTATE           "Valve State"            {channel="homematic:HM-CC-RT-DN:e5c60107:OEQ1710187:4#VALVE_STATE"}
+Number   BackBedroom_4ACTUALTEMPERATURE    "Back bedroom Actual Temperature"  <temperature> (TemperatureAVG,gHistory,gFF,FF_BackBed,Status)    {channel="homematic:HM-CC-RT-DN:e5c60107:OEQ1710187:4#ACTUAL_TEMPERATURE"}
+
+Number   MasterBedroom_0SIGNALSTRENGTH       "Signal Strength"        {channel="homematic:HM-CC-RT-DN:e5c60107:OEQ1712694:0#SIGNAL_STRENGTH"}
+Switch   MasterBedroom_0LOWBAT               "Low Battery"            {channel="homematic:HM-CC-RT-DN:e5c60107:OEQ1712694:0#LOWBAT"}
+Number   MasterBedroom_4SETTEMPERATURE       "Master bedroom Set Temperature"  <temperature> (TRVSetTemperature)        {channel="homematic:HM-CC-RT-DN:e5c60107:OEQ1712694:4#SET_TEMPERATURE"}
+Number   MasterBedroom_4VALVESTATE           "Valve State"            {channel="homematic:HM-CC-RT-DN:e5c60107:OEQ1712694:4#VALVE_STATE"}
+Number   MasterBedroom_4ACTUALTEMPERATURE    "Master bedroom Actual Temperature"   <temperature> (TemperatureAVG,gHistory,gFF,FF_MasterBed,Status)  {channel="homematic:HM-CC-RT-DN:e5c60107:OEQ1712694:4#ACTUAL_TEMPERATURE"}
+
+Number   MiddleBedroom_0SIGNALSTRENGTH       "Signal Strength"        {channel="homematic:HM-CC-RT-DN:e5c60107:OEQ1712717:0#SIGNAL_STRENGTH"}
+Switch   MiddleBedroom_0LOWBAT               "Low Battery"            {channel="homematic:HM-CC-RT-DN:e5c60107:OEQ1712717:0#LOWBAT"}
+Number   MiddleBedroom_4SETTEMPERATURE       "Middle Bedroom Set Temperature"   <temperature> (TRVSetTemperature)       {channel="homematic:HM-CC-RT-DN:e5c60107:OEQ1712717:4#SET_TEMPERATURE"}
+Number   MiddleBedroom_4VALVESTATE           "Valve State"            {channel="homematic:HM-CC-RT-DN:e5c60107:OEQ1712717:4#VALVE_STATE"}
+Number   MiddleBedroom_4ACTUALTEMPERATURE    "Middle bedroom Actual Temperature"   <temperature> (TemperatureAVG,gHistory,gFF,FF_MiddleBed, Status)   {channel="homematic:HM-CC-RT-DN:e5c60107:OEQ1712717:4#ACTUAL_TEMPERATURE"}
+
+Number   Entrance_0SIGNALSTRENGTH       "Signal Strength"        {channel="homematic:HM-CC-RT-DN:e5c60107:OEQ1715276:0#SIGNAL_STRENGTH"}
+Switch   Entrance_0LOWBAT               "Low Battery"            {channel="homematic:HM-CC-RT-DN:e5c60107:OEQ1715276:0#LOWBAT"}
+Number   Entrance_4SETTEMPERATURE       "Entrance Set Temperature"    <temperature> (TRVSetTemperature)      {channel="homematic:HM-CC-RT-DN:e5c60107:OEQ1715276:4#SET_TEMPERATURE"}
+Number   Entrance_4VALVESTATE           "Valve State"            {channel="homematic:HM-CC-RT-DN:e5c60107:OEQ1715276:4#VALVE_STATE"}
+Number   Entrance_4ACTUALTEMPERATURE    "Entrance Actual Temperature"  <temperature> (TemperatureAVG,gHistory,gGF,GF_Hallway, Status)   {channel="homematic:HM-CC-RT-DN:e5c60107:OEQ1715276:4#ACTUAL_TEMPERATURE"}
+
+Number   Hallway_0SIGNALSTRENGTH       "Signal Strength"        {channel="homematic:HM-CC-RT-DN:e5c60107:OEQ1712706:0#SIGNAL_STRENGTH"}
+Switch   Hallway_0LOWBAT               "Low Battery"            {channel="homematic:HM-CC-RT-DN:e5c60107:OEQ1712706:0#LOWBAT"}
+Number   Hallway_4SETTEMPERATURE       "Hallway Set Temperature"    <temperature> (TRVSetTemperature)      {channel="homematic:HM-CC-RT-DN:e5c60107:OEQ1712706:4#SET_TEMPERATURE"}
+Number   Hallway_4VALVESTATE           "Valve State"            {channel="homematic:HM-CC-RT-DN:e5c60107:OEQ1712706:4#VALVE_STATE"}
+Number   Hallway_4ACTUALTEMPERATURE    "Hallway Actual Temperature"  <temperature> (TemperatureAVG,gHistory,gGF,GF_Hallway, Status)   {channel="homematic:HM-CC-RT-DN:e5c60107:OEQ1712706:4#ACTUAL_TEMPERATURE"}
+
+Number   LivingRoom_0SIGNALSTRENGTH       "Signal Strength"        {channel="homematic:HM-CC-RT-DN:e5c60107:OEQ1712690:0#SIGNAL_STRENGTH"}
+Switch   LivingRoom_0LOWBAT               "Low Battery"            {channel="homematic:HM-CC-RT-DN:e5c60107:OEQ1712690:0#LOWBAT"}
+Number   LivingRoom_4SETTEMPERATURE       "Living room Set Temperature"    <temperature> (TRVSetTemperature)      {channel="homematic:HM-CC-RT-DN:e5c60107:OEQ1712690:4#SET_TEMPERATURE"}
+Number   LivingRoom_4VALVESTATE           "Valve State"            {channel="homematic:HM-CC-RT-DN:e5c60107:OEQ1712690:4#VALVE_STATE"}
+Number   LivingRoom_4ACTUALTEMPERATURE    "Living room Actual Temperature"   <temperature> (TemperatureAVG,gHistory,gGF,GF_Living, Status)  {channel="homematic:HM-CC-RT-DN:e5c60107:OEQ1712690:4#ACTUAL_TEMPERATURE"}
+
+Number   DiningRoom_0SIGNALSTRENGTH       "Signal Strength"        {channel="homematic:HM-CC-RT-DN:e5c60107:OEQ1710108:0#SIGNAL_STRENGTH"}
+Switch   DiningRoom_0LOWBAT               "Low Battery"            {channel="homematic:HM-CC-RT-DN:e5c60107:OEQ1710108:0#LOWBAT"}
+Number   DiningRoom_4SETTEMPERATURE       "Dining room Set Temperature"    <temperature> (TRVSetTemperature)      {channel="homematic:HM-CC-RT-DN:e5c60107:OEQ1710108:4#SET_TEMPERATURE"}
+Number   DiningRoom_4VALVESTATE           "Valve State"            {channel="homematic:HM-CC-RT-DN:e5c60107:OEQ1710108:4#VALVE_STATE"}
+Number   DiningRoom_4ACTUALTEMPERATURE    "Dining room Actual Temperature"   <temperature> (TemperatureAVG,gHistory,gGF,GF_Living, Status)   {channel="homematic:HM-CC-RT-DN:e5c60107:OEQ1710108:4#ACTUAL_TEMPERATURE"}
+
+Number   BreakfastRoom_0SIGNALSTRENGTH       "Signal Strength"        {channel="homematic:HM-CC-RT-DN:e5c60107:OEQ1710110:0#SIGNAL_STRENGTH"}
+Switch   BreakfastRoom_0LOWBAT               "Low Battery"            {channel="homematic:HM-CC-RT-DN:e5c60107:OEQ1710110:0#LOWBAT"}
+Number   BreakfastRoom_4SETTEMPERATURE       "Breakfast room Set Temperature"   <temperature> (TRVSetTemperature)       {channel="homematic:HM-CC-RT-DN:e5c60107:OEQ1710110:4#SET_TEMPERATURE"}
+Number   BreakfastRoom_4VALVESTATE           "Valve State"            {channel="homematic:HM-CC-RT-DN:e5c60107:OEQ1710110:4#VALVE_STATE"}
+Number   BreakfastRoom_4ACTUALTEMPERATURE    "Breakfast room Actual Temperature"   <temperature> (TemperatureAVG,gHistory,gGF,GF_Kitchen, Status)   {channel="homematic:HM-CC-RT-DN:e5c60107:OEQ1710110:4#ACTUAL_TEMPERATURE"}
+
+
+

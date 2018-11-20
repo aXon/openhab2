@@ -1,0 +1,7 @@
+network:pingdevice:oneplus3 [ hostname="op3.lan" ,
+uses_dhcp_listen=true,
+    uses_arp_pings=true,
+    refreshInterval=300000,
+    timeout=10000,
+    retry=5
+]

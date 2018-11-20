@@ -1,0 +1,268 @@
+val String filename = "heizung-modus.rules"
+
+// vordefinierte Temperaturen
+val Number tempHigh = 21.0
+val Number tempComfort = 19.0
+val Number tempMid = 17.0
+val Number tempLower = 15.0
+val Number tempChill = 14.0
+val Number tempAway = 13.0
+val Number tempAwayLonger = 13.0
+val Number tempOff = 4.5
+
+// Heizmodi für die ganze Wohnung:
+//  NORMAL: Betriebsmodus für die normale Arbeitswoche
+//  HOMEOFFICE: Folgt Normal
+//  PARTY: Konstante Beheizung, automatischer Wechsel zu NORMAL in der Nacht (nach der Party oder dem besonderen Tag)
+//  SICKDAY: Wärmere Beheizung für den laufenden Tag (Krank zuhause)
+//  WEEKEND_TRIP: leicht abgesenkte Temperatur über das Wochenende, automatischer Wechsel zu NORMAL am nächsten Montag morgen
+//  AWAY: Unterwegs/längere Zeit abwesend, abgesenkte Temperatur für einen undefinierten Zeitraum
+//  OFF_SUMMER: alle Heizkörper sind aus (Sommerbetrieb)
+//  CALENDAR: einzelne Kalender Termine überschreiben das aktuelle Zeitprogramm
+//  AUTO_DEVICE: Wechselt Gerät in automatik Modus, keine automatische Beeinflussung
+//  MANU_DEVICE: Wechselt Gerät in manuellen Modus, keine automatische Beeinflussung
+// Time cron S Min H DoM Mo DoW Y
+// Seconds, Minutes, Hours, Day-of-Month, Month, Day-of-Week,Year (optional field)
+
+rule "System started"
+when
+    System started
+then
+    createTimer(now.plusSeconds(180)) [ |
+        logInfo(filename, "Home_Heating system started")
+        if (Home_Heating_Mode.state == NULL) Home_Heating_Mode.postUpdate("NORMAL")
+        Heating_TargetPresets.members.filter[item | item.state == NULL].forEach[item | item.postUpdate(tempMid)]
+        Home_Heating_UpdateHeater.sendCommand(ON)
+    ]
+end
+
+rule "Heizmodus umschalten und Stellglieder setzen"
+when
+    Item Home_Heating_Mode received update or
+    Item Home_Heating_UpdateHeater received command ON
+then
+    Home_Heating_UpdateHeater.postUpdate(OFF)
+    logInfo(filename, "Wohnung Heizmodus: " + Home_Heating_Mode.state)
+    switch Home_Heating_Mode.state {
+        case "NORMAL" : {
+            KI_Radiator_Manu.sendCommand(KI_Radiator_PresetTemp.state as Number)
+            EN_Radiator_Manu.sendCommand(EN_Radiator_PresetTemp.state as Number)
+            HA_Radiator_Manu.sendCommand(HA_Radiator_PresetTemp.state as Number)
+            LR_Radiator_Manu.sendCommand(LR_Radiator_PresetTemp.state as Number)
+            DR_Radiator_Manu.sendCommand(DR_Radiator_PresetTemp.state as Number)
+            MAB_Radiator_Manu.sendCommand(MAB_Radiator_PresetTemp.state as Number)
+            MIB_Radiator_Manu.sendCommand(MIB_Radiator_PresetTemp.state as Number)
+            BAB_Radiator_Manu.sendCommand(BAB_Radiator_PresetTemp.state as Number)
+        }
+        case "HOMEOFFICE" : {
+            KI_Radiator_Manu.sendCommand(KI_Radiator_PresetTemp.state as Number)
+            EN_Radiator_Manu.sendCommand(EN_Radiator_PresetTemp.state as Number)
+            HA_Radiator_Manu.sendCommand(HA_Radiator_PresetTemp.state as Number)
+            LR_Radiator_Manu.sendCommand(LR_Radiator_PresetTemp.state as Number)
+            DR_Radiator_Manu.sendCommand(DR_Radiator_PresetTemp.state as Number)
+            MAB_Radiator_Manu.sendCommand(MAB_Radiator_PresetTemp.state as Number)
+            MIB_Radiator_Manu.sendCommand(MIB_Radiator_PresetTemp.state as Number)
+            BAB_Radiator_Manu.sendCommand(BAB_Radiator_PresetTemp.state as Number)
+        }
+        case "PARTY" : {
+            KI_Radiator_Manu.sendCommand(tempComfort)
+            EN_Radiator_Manu.sendCommand(tempMid)
+            HA_Radiator_Manu.sendCommand(tempMid)
+            LR_Radiator_Manu.sendCommand(tempComfort)
+            DR_Radiator_Manu.sendCommand(tempComfort)
+            MAB_Radiator_Manu.sendCommand(tempChill)
+            MIB_Radiator_Manu.sendCommand(tempChill)
+            BAB_Radiator_Manu.sendCommand(tempChill)
+         }
+        case "SICKDAY" : {
+            KI_Radiator_Manu.sendCommand(tempHigh)
+            EN_Radiator_Manu.sendCommand(tempMid)
+            HA_Radiator_Manu.sendCommand(tempMid)
+            LR_Radiator_Manu.sendCommand(tempComfort)
+            DR_Radiator_Manu.sendCommand(tempMid)
+            MAB_Radiator_Manu.sendCommand(tempMid)
+            MIB_Radiator_Manu.sendCommand(tempMid)
+            BAB_Radiator_Manu.sendCommand(tempMid)
+        }
+        case "WEEKEND_TRIP" : {
+            KI_Radiator_Manu.sendCommand(tempAway)
+            EN_Radiator_Manu.sendCommand(tempAway)
+            HA_Radiator_Manu.sendCommand(tempAway)
+            LR_Radiator_Manu.sendCommand(tempAway)
+            DR_Radiator_Manu.sendCommand(tempAway)
+            MAB_Radiator_Manu.sendCommand(tempAway)
+            MIB_Radiator_Manu.sendCommand(tempAway)
+            BAB_Radiator_Manu.sendCommand(tempAway)
+        }
+        case "AWAY" : {
+            KI_Radiator_Manu.sendCommand(tempAwayLonger)
+            EN_Radiator_Manu.sendCommand(tempAwayLonger)
+            HA_Radiator_Manu.sendCommand(tempAwayLonger)
+            LR_Radiator_Manu.sendCommand(tempAwayLonger)
+            DR_Radiator_Manu.sendCommand(tempAwayLonger)
+            MAB_Radiator_Manu.sendCommand(tempAwayLonger)
+            MIB_Radiator_Manu.sendCommand(tempAwayLonger)
+            BAB_Radiator_Manu.sendCommand(tempAwayLonger)
+        }
+        case "OFF_SUMMER" : {
+            KI_Radiator_Manu.sendCommand(tempOff)
+            EN_Radiator_Manu.sendCommand(tempOff)
+            HA_Radiator_Manu.sendCommand(tempOff)
+            LR_Radiator_Manu.sendCommand(tempOff)
+            DR_Radiator_Manu.sendCommand(tempOff)
+            MAB_Radiator_Manu.sendCommand(tempOff)
+            MIB_Radiator_Manu.sendCommand(tempOff)
+            BAB_Radiator_Manu.sendCommand(tempOff)
+        }
+        case "CALENDAR"    : { logWarn(filename, "Wohnung Heizmodus: CALENDAR (nicht implementiert)") }
+        case "AUTO_DEVICE" : { logWarn(filename, "Wohnung Heizmodus: AUTO_DEVICE (nicht implementiert)") }
+        case "MANU_DEVICE" : { logWarn(filename, "Wohnung Heizmodus: MANU_DEVICE (nicht implementiert)") }
+        default            : { logError(filename, "Wohnung Heizmodus ungültig: " + Home_Heating_Mode.state) }
+    }
+end
+
+// gute Idee, um ein Thermostat mit der Gastherme zu verbinden
+// specific to my home
+//rule "Wohnzimmer: Wandthermostat folgt Stellglied"
+//when
+//    Item WZ_Heizung_Manu received command
+//then
+//    WZ_Wandtherm_Manu.sendCommand(receivedCommand)
+//end
+
+// Home_Heating_Mode Ende PARTY/SICKDAY
+rule "Party/Sick Modus Ende 2:00 Uhr"
+when
+    Time cron "0 0 2 ? * * "
+then
+    if (Home_Heating_Mode.state == "PARTY" || Home_Heating_Mode.state == "SICKDAY") {
+        logInfo(filename, "Wohnung Heizmodus: PARTY/SICKDAY wird verlassen")
+        Home_Heating_Mode.postUpdate("NORMAL")
+    }
+end
+
+// Home_Heating_Mode Ende WEEKEND_TRIP
+rule "Wochenendtrip Ende Montag 13:00 Uhr"
+when
+    Time cron "0 0 13 ? * MON"
+then
+    if (Home_Heating_Mode.state == "WEEKEND_TRIP") {
+        logInfo(filename, "Wohnung Heizmodus: WEEKEND TRIP wird verlassen")
+        Home_Heating_Mode.postUpdate("NORMAL")
+    }
+end
+
+// Home_Heating_Mode NORMAL Zeitprogramm
+rule "1:30 Uhr"
+when
+    Time cron "0 30 1 ? * * "
+then
+    logInfo(filename, "Wohnung Heizmodus: Zeitprogramm: " + now.toString)
+    LR_Radiator_PresetTemp.postUpdate(tempLower)
+    DR_Radiator_PresetTemp.postUpdate(tempLower)
+    KI_Radiator_PresetTemp.postUpdate(tempLower)
+    EN_Radiator_PresetTemp.postUpdate(tempLower)
+    HA_Radiator_PresetTemp.postUpdate(tempChill)
+    MAB_Radiator_PresetTemp.postUpdate(tempChill)
+    MIB_Radiator_PresetTemp.postUpdate(tempChill)
+    BAB_Radiator_PresetTemp.postUpdate(tempChill)
+    Home_Heating_UpdateHeater.sendCommand(ON)
+end
+
+
+rule "6:30 Uhr (Wochentag)"
+when
+    Time cron "0 30 6 ? * MON-FRI"
+then
+    logInfo(filename, "Wohnung Heizmodus: Zeitprogramm: " + now.toString)
+    LR_Radiator_PresetTemp.postUpdate(tempLower)
+    DR_Radiator_PresetTemp.postUpdate(tempLower)
+    KI_Radiator_PresetTemp.postUpdate(tempComfort)
+    EN_Radiator_PresetTemp.postUpdate(tempLower)
+    HA_Radiator_PresetTemp.postUpdate(tempMid)
+    MAB_Radiator_PresetTemp.postUpdate(tempComfort)
+    MIB_Radiator_PresetTemp.postUpdate(tempMid)
+    BAB_Radiator_PresetTemp.postUpdate(tempMid)
+    Home_Heating_UpdateHeater.sendCommand(ON)
+end
+
+rule "8:00 Uhr (Wochentag)"
+when
+    Time cron "0 0 8 ? * MON-FRI"
+then
+    logInfo(filename, "Wohnung Heizmodus: Zeitprogramm: " + now.toString)
+    LR_Radiator_PresetTemp.postUpdate(tempLower)
+    DR_Radiator_PresetTemp.postUpdate(tempLower)
+    KI_Radiator_PresetTemp.postUpdate(tempLower)
+    EN_Radiator_PresetTemp.postUpdate(tempLower)
+    HA_Radiator_PresetTemp.postUpdate(tempLower)
+    MAB_Radiator_PresetTemp.postUpdate(tempMid)
+    MIB_Radiator_PresetTemp.postUpdate(tempLower)
+    BAB_Radiator_PresetTemp.postUpdate(tempLower)
+    Home_Heating_UpdateHeater.sendCommand(ON)
+end
+
+rule "8:00 Uhr (Wochenende)"
+when
+    Time cron "0 1 8 ? * SAT,SUN"
+then
+    logInfo(filename, "Wohnung Heizmodus: Zeitprogramm: " + now.toString)
+    LR_Radiator_PresetTemp.postUpdate(tempComfort)
+    DR_Radiator_PresetTemp.postUpdate(tempComfort)
+    KI_Radiator_PresetTemp.postUpdate(tempComfort)
+    EN_Radiator_PresetTemp.postUpdate(tempComfort)
+    HA_Radiator_PresetTemp.postUpdate(tempComfort)
+    MAB_Radiator_PresetTemp.postUpdate(tempComfort)
+    MIB_Radiator_PresetTemp.postUpdate(tempComfort)
+    BAB_Radiator_PresetTemp.postUpdate(tempComfort)
+    Home_Heating_UpdateHeater.sendCommand(ON)
+end
+
+
+rule "08:30 Uhr (Woche Homeoffice)"
+when
+    Time cron "0 30 8 ? * MON-FRI"
+then
+    if (Home_Heating_Mode.state == "HOMEOFFICE") {
+        logInfo(filename, "Wohnung Heizmodus: Zeitprogramm: " + now.toString)
+        MAB_Radiator_PresetTemp.postUpdate(tempHigh)
+        Home_Heating_UpdateHeater.sendCommand(ON)
+    }
+end
+
+
+rule "18:00 Uhr"
+when
+    Time cron "0 0 18 ? * *"
+then
+    logInfo(filename, "Wohnung Heizmodus: Zeitprogramm: " + now.toString)
+    LR_Radiator_PresetTemp.postUpdate(tempComfort)
+    DR_Radiator_PresetTemp.postUpdate(tempComfort)
+    KI_Radiator_PresetTemp.postUpdate(tempComfort)
+    EN_Radiator_PresetTemp.postUpdate(tempLower)
+    HA_Radiator_PresetTemp.postUpdate(tempLower)
+    MAB_Radiator_PresetTemp.postUpdate(tempComfort)
+    MIB_Radiator_PresetTemp.postUpdate(tempMid)
+    BAB_Radiator_PresetTemp.postUpdate(tempMid)
+    Home_Heating_UpdateHeater.sendCommand(ON)
+end
+
+
+rule "20:30 Uhr"
+when
+    Time cron "0 30 20 ? * *"
+then
+    logInfo(filename, "Wohnung Heizmodus: Zeitprogramm: " + now.toString)
+    LR_Radiator_PresetTemp.postUpdate(tempMid)
+    DR_Radiator_PresetTemp.postUpdate(tempMid)
+    KI_Radiator_PresetTemp.postUpdate(tempMid)
+    EN_Radiator_PresetTemp.postUpdate(tempLower)
+    HA_Radiator_PresetTemp.postUpdate(tempLower)
+    MAB_Radiator_PresetTemp.postUpdate(tempMid)
+    MIB_Radiator_PresetTemp.postUpdate(tempMid)
+    BAB_Radiator_PresetTemp.postUpdate(tempMid)
+    Home_Heating_UpdateHeater.sendCommand(ON)
+end
+
+
+// vim: syntax=Xtend

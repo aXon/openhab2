@@ -1,0 +1,22 @@
+// HM-CC-RT-DN Heizkörperthermostat Mapping
+
+// 4#CONTROL_MODE
+-1=-Unbestimmt-
+AUTO-MODE=Automatic
+MANU-MODE=Manual
+PARTY-MODE=Party
+BOOST-MODE=Boost
+
+// 4#FAULT_REPORTING
+NO_FAULT=No Fault
+VALVE_TIGHT=Valve tightness
+ADJUSTING_RANGE_TOO_LARGE=Adjusting range too large
+ADJUSTING_RANGE_TOO_SMALL=Adjusting range too small
+COMMUNICATION_ERROR=Communication error
+LOWBAT=Low battery
+VALVE_ERROR_POSITION=Valve error in position
+
+//
+NULL=unbekannt ⁉
+UNDEF=unbekannt ⁉
+-=unbekannt ⁉

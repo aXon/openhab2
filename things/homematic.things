@@ -1,0 +1,14 @@
+Bridge homematic:bridge:ccu "RaspberryMatic" @ "Cabinet" [ gatewayAddress="homematic-raspi.lan"]
+{
+    Thing HM-CC-RT-DN       OEQ1712694   "Thermostat" @ "Master bedroom"
+    Thing HM-CC-RT-DN       OEQ1712717   "Thermostat" @ "Middle bedroom"
+    Thing HM-CC-RT-DN       OEQ1710187   "Thermostat" @ "Back bedroom"
+    Thing HM-CC-RT-DN       OEQ1712690   "Thermostat" @ "Living room"
+    Thing HM-CC-RT-DN       OEQ1710108   "Thermostat" @ "Dining room"
+    Thing HM-CC-RT-DN       OEQ1715276   "Thermostat" @ "Entrance"
+    Thing HM-CC-RT-DN       OEQ1712706   "Thermostat" @ "Hallway"
+    Thing HM-CC-RT-DN       OEQ1710110   "Thermostat" @ "Breakfast room"
+    Thing GATEWAY-EXTRAS-CCU   GWE00000000
+}
+
+// vim: syntax=Xtend

@@ -1,0 +1,49 @@
+
+// Hauptgruppe für Haus
+Group   Home    "Homebase M&N"             <house>
+//Etagen
+Group   FF      "First Floor"               <firstfloor>
+Group   GF      "Ground Floor"              <groundfloor>
+// Räume
+Group   KI      "Breakfast room"            <kitchen>   (Home)
+Group   MAB     "Master bedroom"            <bedroom>   (Home)
+Group   MIB     "Middle bedroom"            <bedroom>   (Home)
+Group   BAB     "Back bedroom"              <bedroom>   (Home)
+Group   LDR     "Living and dining room"    <video>     (Home)
+Group   HAL     "Entrance and Hallway"      <corridor>  (Home)
+
+/* Persistence groups i.e. for charting*/
+Group History
+
+// horizontale Gruppen
+Group:Number:AVG    Temperatures    "Room temperatures [%.1f °C]"        <temperature>   (Home,History)
+
+Group               Batteries       "Battery states"                    <battery>       (Home)
+Group:Number:SUM    Bat_Binary      "Battery states (Binary) [%d]"      <battery>       (Batteries)
+Group:Number:MIN    Bat_Percent     "Battery states (%) [%d %%]"        <battery>       (Batteries)
+Group:Number:MIN    Bat_Volts       "Battery states (Volt) [%.1f V]"    <battery>       (Batteries)
+
+// Wartung / Maintenance
+Group:Number:MIN    RSSI_Group       "RSSI of all devices [%d dBm]"     <line>          (Home)
+Group:Number:SUM    Unreach_Group    "Unreachable devices [%d]"         <siren>         (Home)
+Group:Number:SUM    Pending_Group    "Devices not configured [%d]"      <siren>         (Home)
+Group:Number:SUM    Error_Group      "Devices with faults  [%d]"        <error2>        (Home)
+
+/* Presence detection */
+Switch Presence "Home presence [%s]"  <presence> // master presence switch, represents to the rest of OH whether someone is home
+Group:Switch:OR(OFF,ON) Presence_Sensors <presence> // all presence sensors belong to this group -- it was originally an AND function, but OR might be more suitable?
+Switch Presence_Timer { expire="5m,command=OFF" } // anti-flapping timer i.e. to prevent false-positives and allow cool off before declaring empty house
+
+Switch              Presence_OP3                "Presence OP3 - state " <presence>      (Home,Presence_Sensors)    { channel="network:pingdevice:oneplus3:online" }
+Number              Presence_OP3_ResponseTime   "OnePlus3 Response Time (ms) [%s ms]"   { channel="network:pingdevice:oneplus3:latency" }
+DateTime            Presence_OP3_LastSeen       "OnePlus3 Last seen [%s]"               { channel="network:pingdevice:oneplus3:lastseen" }
+
+// Generic information
+DateTime   CurrentDateTime                      "Date [%1$tA, %1$td.%1$tm.%1$tY]"                       {channel="ntp:ntp:demo:dateTime"}
+
+
+// fuer die Heizung
+String      Home_Heating_Mode               "Home heating mode [%s]"                    <heating>       (Home)
+Switch      Home_Heating_UpdateHeater        "Sending Set  temperatures to thermostats"      <heating>       (Home)
+
+// vim: syntax=Xtend

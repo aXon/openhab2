@@ -1,0 +1,29 @@
+sitemap homebase label="Homebase M&N" {
+    Frame label="General" {
+        Text item=CurrentDateTime
+        Group item=Home
+    }
+    
+    Frame label="Temperaturen und Heizung" {
+        //
+        Group item=Temperatures
+        Group item=Heating_TargetTemps
+        Selection item=Home_Heating_Mode label="Heizmodus (Wohnung) []" mappings=[NORMAL="Normal",
+            PARTY="Party",
+            SICKDAY="Krankheitstag",
+            WEEKEND_TRIP="Wochenendtrip",
+            AWAY="Unterwegs",
+            OFF_SUMMER="Aus (Sommer-Standby)"
+        ]
+    }
+    Frame label="Set point temperatures" {
+		Setpoint item=Heating_TargetTemps minValue=10 maxValue=22 step=0.5
+    }
+    Frame label="Presence"{
+		Text item=Presence 
+		Text item=Presence_OP3_ResponseTime
+        Text item=Presence_OP3_LastSeen 
+	}
+}
+
+// vim: syntax=Xtend

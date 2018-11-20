@@ -1,0 +1,3 @@
+Thing ntp:ntp:local [hostname="gb.pool.ntp.org", refreshInterval=180, refreshNtp=300, locale="gb"]
+
+// vim: syntax=Xtend

@@ -1,0 +1,59 @@
+// taken from https://community.openhab.org/t/generic-presence-detection/17878
+
+val String filename = "presence.rules"
+
+rule "Reset Presence and sensors to OFF on startup"
+when
+    System started
+then
+    Presence.sendCommand(OFF)
+    Presence_Sensors.sendCommand(OFF)
+end
+
+rule "A presence sensor updated"
+when
+        Item Presence_Sensors changed
+then
+
+    if(Presence_Timer.state == ON && Presence_Sensors.state == Presence.state) {
+        logInfo(filename, "Timer is running but group and proxy are the same, cancelling timer")
+        Presence_Timer.postUpdate(OFF)
+    }
+    else if(Presence_Sensors.state == Presence.state) {
+        logInfo(filename, "No timer and both group and proxy are the same, nothing to do")
+        return;
+    }
+
+    if(Presence_Sensors.state == OFF) {
+        logInfo(filename, "Everyone is away, setting anti-flapping timer")
+        Presence_Timer.sendCommand(ON)
+    }
+    else if(Presence_Sensors.state == ON) {
+        logInfo(filename, "Someone came home, setting presence to ON")
+        Presence.sendCommand(ON)
+    }
+
+end
+
+rule "Presence timer expired, no one is home"
+when
+    Item Presence_Timer received command OFF
+then
+    logInfo(filename, "Everyone is still away, setting presence to OFF")
+    Presence.sendCommand(OFF)
+end
+
+/*rule "Presence - someone is at home"
+when
+    Item Presence changed
+then
+    if(Presence == ON) {
+        logInfo(filename, "Someone is at home - enjoy the home office")
+        Home_Heating_Mode.postUpdate("HOMEOFFICE")
+    }
+    else if(Presence_Sensors.state == Presence.state) {
+        logInfo(filename, "No one is at home, no HOMEOFFICE")
+        Home_Heating_Mode.postUpdate("NORMAL")
+    }
+    
+end */
