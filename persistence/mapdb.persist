@@ -2,7 +2,7 @@ Strategies {
 	default = everyChange
 }
 Items {
-	* : strategy = everyChange, restoreOnStartup
+	* : strategy = everyUpdate, restoreOnStartup
 }
 
 // this saves every item's last value and restores on reboot, thus not having null/undefined in the beginning

@@ -27,7 +27,7 @@ Switch LR_Radiator_Auto              "LR_Radiator Auto-Mode"                    
 Number LR_Radiator_Manu              "LR_Radiator Manu-Mode [%.1f °C]"                          <"heating-40">    (Heating_LR)                          {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712690:4#MANU_MODE"}
 Switch LR_Radiator_BoostMode         "LR_Radiator Boost-Mode"                                   <fire>            (Heating_LR)                          {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712690:4#BOOST_MODE"}
 Number LR_Radiator_BoostTime         "LR_Radiator Boost-Remaining [%d min]"                    <"clock-on">      (Heating_LR)                          {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712690:4#BOOST_STATE"}
-// these values are being used by rules to store values
+// the following three items are used by rules to store values
 Number LR_Radiator_Preset            "LR_Radiator Set temperature fast setting"                 <"heating-60">      (Heating_LR)
 Number LR_Radiator_PresetTemp        "LR_Radiator Set temperature timer program [%.1f °C]"      <line>              (Heating_LR,Heating_TargetPresets)
 String LR_Radiator_Summary           "LR_Radiator Overview [%s]"                                <thermometer_red>   (Heating_LR,LR)

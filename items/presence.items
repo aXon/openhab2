@@ -1,0 +1,8 @@
+// Presence detection
+Switch Presence "Home presence [%s]"  <presence> // master presence switch, represents to the rest of OH whether someone is home
+Group:Switch:OR(OFF,ON) Presence_Sensors <presence> // all presence sensors belong to this group -- it was originally an AND function, but OR might be more suitable?
+Switch Presence_Timer { expire="5m,command=OFF" } // anti-flapping timer i.e. to prevent false-positives and allow cool off before declaring empty house
+
+Switch              Presence_OP3                "Presence OP3 - state " <presence>      (Home,Presence_Sensors)    { channel="network:pingdevice:oneplus3:online" }
+Number              Presence_OP3_ResponseTime   "OnePlus3 Response Time (ms) [%s ms]"   { channel="network:pingdevice:oneplus3:latency" }
+DateTime            Presence_OP3_LastSeen       "OnePlus3 Last seen [%s]"               { channel="network:pingdevice:oneplus3:lastseen" }

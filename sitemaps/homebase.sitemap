@@ -10,6 +10,7 @@ sitemap homebase label="Homebase M&N" {
         Group item=Heating_TargetTemps
         Selection item=Home_Heating_Mode label="Heizmodus (Wohnung) []" mappings=[NORMAL="Normal",
             PARTY="Party",
+            HOMEOFFICE="Home office",
             SICKDAY="Krankheitstag",
             WEEKEND_TRIP="Wochenendtrip",
             AWAY="Unterwegs",

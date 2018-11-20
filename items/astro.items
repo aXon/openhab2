@@ -1,0 +1,3 @@
+Group   Astro
+
+String  SeasonName  "Season name"   (Astro)   {channel="astro:sun:home:season#name"}
