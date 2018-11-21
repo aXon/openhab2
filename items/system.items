@@ -29,8 +29,6 @@ Group:Number:SUM    Unreach_Group    "Unreachable devices [%d]"         <siren> 
 Group:Number:SUM    Pending_Group    "Devices not configured [%d]"      <siren>         (Home)
 Group:Number:SUM    Error_Group      "Devices with faults  [%d]"        <error2>        (Home)
 
-// date + time
-DateTime   CurrentDateTime                      "Date [%1$tA, %1$td.%1$tm.%1$tY]"                       {channel="ntp:ntp:local:dateTime"}
 
 // Generic heating system related
 String      Home_Heating_Mode               "Home heating mode [%s]"                    <heating>       (Home)

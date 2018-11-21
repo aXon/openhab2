@@ -1,0 +1,27 @@
+# The apikey for the different weather providers, at least one must be specified
+# Note: Hamweather requires two apikeys: client_id=apikey, client_secret=apikey2
+apikey.ForecastIo=
+#apikey.OpenWeatherMap=
+#apikey.WorldWeatherOnline=
+#apikey.Wunderground=
+#apikey.Hamweather=
+#apikey2.Hamweather=
+#apikey.Meteoblue=
+
+# location configuration, you can specify multiple locations
+location.home.name=Homebase
+location.home.latitude=51.246
+location.home.longitude=-0.758
+location.home.provider=ForecastIo
+location.home.language=en
+location.home.updateInterval=5
+location.home.units=ca
+
+#location.<locationId2>.name=
+#location.<locationId2>.latitude=   (not required for Yahoo provider)
+#location.<locationId2>.longitude=  (not required for Yahoo provider)
+#location.<locationId2>.woeid=      (required for Yahoo provider)
+#location.<locationId2>.provider=
+#location.<locationId2>.language=
+#location.<locationId2>.updateInterval=
+#location.<locationId2>.units=

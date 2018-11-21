@@ -2,9 +2,11 @@ sitemap homebase label="Homebase M&N" {
     Frame label="General" {
         Text item=CurrentDateTime
         Group item=Home
+        Group item=Astro
+        Group item=Weather
     }
     
-    Frame label="Temperaturen und Heizung" {
+    Frame label="Temperatures and heating" {
         //
         Group item=Temperatures
         Group item=Heating_TargetTemps

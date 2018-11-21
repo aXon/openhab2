@@ -1,0 +1,3 @@
+Group Weather <sun_clouds> (Home)
+
+Number   DarkSkyTemp    "DarkSkyTemp [%.2f °C]"    (Weather)   {weather="locationId=home, type=temperature, property=current"}

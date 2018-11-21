@@ -1,3 +1,4 @@
+
 // Presence detection
 Switch Presence "Home presence [%s]"  <presence> // master presence switch, represents to the rest of OH whether someone is home
 Group:Switch:OR(OFF,ON) Presence_Sensors <presence> // all presence sensors belong to this group -- it was originally an AND function, but OR might be more suitable?

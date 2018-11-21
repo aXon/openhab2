@@ -1,3 +1,4 @@
+// inspiration taken partly from https://community.openhab.org/t/heating-boilerplate-a-universal-temperature-control-solution-with-modes/34843
 Group                     Heating_Group         "Heating Overall"                                <heating>         (Home)
 
 Group                     Heating_LR            "Heating Living room"                           <heating>         (Heating_Group) ["Thermostat"]
