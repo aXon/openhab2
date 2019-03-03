@@ -1,0 +1,9 @@
+//Bridge ebus:bridge:ebusBridge "eBUS Bridge" @ "Cabinet" [ ipAddress="127.0.0.1", port=8888 ] {
+  //  Thing vrc700_zone1 zone1 [ slaveAddress="15" ]
+    //Thing vrc430 vrc [ slaveAddress="15" ]
+//}
+
+//Bridge ebus:bridge:ebusBridge "eBUS Bridge" @ "Cabinet" [ serialPort="/dev/ttyUSB0", masterAddress="00", advancedLogging=true ] {
+ //   Thing vrc700_zone1 zone1 [ slaveAddress="15", polling=true ] 
+ //   Thing bai boiler [ slaveAddress="08", polling=true ]
+//}

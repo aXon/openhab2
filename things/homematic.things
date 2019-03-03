@@ -1,4 +1,4 @@
-Bridge homematic:bridge:ccu "RaspberryMatic" @ "Cabinet" [ gatewayAddress="homematic-raspi.lan"]
+Bridge homematic:bridge:ccu "RaspberryMatic" @ "Cabinet" [ gatewayAddress="10.23.5.219"]
 {
     Thing HM-CC-RT-DN       OEQ1712694   "Thermostat" @ "Master bedroom"
     Thing HM-CC-RT-DN       OEQ1712717   "Thermostat" @ "Middle bedroom"

@@ -5,3 +5,35 @@ uses_dhcp_listen=true,
     timeout=10000,
     retry=5
 ]
+
+network:pingdevice:marvin-wifi [ hostname="marvin-wifi.lan" ,
+uses_dhcp_listen=true,
+    uses_arp_pings=true,
+    refreshInterval=300000,
+    timeout=3000,
+    retry=1
+]
+
+network:pingdevice:zaphod-wifi [ hostname="zaphod-wifi.lan" ,
+uses_dhcp_listen=true,
+    uses_arp_pings=true,
+    refreshInterval=300000,
+    timeout=3000,
+    retry=1
+]
+
+network:pingdevice:michelle-ipad [ hostname="michelle-ipad.lan" ,
+uses_dhcp_listen=true,
+    uses_arp_pings=true,
+    refreshInterval=300000,
+    timeout=3000,
+    retry=1
+]
+
+network:pingdevice:michelle-ipad-air [ hostname="michelle-ipad-air.lan" ,
+uses_dhcp_listen=true,
+    uses_arp_pings=true,
+    refreshInterval=300000,
+    timeout=3000,
+    retry=1
+]

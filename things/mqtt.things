@@ -1,0 +1,21 @@
+Bridge mqtt:broker:mosquitto [ host="127.0.0.1", port="1883", secure=false,clientID="openhab2" ]{
+    Thing topic ebusd "eBusd" @ "Home" {
+    Channels:
+        //Type number : uptime2 "eBusd uptime" [ stateTopic="ebus/global/uptime", transformationPattern="REGEX:ebus/global/uptime (.*?)"]
+        Type number : Uptime "eBusd uptime" [ stateTopic="ebus/global/uptime"]
+    }
+    Thing topic bai "eBusd Boiler BAI" @ "Home" {
+    Channels:
+        Type number : FlowTemp "Boiler Flow Temperature" [ stateTopic="ebus/bai/FlowTemp", transformationPattern="JSONPATH:$.temp.value"]
+        Type number : ReturnTemp "Boiler Return Temperature" [ stateTopic="ebus/bai/ReturnTemp", transformationPattern="JSONPATH:$.temp.value"]
+        Type switch : CirculationPump "Boiler Circulation Pump" [ stateTopic="ebus/bai/CirPump", transformationPattern="JSONPATH:$.onoff.value"]
+    }
+    Thing topic VRC700 "eBusd VRC700" @ "Home" {
+    Channels:
+        Type number : DisplayedOutsideTemp "Outside Temperature" [ stateTopic="ebus/b7v00/DisplayedOutsideTemp", transformationPattern="JSONPATH:$.tempv.value"]
+        Type number : RoomTemp "VRC700 Room Temperature" [ stateTopic="ebus/b7v00/z1RoomTemp", transformationPattern="JSONPATH:$.tempv.value"]
+        Type number : DayTemp "VRC700 Desired day time room temperature" [ stateTopic="ebus/b7v00/z1DayTemp" , commandTopic="ebus/b7v00/z1DayTemp/set", transformationPattern="JSONPATH:$.tempv.value"]
+        Type number : NightTemp "VRC700 Desired night time (set back) temperature" [ stateTopic="ebus/b7v00/z1NightTemp", transformationPattern="JSONPATH:$.tempv.value"]
+    }
+}
+

@@ -4,6 +4,8 @@ sitemap homebase label="Homebase M&N" {
         Group item=Home
         Group item=Astro
         Group item=Weather
+        Group item=eBusGroup
+        Group item=Presence_Sensors label= "Home presence"
     }
     
     Frame label="Temperatures and heating" {
@@ -21,12 +23,8 @@ sitemap homebase label="Homebase M&N" {
     }
     Frame label="Set point temperatures" {
 		Setpoint item=Heating_TargetTemps minValue=10 maxValue=22 step=0.5
+        Setpoint item=VRC700_DayTemp minValue=10 maxValue=22 step=0.5
     }
-    Frame label="Presence"{
-		Text item=Presence 
-		Text item=Presence_OP3_ResponseTime
-        Text item=Presence_OP3_LastSeen 
-	}
 }
 
 // vim: syntax=Xtend

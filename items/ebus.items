@@ -1,0 +1,17 @@
+
+//Number VRC700_Room_Temp      "VRC700 room temperature"   <temperature>     (Heating_Group)  {channel="ebus:vrc700_zone1:ebusBridge:zone1:vrc700_zone1_z1_room-temp#value"}
+//Number Boiler_Outside_Temp      "Boiler outside temperature"   <temperature>     (Heating_Group)  {channel="ebus:bai:ebusBridge:boiler:bai_boiler_control_datetime#temp-outside"}
+
+//Number Boiler_Outside_Temp      "Boiler outside temperature"   <temperature>     (Heating_Group)  {channel="ebus:bai:c64eaebd:08:bai_boiler_control_datetime#temp-outside"}
+//Number Boiler_Pressure      "Boiler water pressure"   <temperature>     (Heating_Group)  {channel="ebus:bai:c64eaebd:08:bai_boiler_pressure#pressure"}
+
+Group eBusGroup "eBus items" (Home)
+
+Number EBus_Uptime          "eBus uptime"                                           (eBusGroup) {channel="mqtt:topic:mosquitto:ebusd:Uptime" }
+Number Boiler_FlowTemp      "Boiler flow temperature [%.2f °C]" <temperature>       (eBusGroup) {channel="mqtt:topic:mosquitto:bai:FlowTemp" }
+Number Boiler_ReturnTemp    "Boiler return temperature [%.2f °C]" <temperature>     (eBusGroup) {channel="mqtt:topic:mosquitto:bai:ReturnTemp" }
+Switch Boiler_CirculationPump    "Boiler circulation pump"                          (eBusGroup) {channel="mqtt:topic:mosquitto:bai:CirculationPump" }
+Number VRC700_OutsideTemp   "VRC700 Outside temperature [%.2f °C]" <temperature>    (eBusGroup) {channel="mqtt:topic:mosquitto:VRC700:DisplayedOutsideTemp" }
+Number VRC700_RoomTemp      "VRC700 Room temperature [%.2f °C]" <temperature>       (eBusGroup) {channel="mqtt:topic:mosquitto:VRC700:RoomTemp" }
+Number VRC700_DayTemp       "VRC700 Desired day temperature [%.2f °C]" <temperature>       (eBusGroup) {channel="mqtt:topic:mosquitto:VRC700:DayTemp" }
+//Number Outside_temperature "Outside temperature" (eBus) {channel="mqtt:myBroker:topic:ebus:temperature" }
