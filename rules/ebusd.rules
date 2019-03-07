@@ -1,0 +1,20 @@
+val String filename = "ebusd.rules"
+
+rule "Periodic eBus data update using MQTT get's"
+when
+    Time cron "0 0/5 * * * ?"
+then
+  val actions = getActions("mqtt","mqtt:broker:mosquitto")
+  actions.publishMQTT("ebus/bai/FlowTemp/get"," ")    
+  actions.publishMQTT("ebus/bai/ReturnTemp/get"," ") 
+  actions.publishMQTT("ebus/bai/CirPump/get"," ") 
+  actions.publishMQTT("ebus/b7v00/DisplayedOutsideTemp/get"," ") 
+  actions.publishMQTT("ebus/b7v00/z1RoomTemp/get"," ") 
+  actions.publishMQTT("ebus/b7v00/z1DayTemp/get"," ") 
+  actions.publishMQTT("ebus/b7v00/z1NightTemp/get"," ") 
+  logInfo(filename, "sending MQTT get's to eBus: " + now.toString)
+end
+
+
+// old style, using the exec binding to publish through mosquitto
+//Thing exec:command:ebusd_bai_CirPump [command="mosquitto_pub -n -t ebus/bai/CirPump/get", interval=60, timeout=5, autorun=false]

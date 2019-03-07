@@ -1,9 +1,0 @@
-// Things to send request to ebusd through MQTT messages
-// The MQTT implementation does not offer this behaviour, thus the command will send a request and a mqtt thing will collect it
-Thing exec:command:ebusd_bai_FlowTemp [command="mosquitto_pub -n -t ebus/bai/flowtemp/get", interval=60, timeout=5, autorun=false]
-Thing exec:command:ebusd_bai_ReturnTemp [command="mosquitto_pub -n -t ebus/bai/returntemp/get", interval=60, timeout=5, autorun=false]
-Thing exec:command:ebusd_bai_CirPump [command="mosquitto_pub -n -t ebus/bai/CirPump/get", interval=60, timeout=5, autorun=false]
-Thing exec:command:ebusd_VRC_DisplayedOutsideTemp [command="mosquitto_pub -n -t ebus/b7v00/DisplayedOutsideTemp/get", interval=60, timeout=5, autorun=false]
-Thing exec:command:ebusd_VRC_RoomTemp [command="mosquitto_pub -n -t ebus/b7v00/z1RoomTemp/get", interval=60, timeout=5, autorun=false]
-Thing exec:command:ebusd_VRC_DayTemp [command="mosquitto_pub -n -t ebus/b7v00/z1DayTemp/get", interval=60, timeout=5, autorun=false]
-Thing exec:command:ebusd_VRC_NightTemp [command="mosquitto_pub -n -t ebus/b7v00/z1NightTemp/get", interval=60, timeout=5, autorun=false]

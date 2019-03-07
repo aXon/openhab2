@@ -90,7 +90,13 @@ To enable the MQTT part of ebusd, the defaults start options can be changed to:
 
 	EBUSD_OPTS="--logfile=/var/log/ebusd.log --configpath=/etc/ebusd/ --scanconfig --port=8888 --mqtthost=0.0.0.0 --mqttport=1883 --mqttjson --mqtttopic=ebus/%circuit/%name"
 
-which sets up ebusd to send under the main topic ebus, connects to the local MQTT server on port 1883, and formats it all in JSON
+which sets up ebusd to send under the main topic ebus, connects to the local MQTT server on port 1883, and formats it all in JSON.
+
+The level of acces can be further increased, by adding %field in the mqtttopic
+
+	--mqtttopic=ebus/%circuit/%name/%field
+
+
 
 eBus openHAB Binding
 -----
@@ -101,7 +107,7 @@ To use ebusd with openHAB, the latest eBus binding from [csowada's forum thread]
 MQTT and openHAB binding
 ------
 
-openHAB does not itself provide a broker for MQTT messages thus another software package can be installed through openhabian-config: mosquitto, which is found within Additional Components.
+openHAB did not itself provide a broker for MQTT messages thus another software package was installed through openhabian-config: mosquitto, which is found within Additional Components.
 
 During the installation, one can add user/pass settings for the service, or leave it unsecured. By default, the service will listen to port 1883 (TCP). The seetings for the service can be found in /etc/mosquitto and amended in the conf.d directory.
 Once can test the connection to the broker and see if it is working with following commands to subscribe and post to a specific topic in two terminals.
@@ -118,12 +124,36 @@ For simple debugging, one can use the catch-all topic #
 
 	mosquitto_sub -d -v -t \#
 
-which will display all messages on the local mosquitto server, which can help e.g. when trying to find the topic as well as JSON path when setting up new items/things in openhab
+which will display all messages on the local mosquitto server, which can help e.g. when trying to find the topic as well as JSON path when setting up new items/things in openhab.
 
-Using Exec binding and MQTT binding to collect data from ebusd
+Using MQTT binding to get/set data from ebusd
 -----
 
+The usual things files has to be set up as in the included configuration. This means, the MQTT broker setup should have been confirmed, tried and tested as described above and then the individual topics can be listened to. The eBusd works with get/set subtopics and the main topic is then used for updates e.g.:
 
+	ebus/bai/FlowTemp/get
+	ebus/bai/FlowTemp/
 
+The openhab2 .things configurartion can only handle a main state topic and a command topic, but not a separate get topic. 
 
+I have therefore used a rule, which is periodically called to send the respective get subtopics (with empty field) and listen to the updates. 
+Rule for MQTT action:
+
+	rule "Periodic eBus data update using MQTT get's"
+	when
+    Time cron "0 0/2 * * * ?"
+	then
+  		val actions = getActions("mqtt","mqtt:broker:mosquitto")
+  		actions.publishMQTT("ebus/bai/FlowTemp/get"," ")    
+  		logInfo(filename, "sending MQTT get's to eBus)
+	end
+
+MQTT .things file example configuration:
+
+	Bridge mqtt:broker:mosquitto [ host="127.0.0.1", port="1883", secure=false,clientID="openhab2" ]{
+    	Thing topic bai "eBusd Boiler BAI" @ "Home" {
+    	Channels:
+        	Type number : FlowTemp "Boiler Flow Temperature" [ stateTopic="ebus/bai/FlowTemp", transformationPattern="JSONPATH:$.temp.value"]
+        }
+	}
 

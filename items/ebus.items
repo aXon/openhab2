@@ -7,7 +7,12 @@
 
 Group eBusGroup "eBus items" (Home)
 
-Number EBus_Uptime          "eBus uptime"                                           (eBusGroup) {channel="mqtt:topic:mosquitto:ebusd:Uptime" }
+Number EBus_Uptime          "eBus uptime"                                           (eBusGroup) {channel="mqtt:topic:mosquitto:broadcast:Uptime" }
+Number Status01_0_Temp1     "Boiler Status 01 0 Temp1 [%.2f °C]" <temperature>      (eBusGroup) {channel="mqtt:topic:mosquitto:bai:Status01_0_Temp1" }
+Number Status01_1_Temp1     "Boiler Status 01 1 Temp1 [%.2f °C]" <temperature>      (eBusGroup) {channel="mqtt:topic:mosquitto:bai:Status01_1_Temp1" }
+Number Status01_3_Temp1     "Boiler Status 01 3 Temp1 [%.2f °C]" <temperature>      (eBusGroup) {channel="mqtt:topic:mosquitto:bai:Status01_3_Temp1" }
+Number Status01_4_Temp1     "Boiler Status 01 4 Temp1 [%.2f °C]" <temperature>      (eBusGroup) {channel="mqtt:topic:mosquitto:bai:Status01_4_Temp1" }
+Switch Status01_5_Pumpstate     "Boiler Status 01 5 Pump state"                    (eBusGroup) {channel="mqtt:topic:mosquitto:bai:Status01_5_Pumpstate"}
 Number Boiler_FlowTemp      "Boiler flow temperature [%.2f °C]" <temperature>       (eBusGroup) {channel="mqtt:topic:mosquitto:bai:FlowTemp" }
 Number Boiler_ReturnTemp    "Boiler return temperature [%.2f °C]" <temperature>     (eBusGroup) {channel="mqtt:topic:mosquitto:bai:ReturnTemp" }
 Switch Boiler_CirculationPump    "Boiler circulation pump"                          (eBusGroup) {channel="mqtt:topic:mosquitto:bai:CirculationPump" }

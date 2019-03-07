@@ -1,5 +1,5 @@
 Bridge mqtt:broker:mosquitto [ host="127.0.0.1", port="1883", secure=false,clientID="openhab2" ]{
-    Thing topic ebusd "eBusd" @ "Home" {
+    Thing topic broadcast "eBusd" @ "Home" {
     Channels:
         //Type number : uptime2 "eBusd uptime" [ stateTopic="ebus/global/uptime", transformationPattern="REGEX:ebus/global/uptime (.*?)"]
         Type number : Uptime "eBusd uptime" [ stateTopic="ebus/global/uptime"]
@@ -8,7 +8,12 @@ Bridge mqtt:broker:mosquitto [ host="127.0.0.1", port="1883", secure=false,clien
     Channels:
         Type number : FlowTemp "Boiler Flow Temperature" [ stateTopic="ebus/bai/FlowTemp", transformationPattern="JSONPATH:$.temp.value"]
         Type number : ReturnTemp "Boiler Return Temperature" [ stateTopic="ebus/bai/ReturnTemp", transformationPattern="JSONPATH:$.temp.value"]
-        Type switch : CirculationPump "Boiler Circulation Pump" [ stateTopic="ebus/bai/CirPump", transformationPattern="JSONPATH:$.onoff.value"]
+        Type switch : CirculationPump "Boiler Circulation Pump" [ stateTopic="ebus/bai/CirPump", transformationPattern="JSONPATH:$.onoff.value", on="on", off="off"]
+        Type number : Status01_0_Temp1 "Status 01 0: Temp1" [ stateTopic="ebus/bai/Status01", transformationPattern="JSONPATH:$.0.value"]
+        Type number : Status01_1_Temp1 "Status 01 1: Temp1" [ stateTopic="ebus/bai/Status01", transformationPattern="JSONPATH:$.1.value"]
+        Type number : Status01_3_Temp1 "Status 01 3: Temp1" [ stateTopic="ebus/bai/Status01", transformationPattern="JSONPATH:$.3.value"]
+        Type number : Status01_4_Temp1 "Status 01 4: Temp1" [ stateTopic="ebus/bai/Status01", transformationPattern="JSONPATH:$.4.value"]
+        Type switch : Status01_5_Pumpstate "Status 01 5: Pump state" [ stateTopic="ebus/bai/Status01", transformationPattern="JSONPATH:$.5.value", on="on", off="off"]
     }
     Thing topic VRC700 "eBusd VRC700" @ "Home" {
     Channels:
