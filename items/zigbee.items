@@ -1,0 +1,2 @@
+Switch Switch_bulb "Switch Livarno bulb" {channel="mqtt:topic:mosquitto:bulb:onoff"}
+Dimmer Dim_bulb   "Dimmer Livarno bulb [%d %%]" {channel="mqtt:topic:mosquitto:bulb:dim"}

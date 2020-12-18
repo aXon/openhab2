@@ -1,10 +1,10 @@
 val String filename = "heating-modes.rules"
 
 // vordefinierte Temperaturen
-val Number tempHigh = 21.0
+val Number tempHigh = 20.0
 val Number tempBoilerControl = 20.0 // set slightly higher to enable Vaillant controller to reach temperature
-val Number tempComfort = 20.0
-val Number tempMid = 18.0
+val Number tempComfort = 19.0
+val Number tempMid = 17.0
 val Number tempLower = 16.0
 val Number tempChill = 14.0
 val Number tempAway = 13.0
@@ -31,9 +31,10 @@ when
 then
     createTimer(now.plusSeconds(180)) [ |
         logInfo(filename, "Home_Heating system started")
-        if (SeasonName.state == "SUMMER" || SeasonName.state == "SPRING") {
+	// re-activate, when this should really be considered i.e. with season or not
+        /*if (SeasonName.state == "SUMMER" || SeasonName.state == "SPRING") {
             Home_Heating_Mode.postUpdate("OFF_SUMMER")
-        }
+        } */
         if (Home_Heating_Mode.state == NULL) Home_Heating_Mode.postUpdate("NORMAL")
         Heating_TargetPresets.members.filter[item | item.state == NULL].forEach[item | item.postUpdate(tempMid)]
         Home_Heating_UpdateHeater.sendCommand(ON)
@@ -81,7 +82,7 @@ then
         case "PARTY" : {
             KI_Radiator_Manu.sendCommand(tempComfort)
             EN_Radiator_Manu.sendCommand(tempMid)
-            HA_Radiator_Manu.sendCommand(tempMid)   
+            HA_Radiator_Manu.sendCommand(tempMid)
             LR_Radiator_Manu.sendCommand(tempComfort)
             DR_Radiator_Manu.sendCommand(tempComfort)
             MAB_Radiator_Manu.sendCommand(tempLower)
@@ -158,7 +159,7 @@ end
 // Home_Heating_Mode Ende WEEKEND_TRIP
 rule "Wochenendtrip Ende Montag 13:00 Uhr"
 when
-    Time cron "0 0 13 ? * MON"  
+    Time cron "0 0 13 ? * MON"
 then
     if (Home_Heating_Mode.state == "WEEKEND_TRIP") {
         logInfo(filename, "Wohnung Heizmodus: WEEKEND TRIP wird verlassen")
@@ -172,14 +173,14 @@ when
     Time cron "0 30 1 ? * * "
 then
     logInfo(filename, "Wohnung Heizmodus: Zeitprogramm: " + now.toString)
-    LR_Radiator_PresetTemp.postUpdate(tempLower)
-    DR_Radiator_PresetTemp.postUpdate(tempLower)
-    KI_Radiator_PresetTemp.postUpdate(tempLower)
-    EN_Radiator_PresetTemp.postUpdate(tempLower)
-    HA_Radiator_PresetTemp.postUpdate(tempLower)
+    LR_Radiator_PresetTemp.postUpdate(tempHigh)
+    DR_Radiator_PresetTemp.postUpdate(tempMid)
+    KI_Radiator_PresetTemp.postUpdate(tempMid)
+    EN_Radiator_PresetTemp.postUpdate(tempMid)
+    HA_Radiator_PresetTemp.postUpdate(tempMid)
     MAB_Radiator_PresetTemp.postUpdate(tempMid)
-    MIB_Radiator_PresetTemp.postUpdate(tempLower)
-    BAB_Radiator_PresetTemp.postUpdate(tempLower)
+    MIB_Radiator_PresetTemp.postUpdate(tempMid)
+    BAB_Radiator_PresetTemp.postUpdate(tempMid)
     Home_Heating_UpdateHeater.sendCommand(ON)
 end
 
@@ -188,9 +189,9 @@ when
     Time cron "0 30 6 ? * MON-FRI"
 then
     logInfo(filename, "Wohnung Heizmodus: Zeitprogramm: " + now.toString)
-    LR_Radiator_PresetTemp.postUpdate(tempMid)
-    DR_Radiator_PresetTemp.postUpdate(tempMid)
-    KI_Radiator_PresetTemp.postUpdate(tempComfort)
+    LR_Radiator_PresetTemp.postUpdate(tempHigh)
+    DR_Radiator_PresetTemp.postUpdate(tempComfort)
+    KI_Radiator_PresetTemp.postUpdate(tempHigh)
     EN_Radiator_PresetTemp.postUpdate(tempMid)
     HA_Radiator_PresetTemp.postUpdate(tempMid)
     MAB_Radiator_PresetTemp.postUpdate(tempBoilerControl)
@@ -204,14 +205,14 @@ when
     Time cron "0 0 8 ? * MON-FRI"
 then
     logInfo(filename, "Wohnung Heizmodus: Zeitprogramm: " + now.toString)
-    LR_Radiator_PresetTemp.postUpdate(tempMid)
-    DR_Radiator_PresetTemp.postUpdate(tempLower)
-    KI_Radiator_PresetTemp.postUpdate(tempLower)
-    EN_Radiator_PresetTemp.postUpdate(tempLower)
-    HA_Radiator_PresetTemp.postUpdate(tempMid)
+    LR_Radiator_PresetTemp.postUpdate(tempHigh)
+    DR_Radiator_PresetTemp.postUpdate(tempComfort)
+    KI_Radiator_PresetTemp.postUpdate(tempComfort)
+    EN_Radiator_PresetTemp.postUpdate(tempComfort)
+    HA_Radiator_PresetTemp.postUpdate(tempComfort)
     MAB_Radiator_PresetTemp.postUpdate(tempBoilerControl)
-    MIB_Radiator_PresetTemp.postUpdate(tempMid)
-    BAB_Radiator_PresetTemp.postUpdate(tempMid)
+    MIB_Radiator_PresetTemp.postUpdate(tempComfort)
+    BAB_Radiator_PresetTemp.postUpdate(tempComfort)
     Home_Heating_UpdateHeater.sendCommand(ON)
 end
 
@@ -220,7 +221,7 @@ when
     Time cron "0 1 8 ? * SAT,SUN"
 then
     logInfo(filename, "Wohnung Heizmodus: Zeitprogramm: " + now.toString)
-    LR_Radiator_PresetTemp.postUpdate(tempComfort)
+    LR_Radiator_PresetTemp.postUpdate(tempHigh)
     DR_Radiator_PresetTemp.postUpdate(tempComfort)
     KI_Radiator_PresetTemp.postUpdate(tempComfort)
     EN_Radiator_PresetTemp.postUpdate(tempComfort)
@@ -249,14 +250,14 @@ when
     Time cron "0 0 18 ? * *"
 then
     logInfo(filename, "Wohnung Heizmodus: Zeitprogramm: " + now.toString)
-    LR_Radiator_PresetTemp.postUpdate(tempComfort)
-    DR_Radiator_PresetTemp.postUpdate(tempMid)
+    LR_Radiator_PresetTemp.postUpdate(tempHigh)
+    DR_Radiator_PresetTemp.postUpdate(tempComfort)
     KI_Radiator_PresetTemp.postUpdate(tempComfort)
-    EN_Radiator_PresetTemp.postUpdate(tempLower)
-    HA_Radiator_PresetTemp.postUpdate(tempMid)
+    EN_Radiator_PresetTemp.postUpdate(tempComfort)
+    HA_Radiator_PresetTemp.postUpdate(tempComfort)
     MAB_Radiator_PresetTemp.postUpdate(tempComfort)
-    MIB_Radiator_PresetTemp.postUpdate(tempMid)
-    BAB_Radiator_PresetTemp.postUpdate(tempMid)
+    MIB_Radiator_PresetTemp.postUpdate(tempComfort)
+    BAB_Radiator_PresetTemp.postUpdate(tempComfort)
     Home_Heating_UpdateHeater.sendCommand(ON)
 end
 
@@ -265,13 +266,13 @@ when
     Time cron "0 30 20 ? * *"
 then
     logInfo(filename, "Wohnung Heizmodus: Zeitprogramm: " + now.toString)
-    LR_Radiator_PresetTemp.postUpdate(tempMid)
-    DR_Radiator_PresetTemp.postUpdate(tempMid)
-    KI_Radiator_PresetTemp.postUpdate(tempMid)
-    EN_Radiator_PresetTemp.postUpdate(tempLower)
-    HA_Radiator_PresetTemp.postUpdate(tempLower)
+    LR_Radiator_PresetTemp.postUpdate(tempHigh)
+    DR_Radiator_PresetTemp.postUpdate(tempComfort)
+    KI_Radiator_PresetTemp.postUpdate(tempComfort)
+    EN_Radiator_PresetTemp.postUpdate(tempComfort)
+    HA_Radiator_PresetTemp.postUpdate(tempComfort)
     MAB_Radiator_PresetTemp.postUpdate(tempComfort)
-    MIB_Radiator_PresetTemp.postUpdate(tempMid)
+    MIB_Radiator_PresetTemp.postUpdate(tempComfort)
     BAB_Radiator_PresetTemp.postUpdate(tempMid)
     Home_Heating_UpdateHeater.sendCommand(ON)
 end

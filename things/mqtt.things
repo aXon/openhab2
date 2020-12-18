@@ -1,4 +1,5 @@
 Bridge mqtt:broker:mosquitto [ host="127.0.0.1", port="1883", secure=false,clientID="openhab2" ]{
+    // eBus connection through MQTT via ebusd
     Thing topic broadcast "eBusd" @ "Home" {
     Channels:
         //Type number : uptime2 "eBusd uptime" [ stateTopic="ebus/global/uptime", transformationPattern="REGEX:ebus/global/uptime (.*?)"]
@@ -22,5 +23,13 @@ Bridge mqtt:broker:mosquitto [ host="127.0.0.1", port="1883", secure=false,clien
         Type number : DayTemp "VRC700 Desired day time room temperature" [ stateTopic="ebus/b7v00/z1DayTemp" , commandTopic="ebus/b7v00/z1DayTemp/set", transformationPattern="JSONPATH:$.tempv.value"]
         Type number : NightTemp "VRC700 Desired night time (set back) temperature" [ stateTopic="ebus/b7v00/z1NightTemp", transformationPattern="JSONPATH:$.tempv.value"]
     }
+
+    // Zigbee2MQTT things
+    Thing topic bulb "zigbee2mqtt Livarno bulb" @ "Home" {
+    Channels:
+    	Type switch : onoff "Switch Livarno bulb" [stateTopic="zigbee2mqtt/bulb/state", commandTopic="zigbee2mqtt/bulb/set/state", on="ON", off="OFF"]
+	Type dimmer : dim "Dimmer Livbaro bulb" [stateTopic="zigbee2mqtt/bulb/brightness", commandTopic="zigbee2mqtt/bulb/set/brightness", min=1, max=255, step=1]
+	//Type dimmer : dim "Dimmer Livbaro bulb" [stateTopic="zigbee2mqtt/bulb", transformationPattern="JSONPATH:$.brightness", commandTopic="zigbee2mqtt/bulb/set", min=1, max=255, step=1, formatBeforePublish="{ \"brightness\" : %s }"]
+  }
 }
 
