@@ -25,9 +25,11 @@ sitemap homebase label="Homebase M&N" {
 	Setpoint item=Heating_TargetTemps minValue=10 maxValue=22 step=0.5
         Setpoint item=VRC700_DayTemp minValue=10 maxValue=22 step=0.5
     }
-    Frame label="Zigbee2MQTT things"
+    Frame label="Zigbee2MQTT things" {
 	Switch item=Switch_bulb  label="Livarno bulb"
 	Slider item=Dim_bulb label="Dimmer Livarno bulb [%d %%]" sendFrequency=500
+	Colorpicker item=Bulb_colorpicker
+   }
 }
 
 // vim: syntax=Xtend

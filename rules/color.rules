@@ -1,0 +1,19 @@
+rule "LEDColorChanging"
+when 
+	Item Bulb_colorpicker changed
+then 	
+	logInfo("LED", "Color changing")
+	
+	var HSBType hsbValue = Bulb_colorpicker.state as HSBType
+	var int redValue = (hsbValue.red.floatValue * 2.55) as int
+	var int blueValue = (hsbValue.blue.floatValue * 2.55) as int
+	var int greenValue = (hsbValue.green.floatValue * 2.55) as int
+	
+	logInfo("LED",String.format("%02X", redValue))
+	//redValue   = String.format("%02X", (hsbValue.red.floatValue * 2.55) as int)
+	//greenValue = String.format("%02X", (hsbValue.green.floatValue * 2.55) as int)
+	//blueValue  = String.format("%02X", (hsbValue.blue.floatValue * 2.55) as int)
+    	sendCommand(Bulb_color, redValue + greenValue + blueValue)
+	//sendCommand(Text_Text, redValue + greenValue + blueValue)
+	//logInfo("LED Color changed", "R" + redValue + "G" + greenValue + "B" + blueValue)
+end

@@ -1,2 +1,4 @@
 Switch Switch_bulb "Switch Livarno bulb" {channel="mqtt:topic:mosquitto:bulb:onoff"}
 Dimmer Dim_bulb   "Dimmer Livarno bulb [%d %%]" {channel="mqtt:topic:mosquitto:bulb:dim"}
+Color Bulb_colorpicker "Bulb color from color picker"
+String Bulb_color "Bulb color hex" {channel="mqtt:topic:mosquitto:bulb:color"}
