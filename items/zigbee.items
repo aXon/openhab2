@@ -1,4 +1,6 @@
 Switch Switch_bulb "Switch Livarno bulb" {channel="mqtt:topic:mosquitto:bulb:onoff"}
 Dimmer Dim_bulb   "Dimmer Livarno bulb [%d %%]" {channel="mqtt:topic:mosquitto:bulb:dim"}
+// the colour items work together, in that one collects the value from the colorpicker and the other is then used to control the lamp as a result of a rule being applied
 Color Bulb_colorpicker "Bulb color from color picker"
 String Bulb_color "Bulb color hex" {channel="mqtt:topic:mosquitto:bulb:color"}
+Dimmer Bulb_color_temp "Color temp bulb [%d %%%]" {channel="mqtt:topic:mosquitto:bulb:color_temp"}

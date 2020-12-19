@@ -1,3 +1,7 @@
+// taking various ideas from online posts
+// HSB is the type i.e. hue, saturation and brightness
+// but one can also extract RGB from it, which is a value from 0-100, hence multiply by 2.55 to get 0-255 scale
+// and then simply adding them together in a string to form a hex colour e.g. #123456
 rule "LEDColorChanging"
 when 
 	Item Bulb_colorpicker changed
@@ -8,12 +12,8 @@ then
 	var int redValue = (hsbValue.red.floatValue * 2.55) as int
 	var int blueValue = (hsbValue.blue.floatValue * 2.55) as int
 	var int greenValue = (hsbValue.green.floatValue * 2.55) as int
+	var String hexColor = String.format("#%02X%02X%02X",redValue,greenValue,blueValue)
 	
-	logInfo("LED",String.format("%02X", redValue))
-	//redValue   = String.format("%02X", (hsbValue.red.floatValue * 2.55) as int)
-	//greenValue = String.format("%02X", (hsbValue.green.floatValue * 2.55) as int)
-	//blueValue  = String.format("%02X", (hsbValue.blue.floatValue * 2.55) as int)
-    	sendCommand(Bulb_color, redValue + greenValue + blueValue)
-	//sendCommand(Text_Text, redValue + greenValue + blueValue)
-	//logInfo("LED Color changed", "R" + redValue + "G" + greenValue + "B" + blueValue)
+	logInfo("LED", hexColor)
+    	sendCommand(Bulb_color, hexColor)
 end

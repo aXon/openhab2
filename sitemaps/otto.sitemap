@@ -1,7 +1,9 @@
 sitemap otto label="Ottos Spielecke" {
-    Frame label="Zigbee2MQTT things" {
-	Switch item=Switch_bulb  label="Livarno bulb"
-	Slider item=Dim_bulb label="Dimmer Livarno bulb [%d %%]" sendFrequency=500
+   Frame label="Zigbee2MQTT things" {
+        Switch item=Switch_bulb  label="Livarno bulb"
+        Slider item=Dim_bulb label="Dimmer Livarno bulb [%d %%]" sendFrequency=500
+        Slider item=Bulb_color_temp label="Color temp Livarno bulb" sendFrequency=500
+        Colorpicker item=Bulb_colorpicker
    }
 }
 
