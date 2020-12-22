@@ -8,6 +8,12 @@ Bridge homematic:bridge:ccu "RaspberryMatic" @ "Cabinet" [ gatewayAddress="10.23
     Thing HM-CC-RT-DN       OEQ1715276   "Thermostat" @ "Entrance"
     Thing HM-CC-RT-DN       OEQ1712706   "Thermostat" @ "Hallway"
     Thing HM-CC-RT-DN       OEQ1710110   "Thermostat" @ "Breakfast room"
+    Thing HM-TC-IT-WM-W-EU  OEQ1671862   "Wandthermostat" @ "Breakfast room"
+    Thing HM-TC-IT-WM-W-EU  OEQ1671866   "Wandthermostat" @ "Living room"
+    Thing HM-TC-IT-WM-W-EU  OEQ1671839   "Wandthermostat" @ "Master bedroom"
+    Thing HM-TC-IT-WM-W-EU  PEQ1259002   "Wandthermostat" @ "Middle bedroom"
+    Thing HM-TC-IT-WM-W-EU  PEQ1259021   "Wandthermostat" @ "Back bedroom"
+    Thing HM-TC-IT-WM-W-EU  PEQ1185580   "Wandthermostat" @ "Hallway"
     Thing GATEWAY-EXTRAS-CCU   GWE00000000
 }
 

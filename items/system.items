@@ -17,6 +17,7 @@ Group History
 
 // "horizontal" groups i.e. thematically
 Group:Number:AVG    Temperatures    "Room temperatures [%.1f °C]"        <temperature>   (Home,History)
+Group:Number:AVG    Humidity        "Room humidity [%2d %%]"            <humidity>       (Home,History)
 
 Group               Batteries       "Battery states"                    <battery>       (Home)
 Group:Number:SUM    Bat_Binary      "Battery states (Binary) [%d]"      <battery>       (Batteries)

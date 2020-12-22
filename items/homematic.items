@@ -1,4 +1,7 @@
 // inspiration taken partly from https://community.openhab.org/t/heating-boilerplate-a-universal-temperature-control-solution-with-modes/34843
+// Revision history:
+// 2020-12-21: Added homematic wall thermostats, which were grouped with thermostats within RaspberryMatic
+// 	       This mean, that the radiator thermostats could not longer be used to set the temperatures, but instead the wall thermostats had to be used
 Group                     Heating_Group         "Heating Overall"                                <heating>         (Home)
 
 Group                     Heating_LR            "Heating Living room"                           <heating>         (Heating_Group) ["Thermostat"]
@@ -15,23 +18,30 @@ Group:Switch:OR(ON, OFF)  Heating_ValveSettings  "Active Radiators [%d]"        
 Group                     Heating_OpModes        "Room temperatures mode [%.1f °C]"             <"heating-off">   (Heating_Group)
 Group:Number:AVG          Heating_TargetPresets  "Room set temperatures timer program [%.1f °C]" <line>           (Heating_Group)
 
+// radiator thermostat - can not use set temperature as grouped with wall thermostat through rasperrymatic
 Number LR_Radiator_RSSI              "LR_Radiator RSSI [%d dBm]"                                <"signal-3">      (Heating_LR,RSSI_Group)               {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712690:0#RSSI_DEVICE"}
 Switch LR_Radiator_Unreach           "LR_Radiator unreachable"                                  <siren>           (Heating_LR,Unreach_Group)            {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712690:0#UNREACH"}
 Switch LR_Radiator_Pending           "LR_Radiator config pending"                               <siren>           (Heating_LR,Pending_Group)            {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712690:0#CONFIG_PENDING"}
 Number LR_Radiator_Battery           "LR_Radiator Battery state [%.1f V]"                       <"battery-100">   (Heating_LR,Bat_Volts)                {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712690:4#BATTERY_STATE"}
 String LR_Radiator_Fault             "LR_Radiator Fault [MAP(HM-CC-RT-DN.map):%s]"              <error2>          (Heating_LR,Error_Group)              {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712690:4#FAULT_REPORTING"}
 Number LR_Radiator_ActTemp           "LR_Radiator Actual temperature [%.1f °C]"                 <temperature>     (Heating_LR,LDR,Temperatures)       {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712690:4#ACTUAL_TEMPERATURE"}
-Number LR_Radiator_SetTemp           "LR_Radiator Set temperature [%.1f °C]"                    <temperature>     (Heating_LR,LDR,Heating_TargetTemps)   {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712690:4#SET_TEMPERATURE"}
+//Number LR_Radiator_SetTemp           "LR_Radiator Set temperature [%.1f °C]"                    <temperature>     (Heating_LR,LDR,Heating_TargetTemps)   {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712690:4#SET_TEMPERATURE"}
 Number LR_Radiator_Valve             "LR_Radiator Valve (open) state [%d %%]"                   <heating>         (Heating_LR,LDR,Heating_ValveSettings) {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712690:4#VALVE_STATE"}
-String LR_Radiator_Mode              "LR_Radiator Control mode [MAP(HM-CC-RT-DN.map):%s]"       <"heating-off">   (Heating_LR,LDR,Heating_OpModes)      {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712690:4#CONTROL_MODE"}
+//String LR_Radiator_Mode              "LR_Radiator Control mode [MAP(HM-CC-RT-DN.map):%s]"       <"heating-off">   (Heating_LR,LDR,Heating_OpModes)      {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712690:4#CONTROL_MODE"}
 Switch LR_Radiator_Auto              "LR_Radiator Auto-Mode"                                    <temperature>     (Heating_LR)                          {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712690:4#AUTO_MODE"}
 Number LR_Radiator_Manu              "LR_Radiator Manu-Mode [%.1f °C]"                          <"heating-40">    (Heating_LR)                          {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712690:4#MANU_MODE"}
 Switch LR_Radiator_BoostMode         "LR_Radiator Boost-Mode"                                   <fire>            (Heating_LR)                          {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712690:4#BOOST_MODE"}
 Number LR_Radiator_BoostTime         "LR_Radiator Boost-Remaining [%d min]"                    <"clock-on">      (Heating_LR)                          {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712690:4#BOOST_STATE"}
+// wall thermostat
+Number LR_WallThermostat_ActTemp     "LR_WallThermostat Actual temperature [%.1f °C]"          <temperature>     (Heating_LR,LDR,Temperatures)       {channel="homematic:HM-TC-IT-WM-W-EU:ccu:OEQ1671866:2#ACTUAL_TEMPERATURE"}
+Number LR_WallThermostat_ActHumidity "LR_WallThermostat Actual humidity [%2d %%]"               <humidity>        (Heating_LR,LDR,Humidity)           {channel="homematic:HM-TC-IT-WM-W-EU:ccu:OEQ1671866:2#ACTUAL_HUMIDITY"}
+Number LR_WallThermostat_SetTemp     "LR_WallThermostat Set temperature [%.1f °C]"             <temperature>     (Heating_LR,LDR,Heating_TargetTemps)  {channel="homematic:HM-TC-IT-WM-W-EU:ccu:OEQ1671866:2#SET_TEMPERATURE"}
+String LR_WallThermostat_Mode       "LR_WallThermostat Control mode [MAP(HM-CC-RT-DN.map):%s]" <"heating-off">   (Heating_LR,LDR,Heating_OpModes)   {channel="homematic:HM-TC-IT-WM-W-EU:ccu:OEQ1671866:2#CONTROL_MODE"}
 // the following three items are used by rules to store values
 Number LR_Radiator_Preset            "LR_Radiator Set temperature fast setting"                 <"heating-60">      (Heating_LR)
 Number LR_Radiator_PresetTemp        "LR_Radiator Set temperature timer program [%.1f °C]"      <line>              (Heating_LR,Heating_TargetPresets)
 String LR_Radiator_Summary           "LR_Radiator Overview [%s]"                                <thermometer_red>   (Heating_LR,LR)
+
 
 Number DR_Radiator_RSSI              "DR_Radiator RSSI [%d dBm]"                              <"signal-3">      (Heating_DR,RSSI_Group)               {channel="homematic:HM-CC-RT-DN:ccu:OEQ1710108:0#RSSI_DEVICE"}
 Switch DR_Radiator_Unreach           "DR_Radiator unreachable"                                <siren>           (Heating_DR,Unreach_Group)            {channel="homematic:HM-CC-RT-DN:ccu:OEQ1710108:0#UNREACH"}
@@ -46,6 +56,7 @@ Switch DR_Radiator_Auto              "DR_Radiator Auto-Mode"                    
 Number DR_Radiator_Manu              "DR_Radiator Manu-Mode [%.1f °C]"                        <"heating-40">    (Heating_DR)                          {channel="homematic:HM-CC-RT-DN:ccu:OEQ1710108:4#MANU_MODE"}
 Switch DR_Radiator_BoostMode         "DR_Radiator Boost-Mode"                                 <fire>            (Heating_DR)                          {channel="homematic:HM-CC-RT-DN:ccu:OEQ1710108:4#BOOST_MODE"}
 Number DR_Radiator_BoostTime         "DR_Radiator Boost-Remaining [%d min]"                  <"clock-on">      (Heating_DR)                          {channel="homematic:HM-CC-RT-DN:ccu:OEQ1710108:4#BOOST_STATE"}
+// for rules
 Number DR_Radiator_Preset            "DR_Radiator Set temperature fast setting"                 <"heating-60">      (Heating_DR)
 Number DR_Radiator_PresetTemp        "DR_Radiator Set temperature timer program [%.1f °C]"      <line>              (Heating_DR,Heating_TargetPresets)
 String DR_Radiator_Summary           "DR_Radiator Overview [%s]"                                <thermometer_red>   (Heating_DR,DR)
@@ -56,9 +67,9 @@ Switch EN_Radiator_Pending           "EN_Radiator config pending"               
 Number EN_Radiator_Battery           "EN_Radiator Battery state [%.1f V]"                     <"battery-100">   (Heating_EN,Bat_Volts)                {channel="homematic:HM-CC-RT-DN:ccu:OEQ1715276:4#BATTERY_STATE"}
 String EN_Radiator_Fault             "EN_Radiator Fault [MAP(HM-CC-RT-DN.map):%s]"            <error2>          (Heating_EN,Error_Group)              {channel="homematic:HM-CC-RT-DN:ccu:OEQ1715276:4#FAULT_REPORTING"}
 Number EN_Radiator_ActTemp           "EN_Radiator Actual temperature [%.1f °C]"               <temperature>     (Heating_EN,HAL,Temperatures)         {channel="homematic:HM-CC-RT-DN:ccu:OEQ1715276:4#ACTUAL_TEMPERATURE"}
-Number EN_Radiator_SetTemp           "EN_Radiator Set temperature [%.1f °C]"                  <temperature>     (Heating_EN,HAL,Heating_TargetTemps)   {channel="homematic:HM-CC-RT-DN:ccu:OEQ1715276:4#SET_TEMPERATURE"}
+//Number EN_Radiator_SetTemp           "EN_Radiator Set temperature [%.1f °C]"                  <temperature>     (Heating_EN,HAL,Heating_TargetTemps)   {channel="homematic:HM-CC-RT-DN:ccu:OEQ1715276:4#SET_TEMPERATURE"}
 Number EN_Radiator_Valve             "EN_Radiator Valve (open) state [%d %%]"                 <heating>         (Heating_EN,HAL,Heating_ValveSettings) {channel="homematic:HM-CC-RT-DN:ccu:OEQ1715276:4#VALVE_STATE"}
-String EN_Radiator_Mode              "EN_Radiator Control mode [MAP(HM-CC-RT-DN.map):%s]"     <"heating-off">   (Heating_EN,HAL,Heating_OpModes)       {channel="homematic:HM-CC-RT-DN:ccu:OEQ1715276:4#CONTROL_MODE"}
+//String EN_Radiator_Mode              "EN_Radiator Control mode [MAP(HM-CC-RT-DN.map):%s]"     <"heating-off">   (Heating_EN,HAL,Heating_OpModes)       {channel="homematic:HM-CC-RT-DN:ccu:OEQ1715276:4#CONTROL_MODE"}
 Switch EN_Radiator_Auto              "EN_Radiator Auto-Mode"                                  <temperature>     (Heating_EN)                          {channel="homematic:HM-CC-RT-DN:ccu:OEQ1715276:4#AUTO_MODE"}
 Number EN_Radiator_Manu              "EN_Radiator Manu-Mode [%.1f °C]"                        <"heating-40">    (Heating_EN)                          {channel="homematic:HM-CC-RT-DN:ccu:OEQ1715276:4#MANU_MODE"}
 Switch EN_Radiator_BoostMode         "EN_Radiator Boost-Mode"                                 <fire>            (Heating_EN)                          {channel="homematic:HM-CC-RT-DN:ccu:OEQ1715276:4#BOOST_MODE"}
@@ -73,9 +84,9 @@ Switch HA_Radiator_Pending           "HA_Radiator config pending"               
 Number HA_Radiator_Battery           "HA_Radiator Battery state [%.1f V]"                     <"battery-100">   (Heating_HA,Bat_Volts)                {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712706:4#BATTERY_STATE"}
 String HA_Radiator_Fault             "HA_Radiator Fault [MAP(HM-CC-RT-DN.map):%s]"            <error2>          (Heating_HA,Error_Group)              {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712706:4#FAULT_REPORTING"}
 Number HA_Radiator_ActTemp           "HA_Radiator Actual temperature [%.1f °C]"               <temperature>     (Heating_HA,HAL,Temperatures)         {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712706:4#ACTUAL_TEMPERATURE"}
-Number HA_Radiator_SetTemp           "HA_Radiator Set temperature [%.1f °C]"                  <temperature>     (Heating_HA,HAL,Heating_TargetTemps)   {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712706:4#SET_TEMPERATURE"}
+//Number HA_Radiator_SetTemp           "HA_Radiator Set temperature [%.1f °C]"                  <temperature>     (Heating_HA,HAL,Heating_TargetTemps)   {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712706:4#SET_TEMPERATURE"}
 Number HA_Radiator_Valve             "HA_Radiator Valve (open) state [%d %%]"                 <heating>         (Heating_HA,HAL,Heating_ValveSettings) {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712706:4#VALVE_STATE"}
-String HA_Radiator_Mode              "HA_Radiator Control mode [MAP(HM-CC-RT-DN.map):%s]"     <"heating-off">   (Heating_HA,HAL,Heating_OpModes)       {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712706:4#CONTROL_MODE"}
+//String HA_Radiator_Mode              "HA_Radiator Control mode [MAP(HM-CC-RT-DN.map):%s]"     <"heating-off">   (Heating_HA,HAL,Heating_OpModes)       {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712706:4#CONTROL_MODE"}
 Switch HA_Radiator_Auto              "HA_Radiator Auto-Mode"                                  <temperature>     (Heating_HA)                          {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712706:4#AUTO_MODE"}
 Number HA_Radiator_Manu              "HA_Radiator Manu-Mode [%.1f °C]"                        <"heating-40">    (Heating_HA)                          {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712706:4#MANU_MODE"}
 Switch HA_Radiator_BoostMode         "HA_Radiator Boost-Mode"                                 <fire>            (Heating_HA)                          {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712706:4#BOOST_MODE"}
@@ -84,19 +95,32 @@ Number HA_Radiator_Preset            "HA_Radiator Set temperature fast setting" 
 Number HA_Radiator_PresetTemp        "HA_Radiator Set temperature timer program [%.1f °C]"      <line>              (Heating_HA,Heating_TargetPresets)
 String HA_Radiator_Summary           "HA_Radiator Overview [%s]"                                <thermometer_red>   (Heating_HA,HAL)
 
+// wall thermostat for both hallway and entrance radiators
+Number HA_EN_WallThermostat_ActTemp     "HA & EN WallThermostat Actual temperature [%.1f °C]"   <temperature>     (Heating_HA,Heating_EN,HALTemperatures)       {channel="homematic:HM-TC-IT-WM-W-EU:ccu:PEQ1185580:2#ACTUAL_TEMPERATURE"}
+Number HA_EN_WallThermostat_ActHumidity "HA & EN WallThermostat Actual humidity [%2d %%]"       <humidity>        (Heating_HA, Heating_EN,HAL,Humidity)           {channel="homematic:HM-TC-IT-WM-W-EU:ccu:PEQ1185580:2#ACTUAL_HUMIDITY"}
+Number HA_EN_WallThermostat_SetTemp     "HA & EN WallThermostat Set temperature [%.1f °C]"      <temperature>     (Heating_HA,Heating_EN,HAL,Heating_TargetTemps)  {channel="homematic:HM-TC-IT-WM-W-EU:ccu:PEQ1185580:2#SET_TEMPERATURE"}
+String HA_EN_WallThermostat_Mode        "HA & EN WallThermostat Control mode [MAP(HM-CC-RT-DN.map):%s]"  <"heating-off">   (Heating_HA,Heating_EN,HAL,Heating_OpModes)   {channel="homematic:HM-TC-IT-WM-W-EU:ccu:PEQ1185580:2#CONTROL_MODE"}
+
+
 Number KI_Radiator_RSSI              "KI_Radiator RSSI [%d dBm]"                              <"signal-3">      (Heating_KI,RSSI_Group)               {channel="homematic:HM-CC-RT-DN:ccu:OEQ1710110:0#RSSI_DEVICE"}
 Switch KI_Radiator_Unreach           "KI_Radiator unreachable"                                <siren>           (Heating_KI,Unreach_Group)            {channel="homematic:HM-CC-RT-DN:ccu:OEQ1710110:0#UNREACH"}
 Switch KI_Radiator_Pending           "KI_Radiator config pending"                             <siren>           (Heating_KI,Pending_Group)            {channel="homematic:HM-CC-RT-DN:ccu:OEQ1710110:0#CONFIG_PENDING"}
 Number KI_Radiator_Battery           "KI_Radiator Battery state [%.1f V]"                     <"battery-100">   (Heating_KI,Bat_Volts)                {channel="homematic:HM-CC-RT-DN:ccu:OEQ1710110:4#BATTERY_STATE"}
 String KI_Radiator_Fault             "KI_Radiator Fault [MAP(HM-CC-RT-DN.map):%s]"            <error2>          (Heating_KI,Error_Group)              {channel="homematic:HM-CC-RT-DN:ccu:OEQ1710110:4#FAULT_REPORTING"}
 Number KI_Radiator_ActTemp           "KI_Radiator Actual temperature [%.1f °C]"               <temperature>     (Heating_KI,KI,Temperatures)         {channel="homematic:HM-CC-RT-DN:ccu:OEQ1710110:4#ACTUAL_TEMPERATURE"}
-Number KI_Radiator_SetTemp           "KI_Radiator Set temperature [%.1f °C]"                  <temperature>     (Heating_KI,KI,Heating_TargetTemps)   {channel="homematic:HM-CC-RT-DN:ccu:OEQ1710110:4#SET_TEMPERATURE"}
+//Number KI_Radiator_SetTemp           "KI_Radiator Set temperature [%.1f °C]"                  <temperature>     (Heating_KI,KI,Heating_TargetTemps)   {channel="homematic:HM-CC-RT-DN:ccu:OEQ1710110:4#SET_TEMPERATURE"}
 Number KI_Radiator_Valve             "KI_Radiator Valve (open) state [%d %%]"                 <heating>         (Heating_KI,KI,Heating_ValveSettings) {channel="homematic:HM-CC-RT-DN:ccu:OEQ1710110:4#VALVE_STATE"}
-String KI_Radiator_Mode              "KI_Radiator Control mode [MAP(HM-CC-RT-DN.map):%s]"     <"heating-off">   (Heating_KI,KI,Heating_OpModes)       {channel="homematic:HM-CC-RT-DN:ccu:OEQ1710110:4#CONTROL_MODE"}
+//String KI_Radiator_Mode              "KI_Radiator Control mode [MAP(HM-CC-RT-DN.map):%s]"     <"heating-off">   (Heating_KI,KI,Heating_OpModes)       {channel="homematic:HM-CC-RT-DN:ccu:OEQ1710110:4#CONTROL_MODE"}
 Switch KI_Radiator_Auto              "KI_Radiator Auto-Mode"                                  <temperature>     (Heating_KI)                          {channel="homematic:HM-CC-RT-DN:ccu:OEQ1710110:4#AUTO_MODE"}
 Number KI_Radiator_Manu              "KI_Radiator Manu-Mode [%.1f °C]"                        <"heating-40">    (Heating_KI)                          {channel="homematic:HM-CC-RT-DN:ccu:OEQ1710110:4#MANU_MODE"}
 Switch KI_Radiator_BoostMode         "KI_Radiator Boost-Mode"                                 <fire>            (Heating_KI)                          {channel="homematic:HM-CC-RT-DN:ccu:OEQ1710110:4#BOOST_MODE"}
 Number KI_Radiator_BoostTime         "KI_Radiator Boost-Remaining [%d min]"                  <"clock-on">      (Heating_KI)                          {channel="homematic:HM-CC-RT-DN:ccu:OEQ1710110:4#BOOST_STATE"}
+// wall thermostat
+Number KI_WallThermostat_ActTemp     "KI_WallThermostat Actual temperature [%.1f °C]"          <temperature>     (Heating_KI,KI,Temperatures)       {channel="homematic:HM-TC-IT-WM-W-EU:ccu:OEQ1671862:2#ACTUAL_TEMPERATURE"}
+Number KI_WallThermostat_ActHumidity "KI_WallThermostat Actual humidity [%2d %%]"               <humidity>        (Heating_KI,KI,Humidity)           {channel="homematic:HM-TC-IT-WM-W-EU:ccu:OEQ1671862:2#ACTUAL_HUMIDITY"}
+Number KI_WallThermostat_SetTemp     "KI_WallThermostat Set temperature [%.1f °C]"             <temperature>     (Heating_KI,KI,Heating_TargetTemps)  {channel="homematic:HM-TC-IT-WM-W-EU:ccu:OEQ1671862:2#SET_TEMPERATURE"}
+String KI_WallThermostat_Mode        "KI_WallThermostat Control mode [MAP(HM-CC-RT-DN.map):%s]" <"heating-off">   (Heating_KI,KI,Heating_OpModes)    {channel="homematic:HM-TC-IT-WM-W-EU:ccu:OEQ1671862:2#CONTROL_MODE"}
+// rules placeholders
 Number KI_Radiator_Preset            "KI_Radiator Set temperature fast setting"                 <"heating-60">      (Heating_KI)
 Number KI_Radiator_PresetTemp        "KI_Radiator Set temperature timer program [%.1f °C]"      <line>              (Heating_KI,Heating_TargetPresets)
 String KI_Radiator_Summary           "KI_Radiator Overview [%s]"                                <thermometer_red>   (Heating_KI,KI)
@@ -107,13 +131,18 @@ Switch MAB_Radiator_Pending           "MAB_Radiator config pending"             
 Number MAB_Radiator_Battery           "MAB_Radiator Battery state [%.1f V]"                     <"battery-100">   (Heating_MAB,Bat_Volts)                {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712694:4#BATTERY_STATE"}
 String MAB_Radiator_Fault             "MAB_Radiator Fault [MAP(HM-CC-RT-DN.map):%s]"            <error2>          (Heating_MAB,Error_Group)              {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712694:4#FAULT_REPORTING"}
 Number MAB_Radiator_ActTemp           "MAB_Radiator Actual temperature [%.1f °C]"               <temperature>     (Heating_MAB,MAB,Temperatures)         {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712694:4#ACTUAL_TEMPERATURE"}
-Number MAB_Radiator_SetTemp           "MAB_Radiator Set temperature [%.1f °C]"                  <temperature>     (Heating_MAB,MAB,Heating_TargetTemps)  {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712694:4#SET_TEMPERATURE"}
+//Number MAB_Radiator_SetTemp           "MAB_Radiator Set temperature [%.1f °C]"                  <temperature>     (Heating_MAB,MAB,Heating_TargetTemps)  {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712694:4#SET_TEMPERATURE"}
 Number MAB_Radiator_Valve             "MAB_Radiator Valve (open) state [%d %%]"                 <heating>         (Heating_MAB,MAB,Heating_ValveSettings) {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712694:4#VALVE_STATE"}
-String MAB_Radiator_Mode              "MAB_Radiator Control mode [MAP(HM-CC-RT-DN.map):%s]"     <"heating-off">   (Heating_MAB,MAB,Heating_OpModes)       {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712694:4#CONTROL_MODE"}
+//String MAB_Radiator_Mode              "MAB_Radiator Control mode [MAP(HM-CC-RT-DN.map):%s]"     <"heating-off">   (Heating_MAB,MAB,Heating_OpModes)       {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712694:4#CONTROL_MODE"}
 Switch MAB_Radiator_Auto              "MAB_Radiator Auto-Mode"                                  <temperature>     (Heating_MAB)                          {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712694:4#AUTO_MODE"}
 Number MAB_Radiator_Manu              "MAB_Radiator Manu-Mode [%.1f °C]"                        <"heating-40">    (Heating_MAB)                          {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712694:4#MANU_MODE"}
 Switch MAB_Radiator_BoostMode         "MAB_Radiator Boost-Mode"                                 <fire>            (Heating_MAB)                          {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712694:4#BOOST_MODE"}
 Number MAB_Radiator_BoostTime         "MAB_Radiator Boost-Remaining [%d min]"                  <"clock-on">      (Heating_MAB)                          {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712694:4#BOOST_STATE"}
+// wall thermostat
+Number MAB_WallThermostat_ActTemp     "MAB_WallThermostat Actual temperature [%.1f °C]"          <temperature>     (Heating_MAB,MAB,Temperatures)       {channel="homematic:HM-TC-IT-WM-W-EU:ccu:OEQ1671839:2#ACTUAL_TEMPERATURE"}
+Number MAB_WallThermostat_ActHumidity "MAB_WallThermostat Actual humidity [%2d %%]"               <humidity>        (Heating_MAB,MAB,Humidity)           {channel="homematic:HM-TC-IT-WM-W-EU:ccu:OEQ1671839:2#ACTUAL_HUMIDITY"}
+Number MAB_WallThermostat_SetTemp     "MAB_WallThermostat Set temperature [%.1f °C]"             <temperature>     (Heating_MAB,MAB,Heating_TargetTemps)  {channel="homematic:HM-TC-IT-WM-W-EU:ccu:OEQ1671839:2#SET_TEMPERATURE"}
+String MAB_WallThermostat_Mode        "MAB_WallThermostat Control mode [MAP(HM-CC-RT-DN.map):%s]" <"heating-off">   (Heating_MAB,MAB,Heating_OpModes)    {channel="homematic:HM-TC-IT-WM-W-EU:ccu:OEQ1671839:2#CONTROL_MODE"}
 Number MAB_Radiator_Preset            "MAB_Radiator Set temperature fast setting"                 <"heating-60">      (Heating_MAB)
 Number MAB_Radiator_PresetTemp        "MAB_Radiator Set temperature timer program [%.1f °C]"      <line>              (Heating_MAB,Heating_TargetPresets)
 String MAB_Radiator_Summary           "MAB_Radiator Overview [%s]"                                <thermometer_red>   (Heating_MAB,MAB)
@@ -124,13 +153,18 @@ Switch MIB_Radiator_Pending           "MIB_Radiator config pending"             
 Number MIB_Radiator_Battery           "MIB_Radiator Battery state [%.1f V]"                     <"battery-100">   (Heating_MIB,Bat_Volts)                {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712717:4#BATTERY_STATE"}
 String MIB_Radiator_Fault             "MIB_Radiator Fault [MAP(HM-CC-RT-DN.map):%s]"            <error2>          (Heating_MIB,Error_Group)              {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712717:4#FAULT_REPORTING"}
 Number MIB_Radiator_ActTemp           "MIB_Radiator Actual temperature [%.1f °C]"               <temperature>     (Heating_MIB,MIB,Temperatures)         {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712717:4#ACTUAL_TEMPERATURE"}
-Number MIB_Radiator_SetTemp           "MIB_Radiator Set temperature [%.1f °C]"                  <temperature>     (Heating_MIB,MIB,Heating_TargetTemps)   {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712717:4#SET_TEMPERATURE"}
+//Number MIB_Radiator_SetTemp           "MIB_Radiator Set temperature [%.1f °C]"                  <temperature>     (Heating_MIB,MIB,Heating_TargetTemps)   {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712717:4#SET_TEMPERATURE"}
 Number MIB_Radiator_Valve             "MIB_Radiator Valve (open) state [%d %%]"                 <heating>         (Heating_MIB,MIB,Heating_ValveSettings) {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712717:4#VALVE_STATE"}
-String MIB_Radiator_Mode              "MIB_Radiator Control mode [MAP(HM-CC-RT-DN.map):%s]"     <"heating-off">   (Heating_MIB,MIB,Heating_OpModes)       {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712717:4#CONTROL_MODE"}
+//String MIB_Radiator_Mode              "MIB_Radiator Control mode [MAP(HM-CC-RT-DN.map):%s]"     <"heating-off">   (Heating_MIB,MIB,Heating_OpModes)       {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712717:4#CONTROL_MODE"}
 Switch MIB_Radiator_Auto              "MIB_Radiator Auto-Mode"                                  <temperature>     (Heating_MIB)                          {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712717:4#AUTO_MODE"}
 Number MIB_Radiator_Manu              "MIB_Radiator Manu-Mode [%.1f °C]"                        <"heating-40">    (Heating_MIB)                          {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712717:4#MANU_MODE"}
 Switch MIB_Radiator_BoostMode         "MIB_Radiator Boost-Mode"                                 <fire>            (Heating_MIB)                          {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712717:4#BOOST_MODE"}
 Number MIB_Radiator_BoostTime         "MIB_Radiator Boost-Remaining [%d min]"                  <"clock-on">      (Heating_MIB)                          {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712717:4#BOOST_STATE"}
+// wall thermostat
+Number MIB_WallThermostat_ActTemp     "MIB_WallThermostat Actual temperature [%.1f °C]"          <temperature>     (Heating_MIB,MIB,Temperatures)       {channel="homematic:HM-TC-IT-WM-W-EU:ccu:PEQ1259002:2#ACTUAL_TEMPERATURE"}
+Number MIB_WallThermostat_ActHumidity "MIB_WallThermostat Actual humidity [%2d %%]"               <humidity>        (Heating_MIB,MIB,Humidity)           {channel="homematic:HM-TC-IT-WM-W-EU:ccu:PEQ1259002:2#ACTUAL_HUMIDITY"}
+Number MIB_WallThermostat_SetTemp     "MIB_WallThermostat Set temperature [%.1f °C]"             <temperature>     (Heating_MIB,MIB,Heating_TargetTemps)  {channel="homematic:HM-TC-IT-WM-W-EU:ccu:PEQ1259002:2#SET_TEMPERATURE"}
+String MIB_WallThermostat_Mode        "MIB_WallThermostat Control mode [MAP(HM-CC-RT-DN.map):%s]" <"heating-off">   (Heating_MIB,MIB,Heating_OpModes)    {channel="homematic:HM-TC-IT-WM-W-EU:ccu:PEQ1259002:2#CONTROL_MODE"}
 Number MIB_Radiator_Preset            "MIB_Radiator Set temperature fast setting"                 <"heating-60">      (Heating_MIB)
 Number MIB_Radiator_PresetTemp        "MIB_Radiator Set temperature timer program [%.1f °C]"      <line>              (Heating_MIB,Heating_TargetPresets)
 String MIB_Radiator_Summary           "MIB_Radiator Overview [%s]"                                <thermometer_red>   (Heating_MIB,MIB)
@@ -141,13 +175,18 @@ Switch BAB_Radiator_Pending           "BAB_Radiator config pending"             
 Number BAB_Radiator_Battery           "BAB_Radiator Battery state [%.1f V]"                     <"battery-100">   (Heating_BAB,Bat_Volts)                {channel="homematic:HM-CC-RT-DN:ccu:OEQ1710187:4#BATTERY_STATE"}
 String BAB_Radiator_Fault             "BAB_Radiator Fault [MAP(HM-CC-RT-DN.map):%s]"            <error2>          (Heating_BAB,Error_Group)              {channel="homematic:HM-CC-RT-DN:ccu:OEQ1710187:4#FAULT_REPORTING"}
 Number BAB_Radiator_ActTemp           "BAB_Radiator Actual temperature [%.1f °C]"               <temperature>     (Heating_BAB,BAB,Temperatures)         {channel="homematic:HM-CC-RT-DN:ccu:OEQ1710187:4#ACTUAL_TEMPERATURE"}
-Number BAB_Radiator_SetTemp           "BAB_Radiator Set temperature [%.1f °C]"                  <temperature>     (Heating_BAB,BAB,Heating_TargetTemps)   {channel="homematic:HM-CC-RT-DN:ccu:OEQ1710187:4#SET_TEMPERATURE"}
+//Number BAB_Radiator_SetTemp           "BAB_Radiator Set temperature [%.1f °C]"                  <temperature>     (Heating_BAB,BAB,Heating_TargetTemps)   {channel="homematic:HM-CC-RT-DN:ccu:OEQ1710187:4#SET_TEMPERATURE"}
 Number BAB_Radiator_Valve             "BAB_Radiator Valve (open) state [%d %%]"                 <heating>         (Heating_BAB,BAB,Heating_ValveSettings) {channel="homematic:HM-CC-RT-DN:ccu:OEQ1710187:4#VALVE_STATE"}
-String BAB_Radiator_Mode              "BAB_Radiator Control mode [MAP(HM-CC-RT-DN.map):%s]"     <"heating-off">   (Heating_BAB,BAB,Heating_OpModes)       {channel="homematic:HM-CC-RT-DN:ccu:OEQ1710187:4#CONTROL_MODE"}
+//String BAB_Radiator_Mode              "BAB_Radiator Control mode [MAP(HM-CC-RT-DN.map):%s]"     <"heating-off">   (Heating_BAB,BAB,Heating_OpModes)       {channel="homematic:HM-CC-RT-DN:ccu:OEQ1710187:4#CONTROL_MODE"}
 Switch BAB_Radiator_Auto              "BAB_Radiator Auto-Mode"                                  <temperature>     (Heating_BAB)                          {channel="homematic:HM-CC-RT-DN:ccu:OEQ1710187:4#AUTO_MODE"}
 Number BAB_Radiator_Manu              "BAB_Radiator Manu-Mode [%.1f °C]"                        <"heating-40">    (Heating_BAB)                          {channel="homematic:HM-CC-RT-DN:ccu:OEQ1710187:4#MANU_MODE"}
 Switch BAB_Radiator_BoostMode         "BAB_Radiator Boost-Mode"                                 <fire>            (Heating_BAB)                          {channel="homematic:HM-CC-RT-DN:ccu:OEQ1710187:4#BOOST_MODE"}
 Number BAB_Radiator_BoostTime         "BAB_Radiator Boost-Remaining [%d min]"                  <"clock-on">      (Heating_BAB)                          {channel="homematic:HM-CC-RT-DN:ccu:OEQ1710187:4#BOOST_STATE"}
+// wall thermostat
+Number BAB_WallThermostat_ActTemp     "BAB_WallThermostat Actual temperature [%.1f °C]"          <temperature>     (Heating_BAB,BAB,Temperatures)       {channel="homematic:HM-TC-IT-WM-W-EU:ccu:PEQ1259021:2#ACTUAL_TEMPERATURE"}
+Number BAB_WallThermostat_ActHumidity "BAB_WallThermostat Actual humidity [%2d %%]"               <humidity>       (Heating_BAB,BAB,Humidity)           {channel="homematic:HM-TC-IT-WM-W-EU:ccu:PEQ1259021:2#ACTUAL_HUMIDITY"}
+Number BAB_WallThermostat_SetTemp     "BAB_WallThermostat Set temperature [%.1f °C]"             <temperature>     (Heating_KI,BAB,Heating_TargetTemps)  {channel="homematic:HM-TC-IT-WM-W-EU:ccu:PEQ1259021:2#SET_TEMPERATURE"}
+String BAB_WallThermostat_Mode        "BAB_WallThermostat Control mode [MAP(HM-CC-RT-DN.map):%s]" <"heating-off">   (Heating_KI,BAB,Heating_OpModes)    {channel="homematic:HM-TC-IT-WM-W-EU:ccu:PEQ1259021:2#CONTROL_MODE"}
 Number BAB_Radiator_Preset            "BAB_Radiator Set temperature fast setting"                 <"heating-60">      (Heating_BAB)
 Number BAB_Radiator_PresetTemp        "BAB_Radiator Set temperature timer program [%.1f °C]"      <line>              (Heating_BAB,Heating_TargetPresets)
 String BAB_Radiator_Summary           "BAB_Radiator Overview [%s]"                                <thermometer_red>   (Heating_BAB,BAB)
