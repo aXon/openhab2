@@ -6,17 +6,18 @@
 //Number Boiler_Pressure      "Boiler water pressure"   <temperature>     (Heating_Group)  {channel="ebus:bai:c64eaebd:08:bai_boiler_pressure#pressure"}
 
 Group eBusGroup "eBus items" (Home)
+//Number VRC700_Set_Temp      "VRC700 Set-point temperature"   <temperature>     (eBusGroup)  {channel="ebus:vrc700_general:b1110c98:vrc700_general_gen_display-outside#value"}
+//Number VRC700_Room_Temp     "VRC700 Room temperature"   <temperature>          (eBusGroup)  {channel="ebus:vrc700_zone1:df7b8af8:vrc700_zone1_z1_room-temp#value"}
 
 Number EBus_Uptime          "eBus uptime"                                           (eBusGroup) {channel="mqtt:topic:mosquitto:broadcast:Uptime" }
-Number Status01_0_Temp1     "Boiler Status 01 0 Temp1 [%.2f °C]" <temperature>      (eBusGroup) {channel="mqtt:topic:mosquitto:bai:Status01_0_Temp1" }
-Number Status01_1_Temp1     "Boiler Status 01 1 Temp1 [%.2f °C]" <temperature>      (eBusGroup) {channel="mqtt:topic:mosquitto:bai:Status01_1_Temp1" }
-Number Status01_3_Temp1     "Boiler Status 01 3 Temp1 [%.2f °C]" <temperature>      (eBusGroup) {channel="mqtt:topic:mosquitto:bai:Status01_3_Temp1" }
-Number Status01_4_Temp1     "Boiler Status 01 4 Temp1 [%.2f °C]" <temperature>      (eBusGroup) {channel="mqtt:topic:mosquitto:bai:Status01_4_Temp1" }
-Switch Status01_5_Pumpstate     "Boiler Status 01 5 Pump state"                    (eBusGroup) {channel="mqtt:topic:mosquitto:bai:Status01_5_Pumpstate"}
+//Number Status01_0_Temp1     "Boiler Status 01 0 Temp1 [%.2f °C]" <temperature>      (eBusGroup) {channel="mqtt:topic:mosquitto:bai:Status01_0_Temp1" }
+//Number Status01_1_Temp1     "Boiler Status 01 1 Temp1 [%.2f °C]" <temperature>      (eBusGroup) {channel="mqtt:topic:mosquitto:bai:Status01_1_Temp1" }
+//Number Status01_3_Temp1     "Boiler Status 01 3 Temp1 [%.2f °C]" <temperature>      (eBusGroup) {channel="mqtt:topic:mosquitto:bai:Status01_3_Temp1" }
+//Number Status01_4_Temp1     "Boiler Status 01 4 Temp1 [%.2f °C]" <temperature>      (eBusGroup) {channel="mqtt:topic:mosquitto:bai:Status01_4_Temp1" }
+//Switch Status01_5_Pumpstate     "Boiler Status 01 5 Pump state"                    (eBusGroup) {channel="mqtt:topic:mosquitto:bai:Status01_5_Pumpstate"}
 Number Boiler_FlowTemp      "Boiler flow temperature [%.2f °C]" <temperature>       (eBusGroup) {channel="mqtt:topic:mosquitto:bai:FlowTemp" }
 Number Boiler_ReturnTemp    "Boiler return temperature [%.2f °C]" <temperature>     (eBusGroup) {channel="mqtt:topic:mosquitto:bai:ReturnTemp" }
 Switch Boiler_CirculationPump    "Boiler circulation pump"                          (eBusGroup) {channel="mqtt:topic:mosquitto:bai:CirculationPump" }
-Number VRC700_OutsideTemp   "VRC700 Outside temperature [%.2f °C]" <temperature>    (eBusGroup) {channel="mqtt:topic:mosquitto:VRC700:DisplayedOutsideTemp" }
-Number VRC700_RoomTemp      "VRC700 Room temperature [%.2f °C]" <temperature>       (eBusGroup) {channel="mqtt:topic:mosquitto:VRC700:RoomTemp" }
-Number VRC700_DayTemp       "VRC700 Desired day temperature [%.2f °C]" <temperature>       (eBusGroup) {channel="mqtt:topic:mosquitto:VRC700:DayTemp" }
-//Number Outside_temperature "Outside temperature" (eBus) {channel="mqtt:myBroker:topic:ebus:temperature" }
+Number VRC700_OutsideTemp   "VRC700 Outside temperature [%.2f °C]" <temperature>    (eBusGroup) {channel="mqtt:topic:mosquitto:b7v:DisplayedOutsideTemp" }
+Number VRC700_RoomTemp      "VRC700 Room temperature [%.2f °C]" <temperature>       (eBusGroup) {channel="mqtt:topic:mosquitto:b7v:RoomTemp" }
+Number VRC700_DayTemp       "VRC700 Desired day temperature [%.2f °C]" <temperature>       (eBusGroup) {channel="mqtt:topic:mosquitto:b7v:DayTemp" }

@@ -5,13 +5,13 @@ when
     Time cron "0 0/5 * * * ?"
 then
   val actions = getActions("mqtt","mqtt:broker:mosquitto")
-  actions.publishMQTT("ebus/bai/FlowTemp/get"," ")    
-  actions.publishMQTT("ebus/bai/ReturnTemp/get"," ") 
-  actions.publishMQTT("ebus/bai/CirPump/get"," ") 
-  actions.publishMQTT("ebus/b7v00/DisplayedOutsideTemp/get"," ") 
-  actions.publishMQTT("ebus/b7v00/z1RoomTemp/get"," ") 
-  actions.publishMQTT("ebus/b7v00/z1DayTemp/get"," ") 
-  actions.publishMQTT("ebus/b7v00/z1NightTemp/get"," ") 
+  actions.publishMQTT("ebusd/bai/FlowTemp/get"," ")    
+  actions.publishMQTT("ebusd/bai/ReturnTemp/get"," ") 
+  actions.publishMQTT("ebusd/bai/CirPump/get"," ") 
+  actions.publishMQTT("ebusd/b7v/DisplayedOutsideTemp/get"," ") 
+  actions.publishMQTT("ebusd/b7v/z1RoomTemp/get"," ") 
+  actions.publishMQTT("ebusd/b7v/z1DayTemp/get"," ") 
+  actions.publishMQTT("ebusd/b7v/z1NightTemp/get"," ") 
   logInfo(filename, "sending MQTT get's to eBus: " + now.toString)
 end
 

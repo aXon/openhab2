@@ -2,26 +2,26 @@ Bridge mqtt:broker:mosquitto [ host="127.0.0.1", port="1883", secure=false,clien
     // eBus connection through MQTT via ebusd
     Thing topic broadcast "eBusd" @ "Home" {
     Channels:
-        //Type number : uptime2 "eBusd uptime" [ stateTopic="ebus/global/uptime", transformationPattern="REGEX:ebus/global/uptime (.*?)"]
-        Type number : Uptime "eBusd uptime" [ stateTopic="ebus/global/uptime"]
+     //  Type number : uptime2 "eBusd uptime" [ stateTopic="ebusd/global/uptime", transformationPattern="REGEX:ebusd/global/uptime (.*?)"]
+      Type number : Uptime "eBusd uptime" [ stateTopic="ebusd/global/uptime"]
     }
     Thing topic bai "eBusd Boiler BAI" @ "Home" {
     Channels:
-        Type number : FlowTemp "Boiler Flow Temperature" [ stateTopic="ebus/bai/FlowTemp", transformationPattern="JSONPATH:$.temp.value"]
-        Type number : ReturnTemp "Boiler Return Temperature" [ stateTopic="ebus/bai/ReturnTemp", transformationPattern="JSONPATH:$.temp.value"]
-        Type switch : CirculationPump "Boiler Circulation Pump" [ stateTopic="ebus/bai/CirPump", transformationPattern="JSONPATH:$.onoff.value", on="on", off="off"]
-        Type number : Status01_0_Temp1 "Status 01 0: Temp1" [ stateTopic="ebus/bai/Status01", transformationPattern="JSONPATH:$.0.value"]
-        Type number : Status01_1_Temp1 "Status 01 1: Temp1" [ stateTopic="ebus/bai/Status01", transformationPattern="JSONPATH:$.1.value"]
-        Type number : Status01_3_Temp1 "Status 01 3: Temp1" [ stateTopic="ebus/bai/Status01", transformationPattern="JSONPATH:$.3.value"]
-        Type number : Status01_4_Temp1 "Status 01 4: Temp1" [ stateTopic="ebus/bai/Status01", transformationPattern="JSONPATH:$.4.value"]
-        Type switch : Status01_5_Pumpstate "Status 01 5: Pump state" [ stateTopic="ebus/bai/Status01", transformationPattern="JSONPATH:$.5.value", on="on", off="off"]
+        Type number : FlowTemp "Boiler Flow Temperature" [ stateTopic="ebusd/bai/FlowTemp"]  // returns 28.06;ok need some regex work done
+        Type number : ReturnTemp "Boiler Return Temperature" [ stateTopic="ebusd/bai/ReturnTemp"] // returns 27.94;65088;ok
+        Type switch : CirculationPump "Boiler Circulation Pump" [ stateTopic="ebusd/bai/CirPump", on="on", off="off"]
+        //Type number : Status01_0_Temp1 "Status 01 0: Temp1" [ stateTopic="ebusd/bai/Status01", transformationPattern="JSONPATH:$.0.value"]
+        //Type number : Status01_1_Temp1 "Status 01 1: Temp1" [ stateTopic="ebusd/bai/Status01", transformationPattern="JSONPATH:$.1.value"]
+        //Type number : Status01_3_Temp1 "Status 01 3: Temp1" [ stateTopic="ebusd/bai/Status01", transformationPattern="JSONPATH:$.3.value"]
+        //Type number : Status01_4_Temp1 "Status 01 4: Temp1" [ stateTopic="ebusd/bai/Status01", transformationPattern="JSONPATH:$.4.value"]
+        //Type switch : Status01_5_Pumpstate "Status 01 5: Pump state" [ stateTopic="ebusd/bai/Status01", transformationPattern="JSONPATH:$.5.value", on="on", off="off"]
     }
-    Thing topic VRC700 "eBusd VRC700" @ "Home" {
+    Thing topic b7v "eBusd VRC700f" @ "Home" {
     Channels:
-        Type number : DisplayedOutsideTemp "Outside Temperature" [ stateTopic="ebus/b7v00/DisplayedOutsideTemp", transformationPattern="JSONPATH:$.tempv.value"]
-        Type number : RoomTemp "VRC700 Room Temperature" [ stateTopic="ebus/b7v00/z1RoomTemp", transformationPattern="JSONPATH:$.tempv.value"]
-        Type number : DayTemp "VRC700 Desired day time room temperature" [ stateTopic="ebus/b7v00/z1DayTemp" , commandTopic="ebus/b7v00/z1DayTemp/set", transformationPattern="JSONPATH:$.tempv.value"]
-        Type number : NightTemp "VRC700 Desired night time (set back) temperature" [ stateTopic="ebus/b7v00/z1NightTemp", transformationPattern="JSONPATH:$.tempv.value"]
+        Type number : DisplayedOutsideTemp "Outside Temperature" [ stateTopic="ebusd/b7v/DisplayedOutsideTemp"]
+        Type number : RoomTemp "VRC700 Room Temperature" [ stateTopic="ebusd/b7v/z1RoomTemp"]
+        Type number : DayTemp "VRC700 Desired day time room temperature" [ stateTopic="ebusd/b7v/z1DayTemp" , commandTopic="ebusd/b7v/z1DayTemp/set"]
+        Type number : NightTemp "VRC700 Desired night time (set back) temperature" [ stateTopic="ebusd/b7v/z1NightTemp"]
     }
 
     // Zigbee2MQTT things
