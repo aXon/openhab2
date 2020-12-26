@@ -12,6 +12,10 @@ Switch      Presence_OP3                "Presence OP3 - state " <presence>      
 Number      Presence_OP3_ResponseTime   "OnePlus3 Response Time (ms) [%s ms]"   { channel="network:pingdevice:oneplus3:latency" }
 DateTime    Presence_OP3_LastSeen       "OnePlus3 Last seen [%s]"               { channel="network:pingdevice:oneplus3:lastseen" }
 
+Switch      Presence_OP6                "Presence OP6 - state " <presence>      (Home,Presence_Sensors)    { channel="network:pingdevice:arthurDentOP6" }
+Number      Presence_OP6_ResponseTime   "OnePlus6 Response Time (ms) [%s ms]"   { channel="network:pingdevice:arthurDentOP6:latency" }
+DateTime    Presence_OP6_LastSeen       "OnePlus6 Last seen [%s]"               { channel="network:pingdevice:arthurDentOP6:lastseen" }
+
 Switch      Presence_ipad                "Presence Michelle's iPad - state " <presence>      (Home,Presence_Michelle)    { channel="network:pingdevice:michelle-ipad:online" }
 Number      Presence_ipad_ResponseTime   "Michelle's iPad Response Time (ms) [%s ms]"   { channel="network:pingdevice:michelle-ipad:latency" }
 DateTime    Presence_ipad_LastSeen       "Michelle's iPad Last seen [%s]"               { channel="network:pingdevice:michelle-ipad:lastseen" }

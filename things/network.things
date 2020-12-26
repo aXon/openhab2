@@ -6,7 +6,7 @@ uses_dhcp_listen=true,
     retry=5
 ]
 
-network:pingdevice:arthurDentOP6 [ hostname="ArthudrDentv2.lan" ,
+network:pingdevice:arthurDentOP6 [ hostname="ArthurDentv2.lan" ,
 uses_dhcp_listen=true,
     uses_arp_pings=true,
     refreshInterval=300000,

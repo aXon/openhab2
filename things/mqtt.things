@@ -7,9 +7,12 @@ Bridge mqtt:broker:mosquitto [ host="127.0.0.1", port="1883", secure=false,clien
     }
     Thing topic bai "eBusd Boiler BAI" @ "Home" {
     Channels:
-        Type number : FlowTemp "Boiler Flow Temperature" [ stateTopic="ebusd/bai/FlowTemp"]  // returns 28.06;ok need some regex work done
-        Type number : ReturnTemp "Boiler Return Temperature" [ stateTopic="ebusd/bai/ReturnTemp"] // returns 27.94;65088;ok
+        Type number : FlowTemp "Heating Flow Temperature" [ stateTopic="ebusd/bai/FlowTemp", transformationPattern="REGEX:(.*?);.*"]  // returns 28.06;ok need some regex work done
+        Type number : ReturnTemp "Heating Return Temperature" [ stateTopic="ebusd/bai/ReturnTemp",transformationPattern="REGEX:(.*?);.*"] // returns 27.94;65088;ok
+        Type number : HotWaterTemp "Hot Water Temperature" [ stateTopic="ebusd/bai/HwcTemp",transformationPattern="REGEX:(.*?);.*"] // returns 27.94;ok
         Type switch : CirculationPump "Boiler Circulation Pump" [ stateTopic="ebusd/bai/CirPump", on="on", off="off"]
+	// Status01: Vorlauftemperatur/Rücklauftemperatur/Aussentemperatur/WW Temperatur/Speichertemperatur/Pumpenstatus example: 34.0;33.5;-;30.0;35.0;off 
+	// Status02: Betriebsart/Maximaltemperatur/ReglerCurrentTEMP/Maximaltemperatur/ReglerCurrentTemp example: on;60;75.0;70;65.0
         //Type number : Status01_0_Temp1 "Status 01 0: Temp1" [ stateTopic="ebusd/bai/Status01", transformationPattern="JSONPATH:$.0.value"]
         //Type number : Status01_1_Temp1 "Status 01 1: Temp1" [ stateTopic="ebusd/bai/Status01", transformationPattern="JSONPATH:$.1.value"]
         //Type number : Status01_3_Temp1 "Status 01 3: Temp1" [ stateTopic="ebusd/bai/Status01", transformationPattern="JSONPATH:$.3.value"]
