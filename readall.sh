@@ -1,4 +1,5 @@
 #!/bin/sh
+# script taken from ebusd github repo to automate update of all available registers
 port=8888
 if [ "x$1" = "x-p" ]; then
 	shift
