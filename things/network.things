@@ -22,6 +22,14 @@ uses_dhcp_listen=true,
     retry=1
 ]
 
+network:pingdevice:trillian [ hostname="trillian.lan" ,
+uses_dhcp_listen=true,
+    uses_arp_pings=true,
+    refreshInterval=300000,
+    timeout=3000,
+    retry=1
+]
+
 network:pingdevice:zaphod-wifi [ hostname="zaphod-wifi.lan" ,
 uses_dhcp_listen=true,
     uses_arp_pings=true,

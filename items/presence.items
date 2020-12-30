@@ -8,11 +8,11 @@ Group:Switch:OR(ON,OFF) Presence_Michelle   "Michelle is at home [%s]"  (Presenc
 Group:Switch:OR(ON,OFF) Presence_Nils       "Nils is at home [%s]"      (Presence_Sensors)
 
 // mobile devices (phone, tablets)
-Switch      Presence_OP3                "Presence OP3 - state " <presence>      (Home,Presence_Sensors)    { channel="network:pingdevice:oneplus3:online" }
+Switch      Presence_OP3                "Presence OP3 - state " <presence>      (Home,Presence_Michelle)    { channel="network:pingdevice:oneplus3:online" }
 Number      Presence_OP3_ResponseTime   "OnePlus3 Response Time (ms) [%s ms]"   { channel="network:pingdevice:oneplus3:latency" }
 DateTime    Presence_OP3_LastSeen       "OnePlus3 Last seen [%s]"               { channel="network:pingdevice:oneplus3:lastseen" }
 
-Switch      Presence_OP6                "Presence OP6 - state " <presence>      (Home,Presence_Sensors)    { channel="network:pingdevice:arthurDentOP6" }
+Switch      Presence_OP6                "Presence OP6 - state " <presence>      (Home,Presence_Nils)    { channel="network:pingdevice:arthurDentOP6:online" }
 Number      Presence_OP6_ResponseTime   "OnePlus6 Response Time (ms) [%s ms]"   { channel="network:pingdevice:arthurDentOP6:latency" }
 DateTime    Presence_OP6_LastSeen       "OnePlus6 Last seen [%s]"               { channel="network:pingdevice:arthurDentOP6:lastseen" }
 
@@ -30,5 +30,9 @@ Number      Presence_Marvin_ResponseTime    "Marvin Response Time (ms) [%s ms]" 
 DateTime    Presence_Marvin_LastSeen        "Marvin Last seen [%s]"               { channel="network:pingdevice:marvin-wifi:lastseen" }
 
 Switch      Presence_Zaphod_Wifi                 "Presence Zaphod (MBP 13) - state "    <presence>  (Home,Presence_Nils)    { channel="network:pingdevice:zaphod-wifi:online" }
-Number      Presence_Zaphod_Wifi_ResponseTime    "Marvin Response Time (ms) [%s ms]"   { channel="network:pingdevice:zaphod-wifi:latency" }
-DateTime    Presence_Zaphod_Wifi_LastSeen        "Marvin Last seen [%s]"               { channel="network:pingdevice:zaphod-wifi:lastseen" }
+Number      Presence_Zaphod_Wifi_ResponseTime    "Zaphod Response Time (ms) [%s ms]"   { channel="network:pingdevice:zaphod-wifi:latency" }
+DateTime    Presence_Zaphod_Wifi_LastSeen        "Zaphod Last seen [%s]"               { channel="network:pingdevice:zaphod-wifi:lastseen" }
+
+Switch      Presence_Trillian_Wifi                 "Presence Trillian (MBPrTB 15) - state "    <presence>  (Home,Presence_Nils)    { channel="network:pingdevice:trillian:online" }
+Number      Presence_Trillian_Wifi_ResponseTime    "Trillian Response Time (ms) [%s ms]"   { channel="network:pingdevice:trillian:latency" }
+DateTime    Presence_Trillian_Wifi_LastSeen        "Trillian Last seen [%s]"               { channel="network:pingdevice:trillian:lastseen" }

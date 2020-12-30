@@ -43,7 +43,9 @@ then
     Presence.sendCommand(OFF)
 end
 
-  
+// this rule can cause problems, when other heating modes are wanted e.g. off or away
+// hence it has to be queried, if it is in a normal status and only then change 
+// or use presence in the heating mode rules instead, so not to divert into 
 rule "Set heating mode based on presence"
 when
     Item Presence received command or

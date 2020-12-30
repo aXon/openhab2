@@ -23,7 +23,3 @@ Number      Radiation_Direct     "Direct Radiation"                             
 Number      Radiation_Total      "Total Radiation"                                                 (Astro) {channel="astro:sun:home:radiation#total"}
 Number      Radiation_Diffuse    "Diffuse Radiation"                                               (Astro) {channel="astro:sun:home:radiation#diffuse"}
 
-//
-String      Time_Of_Day          "Current Time of Day [%s]"                                        (Astro)
-
-
