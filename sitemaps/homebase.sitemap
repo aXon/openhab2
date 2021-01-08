@@ -5,6 +5,7 @@ sitemap homebase label="Homebase M&N" {
         Group item=Astro
         Group item=Weather
         Group item=eBusGroup
+        Group item=gEnvironment
         Group item=Presence_Sensors label= "Home presence"
     }
     

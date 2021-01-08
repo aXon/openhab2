@@ -12,6 +12,13 @@ then
   actions.publishMQTT("ebusd/b7v/z1RoomTemp/get"," ") 
   actions.publishMQTT("ebusd/b7v/z1DayTemp/get"," ") 
   actions.publishMQTT("ebusd/b7v/z1NightTemp/get"," ") 
+  actions.publishMQTT("ebusd/b7v/PrEnergySumHwcThisMonth/get"," ") 
+  actions.publishMQTT("ebusd/b7v/PrEnergySumHcThisMonth/get"," ") 
+  actions.publishMQTT("ebusd/b7v/PrEnergySumHwcLastMonth/get"," ") 
+  actions.publishMQTT("ebusd/b7v/PrEnergySumHcLastMonth/get"," ") 
+  actions.publishMQTT("ebusd/b7v/PrEnergySumHwc/get"," ") 
+  actions.publishMQTT("ebusd/b7v/PrEnergySumHc/get"," ") 
+  actions.publishMQTT("ebusd/b7v/PrEnergySum/get"," ") 
   logInfo(filename, "sending MQTT get's to eBus: " + now.toString)
 end
 

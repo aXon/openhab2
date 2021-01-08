@@ -15,9 +15,18 @@ Number EBus_Uptime          "eBus uptime"                                       
 //Number Status01_3_Temp1     "Boiler Status 01 3 Temp1 [%.2f °C]" <temperature>      (eBusGroup) {channel="mqtt:topic:mosquitto:bai:Status01_3_Temp1" }
 //Number Status01_4_Temp1     "Boiler Status 01 4 Temp1 [%.2f °C]" <temperature>      (eBusGroup) {channel="mqtt:topic:mosquitto:bai:Status01_4_Temp1" }
 //Switch Status01_5_Pumpstate     "Boiler Status 01 5 Pump state"                    (eBusGroup) {channel="mqtt:topic:mosquitto:bai:Status01_5_Pumpstate"}
-Number Boiler_FlowTemp      "Boiler flow temperature [%.2f °C]" <temperature>       (eBusGroup,History) {channel="mqtt:topic:mosquitto:bai:FlowTemp" }
-Number Boiler_ReturnTemp    "Boiler return temperature [%.2f °C]" <temperature>     (eBusGroup,History) {channel="mqtt:topic:mosquitto:bai:ReturnTemp" }
-Switch Boiler_CirculationPump    "Boiler circulation pump"                          (eBusGroup,History) {channel="mqtt:topic:mosquitto:bai:CirculationPump" }
-Number VRC700_OutsideTemp   "VRC700 Outside temperature [%.2f °C]" <temperature>    (eBusGroup,History) {channel="mqtt:topic:mosquitto:b7v:DisplayedOutsideTemp" }
-Number VRC700_RoomTemp      "VRC700 Room temperature [%.2f °C]" <temperature>       (eBusGroup,History) {channel="mqtt:topic:mosquitto:b7v:RoomTemp" }
-Number VRC700_DayTemp       "VRC700 Desired day temperature [%.2f °C]" <temperature>       (eBusGroup) {channel="mqtt:topic:mosquitto:b7v:DayTemp" }
+Number Boiler_FlowTemp          "Boiler flow temperature [%.2f °C]" <temperature>       (eBusGroup,History) {channel="mqtt:topic:mosquitto:bai:FlowTemp" }
+Number Boiler_ReturnTemp        "Boiler return temperature [%.2f °C]" <temperature>     (eBusGroup,History) {channel="mqtt:topic:mosquitto:bai:ReturnTemp" }
+Switch Boiler_CirculationPump   "Boiler circulation pump"                          (eBusGroup,History) {channel="mqtt:topic:mosquitto:bai:CirculationPump" }
+Switch Boiler_Ignitor           "Boiler ignitor"                    			     (eBusGroup,History) {channel="mqtt:topic:mosquitto:bai:Ignitor" }
+Number VRC700_OutsideTemp       "VRC700 Outside temperature [%.2f °C]" <temperature>    (eBusGroup,History) {channel="mqtt:topic:mosquitto:b7v:DisplayedOutsideTemp" }
+Number VRC700_RoomTemp          "VRC700 Room temperature [%.2f °C]" <temperature>       (eBusGroup,History) {channel="mqtt:topic:mosquitto:b7v:RoomTemp" }
+Number VRC700_DayTemp           "VRC700 Desired day temperature [%.2f °C]" <temperature>       (eBusGroup) {channel="mqtt:topic:mosquitto:b7v:DayTemp" }
+// energy consumption
+Number VRC700_ESumHwcThisMonth   "Electricity usage hot water this month [%d kWh]" <energy>       (eBusGroup,History) {channel="mqtt:topic:mosquitto:b7v:ElectricitySumHotWaterThisMonth" }
+Number VRC700_ESumHcThisMonth    "Electricity usage heating this month [%d kWh]" <energy>       (eBusGroup,History) {channel="mqtt:topic:mosquitto:b7v:ElectricitySumHeatingThisMonth" }
+Number VRC700_ESumHwcLastMonth   "Electricity usage hot water last month [%d kWh]" <energy>       (eBusGroup,History) {channel="mqtt:topic:mosquitto:b7v:ElectricitySumHotWaterLastMonth" }
+Number VRC700_ESumHcLastMonth    "Electricity usage heating last month  [%d kWh]" <energy>       (eBusGroup,History) {channel="mqtt:topic:mosquitto:b7v:ElectricitySumHeatingLastMonth" }
+Number VRC700_ESumHwcLifetime   "Electricity usage hot water total [%d kWh]" <energy>       (eBusGroup,History) {channel="mqtt:topic:mosquitto:b7v:ElectricitySumHotWaterLifetime" }
+Number VRC700_ESumHcLifetime    "Electricity usage heating total [%d kWh]" <energy>       (eBusGroup,History) {channel="mqtt:topic:mosquitto:b7v:ElectricitySumHeatingLifetime" }
+Number VRC700_ESumLifetime      "Electricity usage total [%d kWh]" <energy>       (eBusGroup,History) {channel="mqtt:topic:mosquitto:b7v:ElectricitySumLifetime" }

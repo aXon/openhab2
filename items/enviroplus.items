@@ -1,0 +1,5 @@
+Group gEnvironment "Environment data" (Home)
+
+Number PM1  "Enviro+ PM1 [%d µg/m^3]" <temperature>   (gEnvironment,History) {channel="mqtt:topic:mosquitto:enviroplus:AirrohrPM1" }
+Number PM10 "Enviro+ PM10 [%d µg/m^3]" <temperature>   (gEnvironment,History) {channel="mqtt:topic:mosquitto:enviroplus:AirrohrPM10" }
+Number PM25 "Enviro+ PM25 [%d µg/m^3]" <temperature>   (gEnvironment,History) {channel="mqtt:topic:mosquitto:enviroplus:AirrohrPM25" }

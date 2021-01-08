@@ -5,35 +5,54 @@ Bridge mqtt:broker:mosquitto [ host="127.0.0.1", port="1883", secure=false,clien
      //  Type number : uptime2 "eBusd uptime" [ stateTopic="ebusd/global/uptime", transformationPattern="REGEX:ebusd/global/uptime (.*?)"]
       Type number : Uptime "eBusd uptime" [ stateTopic="ebusd/global/uptime"]
     }
-    Thing topic bai "eBusd Boiler BAI" @ "Home" {
+    Thing topic bai "eBus Boiler" @ "Home" {
     Channels:
         Type number : FlowTemp "Heating Flow Temperature" [ stateTopic="ebusd/bai/FlowTemp", transformationPattern="REGEX:(.*?);.*"]  // returns 28.06;ok need some regex work done
         Type number : ReturnTemp "Heating Return Temperature" [ stateTopic="ebusd/bai/ReturnTemp",transformationPattern="REGEX:(.*?);.*"] // returns 27.94;65088;ok
         Type number : HotWaterTemp "Hot Water Temperature" [ stateTopic="ebusd/bai/HwcTemp",transformationPattern="REGEX:(.*?);.*"] // returns 27.94;ok
         Type switch : CirculationPump "Boiler Circulation Pump" [ stateTopic="ebusd/bai/CirPump", on="on", off="off"]
-	// Status01: Vorlauftemperatur/Rücklauftemperatur/Aussentemperatur/WW Temperatur/Speichertemperatur/Pumpenstatus example: 34.0;33.5;-;30.0;35.0;off 
-	// Status02: Betriebsart/Maximaltemperatur/ReglerCurrentTEMP/Maximaltemperatur/ReglerCurrentTemp example: on;60;75.0;70;65.0
+        Type switch : Ignitor "Boiler Ignitor" [ stateTopic="ebusd/bai/Ignitor", on="on", off="off"]       
+      
+	      // Status01: Vorlauftemperatur/Rücklauftemperatur/Aussentemperatur/WW Temperatur/Speichertemperatur/Pumpenstatus example: 34.0;33.5;-;30.0;35.0;off 
+	      // Status02: Betriebsart/Maximaltemperatur/ReglerCurrentTEMP/Maximaltemperatur/ReglerCurrentTemp example: on;60;75.0;70;65.0
         //Type number : Status01_0_Temp1 "Status 01 0: Temp1" [ stateTopic="ebusd/bai/Status01", transformationPattern="JSONPATH:$.0.value"]
         //Type number : Status01_1_Temp1 "Status 01 1: Temp1" [ stateTopic="ebusd/bai/Status01", transformationPattern="JSONPATH:$.1.value"]
         //Type number : Status01_3_Temp1 "Status 01 3: Temp1" [ stateTopic="ebusd/bai/Status01", transformationPattern="JSONPATH:$.3.value"]
         //Type number : Status01_4_Temp1 "Status 01 4: Temp1" [ stateTopic="ebusd/bai/Status01", transformationPattern="JSONPATH:$.4.value"]
         //Type switch : Status01_5_Pumpstate "Status 01 5: Pump state" [ stateTopic="ebusd/bai/Status01", transformationPattern="JSONPATH:$.5.value", on="on", off="off"]
     }
-    Thing topic b7v "eBusd VRC700f" @ "Home" {
+    Thing topic b7v "eBus VRC700f" @ "Home" {
     Channels:
         Type number : DisplayedOutsideTemp "Outside Temperature" [ stateTopic="ebusd/b7v/DisplayedOutsideTemp"]
         Type number : RoomTemp "VRC700 Room Temperature" [ stateTopic="ebusd/b7v/z1RoomTemp"]
         Type number : DayTemp "VRC700 Desired day time room temperature" [ stateTopic="ebusd/b7v/z1DayTemp" , commandTopic="ebusd/b7v/z1DayTemp/set"]
         Type number : NightTemp "VRC700 Desired night time (set back) temperature" [ stateTopic="ebusd/b7v/z1NightTemp"]
+        // energy usage topics
+        Type number : ElectricitySumHotWaterThisMonth "Hot water electricity usage in kWh (this month)" [ stateTopic="ebusd/b7v/PrEnergySumHwcThisMonth"] // this might not amount to much per month or change a lot throughout
+        Type number : ElectricitySumHeatingThisMonth "Heating electricity usage in kWh (this month)" [ stateTopic="ebusd/b7v/PrEnergySumHcThisMonth"]
+        Type number : ElectricitySumHotWaterLastMonth "Hot water electricity usage in kWh (last month)" [ stateTopic="ebusd/b7v/PrEnergySumHwcLastMonth"] // same here
+        Type number : ElectricitySumHeatingLastMonth "Heating electricity usage in kWh (last month)" [ stateTopic="ebusd/b7v/PrEnergySumHcLastMonth"]
+        Type number : ElectricitySumHotWaterLifetime "Total hot water electricity usage in kWh" [ stateTopic="ebusd/b7v/PrEnergySumHwc"]
+        Type number : ElectricitySumHeatingLifetime "Total heating electricity usage in kWh" [ stateTopic="ebusd/b7v/PrEnergySumHc"]
+        Type number : ElectricitySumLifetime "Total heating electricity usage in kWh" [ stateTopic="ebusd/b7v/PrEnergySum"]
     }
 
     // Zigbee2MQTT things
     Thing topic bulb "zigbee2mqtt Livarno bulb" @ "Home" {
     Channels:
     	Type switch : onoff "Switch Livarno bulb" [stateTopic="zigbee2mqtt/bulb/state", commandTopic="zigbee2mqtt/bulb/set/state", on="ON", off="OFF"]
-	Type dimmer : dim "Dimmer Livarno bulb" [stateTopic="zigbee2mqtt/bulb/brightness", commandTopic="zigbee2mqtt/bulb/set/brightness", min=1, max=255, step=1]
-	Type string : color "Color Livarno bulb" [stateTopic="zigbee2mqtt/bulb/color", commandTopic="zigbee2mqtt/bulb/set/color"]
-	Type dimmer : color_temp "Hue Livarno bulb" [stateTopic="zigbee2mqtt/bulb/color_temp", commandTopic="zigbee2mqtt/bulb/set/color_temp", min=150, max=500 ,step=1 ]
-  }
+	    Type dimmer : dim "Dimmer Livarno bulb" [stateTopic="zigbee2mqtt/bulb/brightness", commandTopic="zigbee2mqtt/bulb/set/brightness", min=1, max=255, step=1]
+	    Type string : color "Color Livarno bulb" [stateTopic="zigbee2mqtt/bulb/color", commandTopic="zigbee2mqtt/bulb/set/color"]
+	    Type dimmer : color_temp "Hue Livarno bulb" [stateTopic="zigbee2mqtt/bulb/color_temp", commandTopic="zigbee2mqtt/bulb/set/color_temp", min=150, max=500 ,step=1 ]
+    }
+
+    // Airrohr Pi things for environemtal data retrieval - data is pushed by the sensor to a single topic
+    // raw data: {"temperature": 7, "pressure": 100970, "humidity": 39, "oxidised": 12, "reduced": 579, "nh3": 714, "lux": 0, "pm1": 23, "pm25": 40, "pm10": 43, "serial": "00000000xyzxyzyx"}
+    Thing topic enviroplus "RPi/enviro+ and PM sensors" @ "Outside"{
+    Channels:
+      Type number : AirrohrPM25 "PM2.5 in µg/m^3" [ stateTopic="enviroplus", transformationPattern="JSONPATH:$.pm25"]
+      Type number : AirrohrPM1 "PM1 in µg/m^3" [ stateTopic="enviroplus", transformationPattern="JSONPATH:$.pm1"]
+      Type number : AirrohrPM10 "PM10 in µg/m^3" [ stateTopic="enviroplus", transformationPattern="JSONPATH:$.pm10"]
+    }
 }
 

@@ -198,12 +198,12 @@ when
 then
     logInfo(filename, "Wohnung Heizmodus: Zeitprogramm: " + now.toString)
     LR_Radiator_PresetTemp.postUpdate(Wohnraum)
-    DR_Radiator_PresetTemp.postUpdate(Wohnraum)
+    DR_Radiator_PresetTemp.postUpdate(Kueche)
     KI_Radiator_PresetTemp.postUpdate(Kueche)
     HA_Radiator_PresetTemp.postUpdate(Flur)
-    MAB_Radiator_PresetTemp.postUpdate(Wohnraum)
+    MAB_Radiator_PresetTemp.postUpdate(Schlafzimmer)
     MIB_Radiator_PresetTemp.postUpdate(Wohnraum)
-    BAB_Radiator_PresetTemp.postUpdate(Wohnraum)
+    BAB_Radiator_PresetTemp.postUpdate(Schlafzimmer)
     Home_Heating_UpdateHeater.sendCommand(ON)
 end
 
@@ -213,7 +213,7 @@ when
 then
     logInfo(filename, "Wohnung Heizmodus: Zeitprogramm: " + now.toString)
     LR_Radiator_PresetTemp.postUpdate(Wohnraum)
-    DR_Radiator_PresetTemp.postUpdate(Wohnraum)
+    DR_Radiator_PresetTemp.postUpdate(Kueche)
     KI_Radiator_PresetTemp.postUpdate(Kueche)
     HA_Radiator_PresetTemp.postUpdate(Flur)
     MAB_Radiator_PresetTemp.postUpdate(Schlafzimmer)
@@ -228,12 +228,12 @@ when
 then
     logInfo(filename, "Wohnung Heizmodus: Zeitprogramm: " + now.toString)
     LR_Radiator_PresetTemp.postUpdate(Wohnraum)
-    DR_Radiator_PresetTemp.postUpdate(Wohnraum)
+    DR_Radiator_PresetTemp.postUpdate(Kueche)
     KI_Radiator_PresetTemp.postUpdate(Kueche)
     HA_Radiator_PresetTemp.postUpdate(Flur)
-    MAB_Radiator_PresetTemp.postUpdate(Wohnraum)
+    MAB_Radiator_PresetTemp.postUpdate(Schlafzimmer)
     MIB_Radiator_PresetTemp.postUpdate(Wohnraum)
-    BAB_Radiator_PresetTemp.postUpdate(Wohnraum)
+    BAB_Radiator_PresetTemp.postUpdate(Schlafzimmer)
     Home_Heating_UpdateHeater.sendCommand(ON)
 end
 
@@ -271,7 +271,7 @@ when
 then
     logInfo(filename, "Wohnung Heizmodus: Zeitprogramm: " + now.toString)
     LR_Radiator_PresetTemp.postUpdate(Wohnraum)
-    DR_Radiator_PresetTemp.postUpdate(Wohnraum)
+    DR_Radiator_PresetTemp.postUpdate(Kueche)
     KI_Radiator_PresetTemp.postUpdate(Kueche)
     HA_Radiator_PresetTemp.postUpdate(Flur)
     MAB_Radiator_PresetTemp.postUpdate(Schlafzimmer)

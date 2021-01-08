@@ -14,6 +14,8 @@ followed by a
     sudo openhabian-config
 In order to select additional software/settings, go to local/timezone under `System Settings` or installing Log Viewer in `Optional Components`. Additionally an MQTT server should be installed, if sensors with that capability are needed, or e.g. ebusd with MQTT support is interfaced.
 
+Some of the homematic/heating modes is inspired by [Thom Dietrich's github repo](https://github.com/ThomDietrich/openhab-config).
+
 [eBus](http://eBus-wiki.org/doku.php)
 -----
 
@@ -185,3 +187,17 @@ Now in order to be able to write data to this database, openHAb needs to be conf
 
 	# The retention policy to be used, needs to configured in InfluxDB
 	retentionPolicy=autogen
+
+
+Measuring air quality (luftdaten + MQTT)
+----------
+Due to the pandemic, I have become interested in measuring air quality personally, as well as liked the idea in contributing to a citizen science project, which [luftdaten.info](https://luftdaten.info) is!
+In order to get things up and running quickly, I went with an Enviro+ from Pimoroni, which sends its PM2.5 and PM10 data to luftdaten.info as well, when registered, so I followed this [tutorial](https://learn.pimoroni.com/tutorial/sandyj/enviro-plus-and-luftdaten-air-quality-station) to get the board up and running.
+
+Now the original scripts only allow single use case scenarios i.e. either sending data luftdaten or just via MQTT and running both in parallels does not work due to a clash in access to the various sensors through their respective bus. I wanted to do both and simply inforporated both into a single file. It is not optimised, but does the job as I want to collect the PM data over time through influx and display it with grafana for later analysis.
+
+The raw data looks like this:
+	
+	{"temperature": 7, "pressure": 100970, "humidity": 40, "oxidised": 9, "reduced": 592, "nh3": 677, "lux": 0, "pm1": 25, "pm25": 40, "pm10": 42, "serial": "00000000xyzxyzxyz"}
+
+As the RPI/enviro+ board  and PM sensors are stuck inside two 90º bent plastic pipes to cover these from rain, the lux is 0. The temperature value seems off, and I could calibrate it in the future. The same goes for the gas values, which are only outputting absolute resistance values, which, without calibration, do not mean much for the time being. I will try and collect them anyways.
