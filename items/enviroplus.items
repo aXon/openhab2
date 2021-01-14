@@ -1,5 +1,8 @@
 Group gEnvironment "Environment data" (Home)
 
-Number PM1  "Enviro+ PM1 [%d µg/m^3]" <temperature>   (gEnvironment,History) {channel="mqtt:topic:mosquitto:enviroplus:AirrohrPM1" }
-Number PM10 "Enviro+ PM10 [%d µg/m^3]" <temperature>   (gEnvironment,History) {channel="mqtt:topic:mosquitto:enviroplus:AirrohrPM10" }
-Number PM25 "Enviro+ PM25 [%d µg/m^3]" <temperature>   (gEnvironment,History) {channel="mqtt:topic:mosquitto:enviroplus:AirrohrPM25" }
+Number Enviroplus_PM1  "Enviro+ PM1 [%d µg/m^3]" <smoke>   (gEnvironment,History) {channel="mqtt:topic:mosquitto:enviroplus:AirrohrPM1" }
+Number Enviroplus_PM25 "Enviro+ PM2.5 [%d µg/m^3]" <smoke>   (gEnvironment,History) {channel="mqtt:topic:mosquitto:enviroplus:AirrohrPM25" }
+Number Emviroplus_PM10 "Enviro+ PM10 [%d µg/m^3]" <smoke>   (gEnvironment,History) {channel="mqtt:topic:mosquitto:enviroplus:AirrohrPM10" }
+Number Enviroplus_Temp "Enviro+ Temperature [%d ªC]" <temperature>   (gEnvironment,History) {channel="mqtt:topic:mosquitto:enviroplus:AirrohrTemp" }
+Number Enviroplus_Humidity "Enviro+ Humidity [%d %%]"    <humidity>   (gEnvironment,History) {channel="mqtt:topic:mosquitto:enviroplus:AirrohrHumidity" }
+Number Emnvioplus_Pressure "Enviro+ Pressure [%d mbar]" <pressure>   (gEnvironment,History) {channel="mqtt:topic:mosquitto:enviroplus:AirrohrPressure" }
