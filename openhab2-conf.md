@@ -188,6 +188,20 @@ Now in order to be able to write data to this database, openHAb needs to be conf
 	# The retention policy to be used, needs to configured in InfluxDB
 	retentionPolicy=autogen
 
+Power monitor
+----------
+The project by David00 and hardware is great, as it can capture up to 6 channels of power consumption. It also comes fully equipped with scripts to run it off the raspberry pi completely alone, however, I would like to have it all in one influxdb database, rather than several. Hence, I created another table, which would get this data instead. As the login is now protected, one has to supply the username and empty password to get the password prompt:
+
+	$ influx - username 'admin' -password ''
+	Connected to http://localhost:8086 version 0.13
+	InfluxDB shell version: 0.13
+	> CREATE DATABASE power_monitor_db
+	> CREATE USER power_monitor WITH PASSWORD 'SuperSecretPass'
+	> GRANT ALL ON power_monitor_db TO power_monitor
+	> GRANT READ ON power_monitor_db TO grafana
+	> exit
+
+
 
 Measuring air quality (luftdaten + MQTT)
 ----------

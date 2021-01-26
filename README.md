@@ -12,6 +12,8 @@ The following has been implemented and partly added to the overall description:
 - MQTT devices
 	- Vaillant boiler/control through [eBusd](https://github.com/john30/ebusd) using an adapter from the [original eBusd developer](https://ebusd.eu)
 	- Zigbee devices via [Zigbee2MQTT](https://www.zigbee2mqtt.io) using a [zig-a-zig-ah! (CC2652 Stick)](https://electrolama.com/projects/zig-a-zig-ah/)
+	- [Sonoff](https://sonoff.tech) devices running [Tasmota](https://tasmota.github.io/docs/) to control (some) lighting
+	- Power monitoring with a Raspberry Pi and a board from [David00](https://github.com/David00/rpi-power-monitor). To integrate it with openhab,  and MQTT capability was added to the scripts that usually output to InfluxDB only.
 - presence detection
 	- network pings to phones/computers
 - weather/environment
@@ -22,3 +24,5 @@ Todo list:
 - Add [owntracks](https://owntracks.org/booklet/) through a private MQTT server for presence and automatic heating switches
 - Enhance heating mode by automatically switching the ebus controller heating mode depending on season and outside temperature
 - make presence work with heating modes
+
+NB: this is aimed at openHAB 2.5.x at the moment.

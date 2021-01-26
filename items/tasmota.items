@@ -1,0 +1,7 @@
+// lighting control via Sonoff 4ch pro relays
+Switch    LoftSideLights       "Loft sidelights"  (Lighting) {channel="mqtt:topic:mosquitto:tasmota:LoftSideLights_Switch"}
+Switch    LoftMainLights       "Loft main lights"  (Lighting) {channel="mqtt:topic:mosquitto:tasmota:LoftMain_Switch"}
+Switch    HallwayUpstairsLight "Hallway upstairs light"  (Lighting) {channel="mqtt:topic:mosquitto:tasmota:HallwayUpstairs_Switch"}
+Switch    MasterBedroomLight   "Master bedroom light"  (Lighting) {channel="mqtt:topic:mosquitto:tasmota:MasterBedroom_Switch"}
+Switch    MiddleBedroomLight   "Middle bedroom light"  (Lighting) {channel="mqtt:topic:mosquitto:tasmota:MiddleBedroom_Switch"}
+Switch    BackbedroomLight     "Back bedroom light"  (Lighting) {channel="mqtt:topic:mosquitto:tasmota:BackBedroom_Switch"}

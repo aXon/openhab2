@@ -57,5 +57,17 @@ Bridge mqtt:broker:mosquitto [ host="127.0.0.1", port="1883", secure=false,clien
       Type number : AirrohrHumidity "Relative humidity in %"  [ stateTopic="enviroplus", transformationPattern="JSONPATH:$.humidity"]
       Type number : AirrohrPressure "Pressure in ?bar" [ stateTopic="enviroplus", transformationPattern="JSONPATH:$.pressure"]
     }
+
+    Thing topic tasmota "Tasmota lighting" @ "Inside" {
+    Channels:
+        // Sonoff 4chPro R3 TasmotaLoft2
+        Type switch : LoftSideLights_Switch  [stateTopic="stat/TasmotaLoft2/POWER1",  commandTopic="cmnd/TasmotaLoft2/POWER1", on="ON", off="OFF"]
+        Type switch : LoftMain_Switch  [stateTopic="stat/TasmotaLoft2/POWER2",  commandTopic="cmnd/TasmotaLoft2/POWER2", on="ON", off="OFF"]
+	// Sonoff 4chPro R3 TasmotaLoft1
+        Type switch : HallwayUpstairs_Switch  [stateTopic="stat/TasmotaLoft1/POWER4",  commandTopic="cmnd/TasmotaLoft1/POWER4", on="ON", off="OFF"]
+        Type switch : MasterBedroom_Switch  [stateTopic="stat/TasmotaLoft1/POWER2",  commandTopic="cmnd/TasmotaLoft1/POWER2", on="ON", off="OFF"]
+        Type switch : MiddleBedroom_Switch  [stateTopic="stat/TasmotaLoft1/POWER1",  commandTopic="cmnd/TasmotaLoft1/POWER1", on="ON", off="OFF"]
+        Type switch : BackBedroom_Switch  [stateTopic="stat/TasmotaLoft1/POWER3",  commandTopic="cmnd/TasmotaLoft1/POWER3", on="ON", off="OFF"]
+    }
 }
 
