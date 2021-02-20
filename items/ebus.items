@@ -22,7 +22,7 @@ Switch Boiler_Ignitor           "Boiler ignitor"                    			     (eBu
 Number VRC700_OutsideTemp       "VRC700 Outside temperature [%.2f °C]" <temperature>    (eBusGroup,History) {channel="mqtt:topic:mosquitto:b7v:DisplayedOutsideTemp" }
 Number VRC700_RoomTemp          "VRC700 Room temperature [%.2f °C]" <temperature>       (eBusGroup,History) {channel="mqtt:topic:mosquitto:b7v:RoomTemp" }
 Number VRC700_DayTemp           "VRC700 Desired day temperature [%.2f °C]" <temperature>       (eBusGroup) {channel="mqtt:topic:mosquitto:b7v:DayTemp" }
-// energy consumption
+// energy consumption - electricity
 Number VRC700_ESumHwcThisMonth   "Electricity usage hot water this month [%d kWh]" <energy>       (eBusGroup,History) {channel="mqtt:topic:mosquitto:b7v:ElectricitySumHotWaterThisMonth" }
 Number VRC700_ESumHcThisMonth    "Electricity usage heating this month [%d kWh]" <energy>       (eBusGroup,History) {channel="mqtt:topic:mosquitto:b7v:ElectricitySumHeatingThisMonth" }
 Number VRC700_ESumHwcLastMonth   "Electricity usage hot water last month [%d kWh]" <energy>       (eBusGroup,History) {channel="mqtt:topic:mosquitto:b7v:ElectricitySumHotWaterLastMonth" }
@@ -30,3 +30,11 @@ Number VRC700_ESumHcLastMonth    "Electricity usage heating last month  [%d kWh]
 Number VRC700_ESumHwcLifetime   "Electricity usage hot water total [%d kWh]" <energy>       (eBusGroup,History) {channel="mqtt:topic:mosquitto:b7v:ElectricitySumHotWaterLifetime" }
 Number VRC700_ESumHcLifetime    "Electricity usage heating total [%d kWh]" <energy>       (eBusGroup,History) {channel="mqtt:topic:mosquitto:b7v:ElectricitySumHeatingLifetime" }
 Number VRC700_ESumLifetime      "Electricity usage total [%d kWh]" <energy>       (eBusGroup,History) {channel="mqtt:topic:mosquitto:b7v:ElectricitySumLifetime" }
+// energy consumption - gas
+Number VRC700_GSumHwcThisMonth   "Gas usage hot water this month [%d kWh]" <energy>       (eBusGroup,History) {channel="mqtt:topic:mosquitto:b7v:GasSumHotWaterThisMonth" }
+Number VRC700_GSumHcThisMonth    "Gas usage heating this month [%d kWh]" <energy>       (eBusGroup,History) {channel="mqtt:topic:mosquitto:b7v:GasSumHeatingThisMonth" }
+Number VRC700_GSumHwcLastMonth   "Gas usage hot water last month [%d kWh]" <energy>       (eBusGroup,History) {channel="mqtt:topic:mosquitto:b7v:GasSumHotWaterLastMonth" }
+Number VRC700_GSumHcLastMonth    "Gas usage heating last month  [%d kWh]" <energy>       (eBusGroup,History) {channel="mqtt:topic:mosquitto:b7v:GasSumHeatingLastMonth" }
+Number VRC700_GSumHwcLifetime   "Gas usage hot water total [%d kWh]" <energy>       (eBusGroup,History) {channel="mqtt:topic:mosquitto:b7v:GasSumHotWaterLifetime" }
+Number VRC700_GSumHcLifetime    "Gas usage heating total [%d kWh]" <energy>       (eBusGroup,History) {channel="mqtt:topic:mosquitto:b7v:GasSumHeatingLifetime" }
+Number VRC700_GSumLifetime      "Gas usage total [%d kWh]" <energy>       (eBusGroup,History) {channel="mqtt:topic:mosquitto:b7v:GasSumLifetime" }

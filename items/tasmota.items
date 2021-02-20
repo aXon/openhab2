@@ -1,7 +1,14 @@
 // lighting control via Sonoff 4ch pro relays
-Switch    LoftSideLights       "Loft sidelights"  (Lighting) {channel="mqtt:topic:mosquitto:tasmota:LoftSideLights_Switch"}
-Switch    LoftMainLights       "Loft main lights"  (Lighting) {channel="mqtt:topic:mosquitto:tasmota:LoftMain_Switch"}
-Switch    HallwayUpstairsLight "Hallway upstairs light"  (Lighting) {channel="mqtt:topic:mosquitto:tasmota:HallwayUpstairs_Switch"}
-Switch    MasterBedroomLight   "Master bedroom light"  (Lighting) {channel="mqtt:topic:mosquitto:tasmota:MasterBedroom_Switch"}
-Switch    MiddleBedroomLight   "Middle bedroom light"  (Lighting) {channel="mqtt:topic:mosquitto:tasmota:MiddleBedroom_Switch"}
-Switch    BackbedroomLight     "Back bedroom light"  (Lighting) {channel="mqtt:topic:mosquitto:tasmota:BackBedroom_Switch"}
+// using a second channel and profile follow to make the side lights act the same way as the main loftlights
+
+Group:Switch:OR(ON,OFF) AllLights  "All Lights"
+//Group:Switch:OR(ON,OFF) gHallwayLights "Hallway Lights"
+//Group:Switch:OR(ON,OFF) gOfficeLights "Office Lights"
+
+Switch    LoftSideLights       "Loft sidelights"  (Lighting) {channel="mqtt:topic:mosquitto:tasmota:LoftMain_Switch", channel="mqtt:topic:mosquitto:tasmota:LoftSideLights_Switch" [profile="follow"]}
+Switch    LoftMainLights       "Loft main lights"  (AllLights,Lighting) {channel="mqtt:topic:mosquitto:tasmota:LoftMain_Switch"}
+// normal setup i.e. switching lights individually
+Switch    HallwayUpstairsLight "Hallway upstairs light"  (AllLights,Lighting) {channel="mqtt:topic:mosquitto:tasmota:HallwayUpstairs_Switch"}
+Switch    MasterBedroomLight   "Master bedroom light"  (AllLights,Lighting) {channel="mqtt:topic:mosquitto:tasmota:MasterBedroom_Switch"}
+Switch    MiddleBedroomLight   "Middle bedroom light"  (AllLights,Lighting) {channel="mqtt:topic:mosquitto:tasmota:MiddleBedroom_Switch"}
+Switch    BackbedroomLight     "Back bedroom light"  (AllLights,Lighting) {channel="mqtt:topic:mosquitto:tasmota:BackBedroom_Switch"}

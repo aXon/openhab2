@@ -6,9 +6,13 @@ sitemap homebase label="Homebase M&N" {
         Group item=Weather
         Group item=eBusGroup
         Group item=gEnvironment
-	Group item=Lighting
         Group item=Presence_Sensors label= "Home presence"
     }
+
+    Frame label="Lighting System"{
+	Switch item=AllLights mappings=[OFF="All Off", ON="All On"]
+	Group item=Lighting
+   }
     
     Frame label="Temperatures and heating" {
         //

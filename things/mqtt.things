@@ -35,6 +35,13 @@ Bridge mqtt:broker:mosquitto [ host="127.0.0.1", port="1883", secure=false,clien
         Type number : ElectricitySumHotWaterLifetime "Total hot water electricity usage in kWh" [ stateTopic="ebusd/b7v/PrEnergySumHwc"]
         Type number : ElectricitySumHeatingLifetime "Total heating electricity usage in kWh" [ stateTopic="ebusd/b7v/PrEnergySumHc"]
         Type number : ElectricitySumLifetime "Total heating electricity usage in kWh" [ stateTopic="ebusd/b7v/PrEnergySum"]
+        Type number : GasSumHotWaterThisMonth "Hot water gas usage in kWh (this month)" [ stateTopic="ebusd/b7v/PrFuelSumHwcThisMonth"] // this might not amount to much per month or change a lot throughout
+        Type number : GasSumHeatingThisMonth "Heating gas usage in kWh (this month)" [ stateTopic="ebusd/b7v/PrFuelSumHcThisMonth"]
+        Type number : GasSumHotWaterLastMonth "Hot water gas usage in kWh (last month)" [ stateTopic="ebusd/b7v/PrFuelSumHwcLastMonth"] // same here
+        Type number : GasSumHeatingLastMonth "Heating gas usage in kWh (last month)" [ stateTopic="ebusd/b7v/PrFuelSumHcLastMonth"]
+        Type number : GasSumHotWaterLifetime "Total hot water gas usage in kWh" [ stateTopic="ebusd/b7v/PrFuelSumHwc"]
+        Type number : GasSumHeatingLifetime "Total heating gas usage in kWh" [ stateTopic="ebusd/b7v/PrFuelSumHc"]
+        Type number : GasSumLifetime "Total heating gas usage in kWh" [ stateTopic="ebusd/b7v/PrFuelSum"]
     }
 
     // Zigbee2MQTT things
@@ -53,6 +60,9 @@ Bridge mqtt:broker:mosquitto [ host="127.0.0.1", port="1883", secure=false,clien
       Type number : AirrohrPM25 "PM2.5 in µg/m^3" [ stateTopic="enviroplus", transformationPattern="JSONPATH:$.pm25"]
       Type number : AirrohrPM1 "PM1 in µg/m^3" [ stateTopic="enviroplus", transformationPattern="JSONPATH:$.pm1"]
       Type number : AirrohrPM10 "PM10 in µg/m^3" [ stateTopic="enviroplus", transformationPattern="JSONPATH:$.pm10"]
+      Type number : AirrohrGasCO "CO in Ω" [ stateTopic="enviroplus", transformationPattern="JSONPATH:$.reduced"]
+      Type number : AirrohrGasNO2 "NO2 in Ω" [ stateTopic="enviroplus", transformationPattern="JSONPATH:$.oxidised"]
+      Type number : AirrohrGasNH3 "NH3 in Ω" [ stateTopic="enviroplus", transformationPattern="JSONPATH:$.nh3"]
       Type number : AirrohrTemp "Temperature in ºC" [ stateTopic="enviroplus", transformationPattern="JSONPATH:$.temperature"]
       Type number : AirrohrHumidity "Relative humidity in %"  [ stateTopic="enviroplus", transformationPattern="JSONPATH:$.humidity"]
       Type number : AirrohrPressure "Pressure in ?bar" [ stateTopic="enviroplus", transformationPattern="JSONPATH:$.pressure"]

@@ -13,7 +13,7 @@ Group   LDR     "Living and dining room"    <video>     (Home)
 Group   HAL     "Entrance and hallway"      <corridor>  (Home)
 
 // Lighting groups
-Group	Lighting  "Lights" 		   <lightbulb>   (Home)
+Group	Lighting  "Lights" 		   <lightbulb>   (Home,History)
 
 // Persistence groups i.e. for charting 
 Group History

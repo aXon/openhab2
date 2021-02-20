@@ -4,3 +4,6 @@ Dimmer Dim_bulb   "Dimmer Livarno bulb [%d %%]" {channel="mqtt:topic:mosquitto:b
 Color Bulb_colorpicker "Bulb color from color picker"
 String Bulb_color "Bulb color hex" {channel="mqtt:topic:mosquitto:bulb:color"}
 Dimmer Bulb_color_temp "Color temp bulb [%d %%]" {channel="mqtt:topic:mosquitto:bulb:color_temp"}
+
+// colour changing
+Switch Bulb_colour_change "Bulb colour changing mode"

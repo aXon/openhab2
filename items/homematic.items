@@ -13,7 +13,7 @@ Group                     Heating_MIB           "Heizung Middle bedroom"        
 Group                     Heating_BAB           "Heating Back bedroom"                          <heating>         (Heating_Group) ["Thermostat"]
 Group                     Heating_KI            "Heating Breakfast room"                        <heating>         (Heating_Group) ["Thermostat"]
 
-Group:Number:AVG          Heating_TargetTemps    "Set temperatures [%.1f °C]"                   <temperature>     (Heating_Group)
+Group:Number:AVG          Heating_TargetTemps    "Set temperatures [%.1f °C]"                   <temperature>     (Heating_Group,History) // in order to know set points, this data will also need to be captured
 Group:Switch:OR(ON, OFF)  Heating_ValveSettings  "Active Radiators [%d]"                        <heating>         (Heating_Group)
 Group                     Heating_OpModes        "Room temperatures mode [%.1f °C]"             <"heating-off">   (Heating_Group)
 Group:Number:AVG          Heating_TargetPresets  "Room set temperatures timer program [%.1f °C]" <line>           (Heating_Group)
@@ -35,7 +35,7 @@ Switch LR_Radiator_BoostMode         "LR_Radiator Boost-Mode"                   
 Number LR_Radiator_BoostTime         "LR_Radiator Boost-Remaining [%d min]"                    <"clock-on">      (Heating_LR)                          {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712690:4#BOOST_STATE"}
 // wall thermostat
 Number LR_WallThermostat_ActTemp     "LR_WallThermostat Actual temperature [%.1f °C]"          <temperature>     (Heating_LR,LDR,Temperatures)       {channel="homematic:HM-TC-IT-WM-W-EU:ccu:OEQ1671866:2#ACTUAL_TEMPERATURE"}
-Number LR_WallThermostat_ActHumidity "LR_WallThermostat Actual humidity [%2d %%]"               <humidity>        (Heating_LR,LDR,Humidity)           {channel="homematic:HM-TC-IT-WM-W-EU:ccu:OEQ1671866:2#ACTUAL_HUMIDITY"}
+Number LR_WallThermostat_ActHumidity "LR_WallThermostat Actual humidity [%.1f %%]"               <humidity>        (Heating_LR,LDR,Humidity)           {channel="homematic:HM-TC-IT-WM-W-EU:ccu:OEQ1671866:2#ACTUAL_HUMIDITY"}
 Number LR_WallThermostat_SetTemp     "LR_WallThermostat Set temperature [%.1f °C]"             <temperature>     (Heating_LR,LDR,Heating_TargetTemps)  {channel="homematic:HM-TC-IT-WM-W-EU:ccu:OEQ1671866:2#SET_TEMPERATURE"}
 String LR_WallThermostat_Mode       "LR_WallThermostat Control mode [MAP(HM-CC-RT-DN.map):%s]" <"heating-off">   (Heating_LR,LDR,Heating_OpModes)   {channel="homematic:HM-TC-IT-WM-W-EU:ccu:OEQ1671866:2#CONTROL_MODE"}
 // the following three items are used by rules to store values
@@ -92,7 +92,7 @@ String HA_Radiator_Summary           "HA_Radiator Overview [%s]"                
 
 // wall thermostat for both hallway and entrance radiators
 Number HA_EN_WallThermostat_ActTemp     "HA & EN WallThermostat Actual temperature [%.1f °C]"   <temperature>     (Heating_HA,Heating_EN,Temperatures)       {channel="homematic:HM-TC-IT-WM-W-EU:ccu:PEQ1185580:2#ACTUAL_TEMPERATURE"}
-Number HA_EN_WallThermostat_ActHumidity "HA & EN WallThermostat Actual humidity [%2d %%]"       <humidity>        (Heating_HA, Heating_EN,HAL,Humidity)           {channel="homematic:HM-TC-IT-WM-W-EU:ccu:PEQ1185580:2#ACTUAL_HUMIDITY"}
+Number HA_EN_WallThermostat_ActHumidity "HA & EN WallThermostat Actual humidity [%.1f %%]"       <humidity>        (Heating_HA, Heating_EN,HAL,Humidity)           {channel="homematic:HM-TC-IT-WM-W-EU:ccu:PEQ1185580:2#ACTUAL_HUMIDITY"}
 Number HA_EN_WallThermostat_SetTemp     "HA & EN WallThermostat Set temperature [%.1f °C]"      <temperature>     (Heating_HA,Heating_EN,HAL,Heating_TargetTemps)  {channel="homematic:HM-TC-IT-WM-W-EU:ccu:PEQ1185580:2#SET_TEMPERATURE"}
 String HA_EN_WallThermostat_Mode        "HA & EN WallThermostat Control mode [MAP(HM-CC-RT-DN.map):%s]"  <"heating-off">   (Heating_HA,Heating_EN,HAL,Heating_OpModes)   {channel="homematic:HM-TC-IT-WM-W-EU:ccu:PEQ1185580:2#CONTROL_MODE"}
 
@@ -109,7 +109,7 @@ Switch KI_Radiator_BoostMode         "KI_Radiator Boost-Mode"                   
 Number KI_Radiator_BoostTime         "KI_Radiator Boost-Remaining [%d min]"                  <"clock-on">      (Heating_KI)                          {channel="homematic:HM-CC-RT-DN:ccu:OEQ1710110:4#BOOST_STATE"}
 // wall thermostat
 Number KI_WallThermostat_ActTemp     "KI_WallThermostat Actual temperature [%.1f °C]"          <temperature>     (Heating_KI,KI,Temperatures)       {channel="homematic:HM-TC-IT-WM-W-EU:ccu:OEQ1671862:2#ACTUAL_TEMPERATURE"}
-Number KI_WallThermostat_ActHumidity "KI_WallThermostat Actual humidity [%2d %%]"               <humidity>        (Heating_KI,KI,Humidity)           {channel="homematic:HM-TC-IT-WM-W-EU:ccu:OEQ1671862:2#ACTUAL_HUMIDITY"}
+Number KI_WallThermostat_ActHumidity "KI_WallThermostat Actual humidity [%.1f %%]"               <humidity>        (Heating_KI,KI,Humidity)           {channel="homematic:HM-TC-IT-WM-W-EU:ccu:OEQ1671862:2#ACTUAL_HUMIDITY"}
 Number KI_WallThermostat_SetTemp     "KI_WallThermostat Set temperature [%.1f °C]"             <temperature>     (Heating_KI,KI,Heating_TargetTemps)  {channel="homematic:HM-TC-IT-WM-W-EU:ccu:OEQ1671862:2#SET_TEMPERATURE"}
 String KI_WallThermostat_Mode        "KI_WallThermostat Control mode [MAP(HM-CC-RT-DN.map):%s]" <"heating-off">   (Heating_KI,KI,Heating_OpModes)    {channel="homematic:HM-TC-IT-WM-W-EU:ccu:OEQ1671862:2#CONTROL_MODE"}
 // rules placeholders
@@ -129,7 +129,7 @@ Switch MAB_Radiator_BoostMode         "MAB_Radiator Boost-Mode"                 
 Number MAB_Radiator_BoostTime         "MAB_Radiator Boost-Remaining [%d min]"                  <"clock-on">      (Heating_MAB)                          {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712694:4#BOOST_STATE"}
 // wall thermostat
 Number MAB_WallThermostat_ActTemp     "MAB_WallThermostat Actual temperature [%.1f °C]"          <temperature>     (Heating_MAB,MAB,Temperatures)       {channel="homematic:HM-TC-IT-WM-W-EU:ccu:OEQ1671839:2#ACTUAL_TEMPERATURE"}
-Number MAB_WallThermostat_ActHumidity "MAB_WallThermostat Actual humidity [%2d %%]"               <humidity>        (Heating_MAB,MAB,Humidity)           {channel="homematic:HM-TC-IT-WM-W-EU:ccu:OEQ1671839:2#ACTUAL_HUMIDITY"}
+Number MAB_WallThermostat_ActHumidity "MAB_WallThermostat Actual humidity [%.1f %%]"               <humidity>        (Heating_MAB,MAB,Humidity)           {channel="homematic:HM-TC-IT-WM-W-EU:ccu:OEQ1671839:2#ACTUAL_HUMIDITY"}
 Number MAB_WallThermostat_SetTemp     "MAB_WallThermostat Set temperature [%.1f °C]"             <temperature>     (Heating_MAB,MAB,Heating_TargetTemps)  {channel="homematic:HM-TC-IT-WM-W-EU:ccu:OEQ1671839:2#SET_TEMPERATURE"}
 String MAB_WallThermostat_Mode        "MAB_WallThermostat Control mode [MAP(HM-CC-RT-DN.map):%s]" <"heating-off">   (Heating_MAB,MAB,Heating_OpModes)    {channel="homematic:HM-TC-IT-WM-W-EU:ccu:OEQ1671839:2#CONTROL_MODE"}
 Number MAB_Radiator_Preset            "MAB_Radiator Set temperature fast setting"                 <"heating-60">      (Heating_MAB)
@@ -148,7 +148,7 @@ Switch MIB_Radiator_BoostMode         "MIB_Radiator Boost-Mode"                 
 Number MIB_Radiator_BoostTime         "MIB_Radiator Boost-Remaining [%d min]"                  <"clock-on">      (Heating_MIB)                          {channel="homematic:HM-CC-RT-DN:ccu:OEQ1712717:4#BOOST_STATE"}
 // wall thermostat
 Number MIB_WallThermostat_ActTemp     "MIB_WallThermostat Actual temperature [%.1f °C]"          <temperature>     (Heating_MIB,MIB,Temperatures)       {channel="homematic:HM-TC-IT-WM-W-EU:ccu:PEQ1259002:2#ACTUAL_TEMPERATURE"}
-Number MIB_WallThermostat_ActHumidity "MIB_WallThermostat Actual humidity [%2d %%]"               <humidity>        (Heating_MIB,MIB,Humidity)           {channel="homematic:HM-TC-IT-WM-W-EU:ccu:PEQ1259002:2#ACTUAL_HUMIDITY"}
+Number MIB_WallThermostat_ActHumidity "MIB_WallThermostat Actual humidity [%.1f %%]"               <humidity>        (Heating_MIB,MIB,Humidity)           {channel="homematic:HM-TC-IT-WM-W-EU:ccu:PEQ1259002:2#ACTUAL_HUMIDITY"}
 Number MIB_WallThermostat_SetTemp     "MIB_WallThermostat Set temperature [%.1f °C]"             <temperature>     (Heating_MIB,MIB,Heating_TargetTemps)  {channel="homematic:HM-TC-IT-WM-W-EU:ccu:PEQ1259002:2#SET_TEMPERATURE"}
 String MIB_WallThermostat_Mode        "MIB_WallThermostat Control mode [MAP(HM-CC-RT-DN.map):%s]" <"heating-off">   (Heating_MIB,MIB,Heating_OpModes)    {channel="homematic:HM-TC-IT-WM-W-EU:ccu:PEQ1259002:2#CONTROL_MODE"}
 Number MIB_Radiator_Preset            "MIB_Radiator Set temperature fast setting"                 <"heating-60">      (Heating_MIB)
@@ -167,10 +167,16 @@ Switch BAB_Radiator_BoostMode         "BAB_Radiator Boost-Mode"                 
 Number BAB_Radiator_BoostTime         "BAB_Radiator Boost-Remaining [%d min]"                  <"clock-on">      (Heating_BAB)                          {channel="homematic:HM-CC-RT-DN:ccu:OEQ1710187:4#BOOST_STATE"}
 // wall thermostat
 Number BAB_WallThermostat_ActTemp     "BAB_WallThermostat Actual temperature [%.1f °C]"          <temperature>     (Heating_BAB,BAB,Temperatures)       {channel="homematic:HM-TC-IT-WM-W-EU:ccu:PEQ1259021:2#ACTUAL_TEMPERATURE"}
-Number BAB_WallThermostat_ActHumidity "BAB_WallThermostat Actual humidity [%2d %%]"               <humidity>       (Heating_BAB,BAB,Humidity)           {channel="homematic:HM-TC-IT-WM-W-EU:ccu:PEQ1259021:2#ACTUAL_HUMIDITY"}
+Number BAB_WallThermostat_ActHumidity "BAB_WallThermostat Actual humidity [%.1f %%]"               <humidity>       (Heating_BAB,BAB,Humidity)           {channel="homematic:HM-TC-IT-WM-W-EU:ccu:PEQ1259021:2#ACTUAL_HUMIDITY"}
 Number BAB_WallThermostat_SetTemp     "BAB_WallThermostat Set temperature [%.1f °C]"             <temperature>     (Heating_KI,BAB,Heating_TargetTemps)  {channel="homematic:HM-TC-IT-WM-W-EU:ccu:PEQ1259021:2#SET_TEMPERATURE"}
 String BAB_WallThermostat_Mode        "BAB_WallThermostat Control mode [MAP(HM-CC-RT-DN.map):%s]" <"heating-off">   (Heating_KI,BAB,Heating_OpModes)    {channel="homematic:HM-TC-IT-WM-W-EU:ccu:PEQ1259021:2#CONTROL_MODE"}
 Number BAB_Radiator_Preset            "BAB_Radiator Set temperature fast setting"                 <"heating-60">      (Heating_BAB)
 Number BAB_Radiator_PresetTemp        "BAB_Radiator Set temperature timer program [%.1f °C]"      <line>              (Heating_BAB,Heating_TargetPresets)
 String BAB_Radiator_Summary           "BAB_Radiator Overview [%s]"                                <thermometer_red>   (Heating_BAB,BAB)
+
+//GATEWAY-EXTRAS
+Switch Homematic_Reload_Datapoints  "Reload Datapoints"                                     (Home)            {channel="homematic:GATEWAY-EXTRAS-CCU:ccu:GWE00000000:0#RELOAD_ALL_FROM_GATEWAY"}
+Switch Homematic_Reload_RSSI        "Reload RSSI"                                           (Home)            {channel="homematic:GATEWAY-EXTRAS-CCU:ccu:GWE00000000:0#RELOAD_RSSI"}
+
+
 // vim: syntax=Xtend
