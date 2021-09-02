@@ -1,9 +1,32 @@
-Switch Switch_bulb "Switch Livarno bulb" {channel="mqtt:topic:mosquitto:bulb:onoff"}
-Dimmer Dim_bulb   "Dimmer Livarno bulb [%d %%]" {channel="mqtt:topic:mosquitto:bulb:dim"}
+Switch Switch_bulb "Downstairs Livarno bulb" (Lighting) {channel="mqtt:topic:mosquitto:bulb:onoff"}
+Dimmer Dim_bulb   "Downstairs Livarno bulb [%d %%]" (Lighting) {channel="mqtt:topic:mosquitto:bulb:dim", autoupdate="false", stateDescription=""[min="0", max="100"] }
+//Dimmer Dim_bulb   "Downstairs Livarno bulb [%d %%]" (Lighting) {channel="mqtt:topic:mosquitto:bulb:dim"}
 // the colour items work together, in that one collects the value from the colorpicker and the other is then used to control the lamp as a result of a rule being applied
-Color Bulb_colorpicker "Bulb color from color picker"
+Color Bulb_colorpicker "Downstairs Livarno bulb" (Lighting)
 String Bulb_color "Bulb color hex" {channel="mqtt:topic:mosquitto:bulb:color"}
-Dimmer Bulb_color_temp "Color temp bulb [%d %%]" {channel="mqtt:topic:mosquitto:bulb:color_temp"}
+Dimmer Bulb_color_temp "Downstairs Livarno bulb 1 color temp [%d %%]" (Lighting) {channel="mqtt:topic:mosquitto:bulb:color_temp"}
 
+Switch Switch_bulb1 "Upstairs Livarno bulb 1" (Lighting) {channel="mqtt:topic:mosquitto:bulb:onoff1"}
+Dimmer Dim_bulb1   "Upstairs Livarno bulb 1 [%d %%]" (Lighting) {channel="mqtt:topic:mosquitto:bulb:dim1"}
+// the colour items work together, in that one collects the value from the colorpicker and the other is then used to control the lamp as a result of a rule being applied
+Color Bulb1_colorpicker "Upstairs Livarno bulb 1" (Lighting)
+String Bulb1_color "Bulb color hex" {channel="mqtt:topic:mosquitto:bulb:color1"}
+Dimmer Bulb1_color_temp "Upstairs Livarno bulb 1 color temp [%d %%]" (Lighting) {channel="mqtt:topic:mosquitto:bulb:color_temp1"}
+
+Switch Switch_bulb2 "Upstairs Livarno bulb 2" (Lighting) {channel="mqtt:topic:mosquitto:bulb:onoff2"}
+Dimmer Dim_bulb2   "Upstairs Livarno bulb 2 [%d %%]" (Lighting) {channel="mqtt:topic:mosquitto:bulb:dim2"}
+// the colour items work together, in that one collects the value from the colorpicker and the other is then used to control the lamp as a result of a rule being applied
+Color Bulb2_colorpicker "Upstairs Livarno bulb 2" (Lighting)
+String Bulb2_color "Bulb color hex" {channel="mqtt:topic:mosquitto:bulb:color2"}
+Dimmer Bulb2_color_temp "Upstairs Livarno bulb 2 color temp [%d %%]" (Lighting) {channel="mqtt:topic:mosquitto:bulb:color_temp2"}
 // colour changing
-Switch Bulb_colour_change "Bulb colour changing mode"
+//Switch Bulb_colour_change "Bulb colour changing mode"
+
+// ZigBee 4 channel relay board
+Switch ptvo1_Switch1 "Switch1 RelayBoard1" {channel="mqtt:topic:mosquitto:ptvo-relay:ptvo1_Switch1"}
+Switch ptvo1_Switch2 "Switch1 RelayBoard2" {channel="mqtt:topic:mosquitto:ptvo-relay:ptvo1_Switch2"}
+Switch ptvo1_Switch3 "Switch1 RelayBoard3" {channel="mqtt:topic:mosquitto:ptvo-relay:ptvo1_Switch3"}
+Switch ptvo1_Switch4 "Switch1 RelayBoard4" {channel="mqtt:topic:mosquitto:ptvo-relay:ptvo1_Switch4"}
+
+String  CubeOne_Action "Cube One Action" {channel="mqtt:topic:mosquitto:cube:CubeOne_Action"}
+Number  CubeOne_Angle "Cube One Angle" {channel="mqtt:topic:mosquitto:cube:CubeOne_Angle"}

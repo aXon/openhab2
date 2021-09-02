@@ -45,13 +45,47 @@ Bridge mqtt:broker:mosquitto [ host="127.0.0.1", port="1883", secure=false,clien
     }
 
     // Zigbee2MQTT things
-    Thing topic bulb "zigbee2mqtt Livarno bulb" @ "Home" {
+    Thing topic bulb "zigbee2mqtt Livarno bulbs" @ "Home" {
     Channels:
     	Type switch : onoff "Switch Livarno bulb" [stateTopic="zigbee2mqtt/bulb/state", commandTopic="zigbee2mqtt/bulb/set/state", on="ON", off="OFF"]
-	    Type dimmer : dim "Dimmer Livarno bulb" [stateTopic="zigbee2mqtt/bulb/brightness", commandTopic="zigbee2mqtt/bulb/set/brightness", min=1, max=255, step=1]
-	    Type string : color "Color Livarno bulb" [stateTopic="zigbee2mqtt/bulb/color", commandTopic="zigbee2mqtt/bulb/set/color"]
-	    Type dimmer : color_temp "Hue Livarno bulb" [stateTopic="zigbee2mqtt/bulb/color_temp", commandTopic="zigbee2mqtt/bulb/set/color_temp", min=150, max=500 ,step=1 ]
+    	Type dimmer : dim "Dimmer Livarno bulb" [stateTopic="zigbee2mqtt/bulb/brightness", commandTopic="zigbee2mqtt/bulb/set/brightness", min=1, max=255, step=1]
+	Type string : color "Color Livarno bulb" [stateTopic="zigbee2mqtt/bulb/color", commandTopic="zigbee2mqtt/bulb/set/color"]
+	Type dimmer : color_temp "Hue Livarno bulb" [stateTopic="zigbee2mqtt/bulb/color_temp", commandTopic="zigbee2mqtt/bulb/set/color_temp", min=150, max=500 ,step=1 ]
+    	Type switch : onoff1 "Switch Bedroom bulb 1" [stateTopic="zigbee2mqtt/Bedroom_bulb1/state", commandTopic="zigbee2mqtt/Bedroom_bulb1/set/state", on="ON", off="OFF"]
+    	Type dimmer : dim1 "Dimmer Bedroom bulb 1" [stateTopic="zigbee2mqtt/Bedroom_bulb1/brightness", commandTopic="zigbee2mqtt/Bedroom_bulb1/set/brightness", min=1, max=255, step=1]
+	Type string : color1 "Color Bedroom bulb 1" [stateTopic="zigbee2mqtt/Bedroom_bulb1/color", commandTopic="zigbee2mqtt/Bedroom_bulb1/set/color"]
+	Type dimmer : color_temp1 "Hue Bedroom bulb 1" [stateTopic="zigbee2mqtt/Bedroom_bulb1/color_temp", commandTopic="zigbee2mqtt/Bedroom_bulb1/set/color_temp", min=150, max=500 ,step=1 ]
+    	Type switch : onoff2 "Switch Bedroom bulb 2" [stateTopic="zigbee2mqtt/Bedroom_bulb2/state", commandTopic="zigbee2mqtt/Bedroom_bulb2/set/state", on="ON", off="OFF"]
+    	Type dimmer : dim2 "Dimmer Bedroom bulb 2" [stateTopic="zigbee2mqtt/Bedroom_bulb2/brightness", commandTopic="zigbee2mqtt/Bedroom_bulb2/set/brightness", min=1, max=255, step=1]
+	Type string : color2 "Color Bedroom bulb " [stateTopic="zigbee2mqtt/Bedroom_bulb2/color", commandTopic="zigbee2mqtt/Bedroom_bulb2/set/color"]
+	Type dimmer : color_temp2 "Hue Bedroom bulb 2" [stateTopic="zigbee2mqtt/Bedroom_bulb2/color_temp", commandTopic="zigbee2mqtt/Bedroom_bulb2/set/color_temp", min=150, max=500 ,step=1 ]
     }
+
+     Thing topic ptvo-relay "Lidl Livarno multi-channel sockets" @ "Inside" {
+    Channels:
+	// Lidl 3-channel Zigbee capable extension
+        Type switch : Lidl1_Socket1  [stateTopic="zigbee2mqtt/LidlExtension1/state_l1", commandTopic="zigbee2mqtt/LidlExtension1/set/state_l1", on="ON", off="OFF"]
+        Type switch : Lidl1_Socket2  [stateTopic="zigbee2mqtt/LidlExtension1/state_l2", commandTopic="zigbee2mqtt/LidlExtension1/set/state_l2", on="ON", off="OFF"]
+        Type switch : Lidl1_Socket3  [stateTopic="zigbee2mqtt/LidlExtension1/state_l3", commandTopic="zigbee2mqtt/LidlExtension1/set/state_l3", on="ON", off="OFF"]
+    }
+
+    Thing topic ptvo-relay "ptvo.switch multi-channel relays" @ "Inside" {
+    Channels:
+	// RelayBoard 4-channel Zigbee capable relay
+        Type switch : ptvo1_Switch1  [stateTopic="zigbee2mqtt/RelayBoard1/state_l1", commandTopic="zigbee2mqtt/RelayBoard1/set/state_l1", on="ON", off="OFF"]
+        Type switch : ptvo1_Switch2  [stateTopic="zigbee2mqtt/RelayBoard1/state_l2", commandTopic="zigbee2mqtt/RelayBoard1/set/state_l2", on="ON", off="OFF"]
+        Type switch : ptvo1_Switch3  [stateTopic="zigbee2mqtt/RelayBoard1/state_l3", commandTopic="zigbee2mqtt/RelayBoard1/set/state_l3", on="ON", off="OFF"]
+        Type switch : ptvo1_Switch4  [stateTopic="zigbee2mqtt/RelayBoard1/state_l4", commandTopic="zigbee2mqtt/RelayBoard1/set/state_l4", on="ON", off="OFF"]
+        Type switch : ptvo1_Siren  [stateTopic="zigbee2mqtt/RelayBoard1/state_l5", commandTopic="zigbee2mqtt/RelayBoard1/set/state_l5", on="ON", off="OFF"]
+    }
+
+
+    Thing topic cube "Aquara Cube 1" @  "Inside" {
+    Channels:
+      Type string : CubeOne_Action  [stateTopic="zigbee2mqtt/CubeOne/action"]
+      Type number : CubeOne_Angle [stateTopic="zigbee2mqtt/CubeOne/angle"] 
+    }
+
 
     // Airrohr Pi things for environemtal data retrieval - data is pushed by the sensor to a single topic
     // raw data: {"temperature": 7, "pressure": 100970, "humidity": 39, "oxidised": 12, "reduced": 579, "nh3": 714, "lux": 0, "pm1": 23, "pm25": 40, "pm10": 43, "serial": "00000000xyzxyzyx"}

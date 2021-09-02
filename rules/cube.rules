@@ -1,0 +1,32 @@
+// Aqara cube action rules
+// could be refined by looking at the other parts of the update like angle etc 
+rule "Cube One Action"
+when
+    Item CubeOne_Action received update
+then
+    // acting on shake to change between ON/OFF
+    if (CubeOne_Action.state.toString == "shake"){
+	if (Switch_bulb.state == ON){
+		Switch_bulb.sendCommand("OFF")
+	}
+	else{
+		Switch_bulb.sendCommand("ON")
+	}
+    } 
+    // acting on a rotation: clockwise to increase as positive, anto-clockwise to decrease dimming as it is a negative number
+    // this works in conjunction with having added metadata to the actual dimmer item reflecting the brightness levels from 0-254 for the Livarno bulb
+    var Number newBrightness = 0
+    var Number maxBrightness = 100
+    if (CubeOne_Action.state.toString.contains("rotate")){
+	//calculate new brightness value, taking into account min/max cases
+	newBrightness = (Dim_bulb.state as Number) + CubeOne_Angle.state
+	if (newBrightness < 0){
+		newBrightness = 0
+	}
+	else if (newBrightness > maxBrightness) { 
+		newBrightness = maxBrightness
+	}
+	//logInfo("Cube One rules","Old dimmer {}, change {} and calculated {}",(Dim_bulb.state as Number),CubeOne_Angle.state, newBrightness)
+	Dim_bulb.sendCommand(newBrightness)
+    } 
+end

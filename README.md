@@ -14,6 +14,7 @@ The following has been implemented and partly added to the overall description:
 	- Zigbee devices via [Zigbee2MQTT](https://www.zigbee2mqtt.io) using a [zig-a-zig-ah! (CC2652 Stick)](https://electrolama.com/projects/zig-a-zig-ah/)
 	- [Sonoff](https://sonoff.tech) devices running [Tasmota](https://tasmota.github.io/docs/) to control (some) lighting
 	- Power monitoring with a Raspberry Pi and a board from [David00](https://github.com/David00/rpi-power-monitor). To integrate it with openhab,  and MQTT capability was added to the scripts that usually output to InfluxDB only.
+	- TTN IoT devices can be integrated using [MQTT](https://www.thethingsnetwork.org/docs/applications/mqtt/quick-start/index.html) as well, having to subscribe to their MQTT server with the Application ID and Key for authentication.
 - presence detection
 	- network pings to phones/computers
 - weather/environment

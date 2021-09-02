@@ -1,9 +1,21 @@
 sitemap otto label="Ottos Spielecke" {
-   Frame label="Zigbee2MQTT things" {
+   Frame label="Livarno bulb living room" {
         Switch item=Switch_bulb  label="Livarno bulb"
         Slider item=Dim_bulb label="Dimmer Livarno bulb [%d %%]" sendFrequency=500
         Slider item=Bulb_color_temp label="Color temp Livarno bulb" sendFrequency=500
         Colorpicker item=Bulb_colorpicker
+   }
+   Frame label="Livarno bulb bedroom 1" {
+        Switch item=Switch_bulb1  label="Livarno bulb"
+        Slider item=Dim_bulb1 label="Dimmer Livarno bulb [%d %%]" sendFrequency=500
+        Slider item=Bulb1_color_temp label="Color temp Livarno bulb" sendFrequency=500
+        Colorpicker item=Bulb1_colorpicker
+   }
+   Frame label="Livarno bulb bedroom 2" {
+        Switch item=Switch_bulb2  label="Livarno bulb"
+        Slider item=Dim_bulb2 label="Dimmer Livarno bulb [%d %%]" sendFrequency=500
+        Slider item=Bulb2_color_temp label="Color temp Livarno bulb" sendFrequency=500
+        Colorpicker item=Bulb2_colorpicker
    }
 }
 
