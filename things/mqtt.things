@@ -84,6 +84,7 @@ Bridge mqtt:broker:mosquitto [ host="127.0.0.1", port="1883", secure=false,clien
     Channels:
       Type string : CubeOne_Action  [stateTopic="zigbee2mqtt/CubeOne/action"]
       Type number : CubeOne_Angle [stateTopic="zigbee2mqtt/CubeOne/angle"] 
+      Type number : CubeOne_Side [stateTopic="zigbee2mqtt/CubeOne/side"] 
     }
 
 

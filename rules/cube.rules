@@ -1,5 +1,16 @@
 // Aqara cube action rules
-// could be refined by looking at the other parts of the update like angle etc 
+// action shake: ON/OFF
+// action rotation: dimmer control
+// cude side: changing to predefined colours
+// slide: cycling through all RGB colours
+
+var Timer colourTimer = null // global vairable for colour changing timer implementation
+var Boolean colourRunning = false
+
+val theColourArray = newArrayList(0, 0, 0, 0, 0, 1, 1, 2, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 15, 17, 18, 20, 22, 24, 26, 28, 30, 32, 35, 37, 39, 42, 44, 47, 49, 52, 55, 58, 60, 63, 66, 69, 72, 75, 78, 81, 85, 88, 91, 94, 97, 101, 104, 107, 111, 114, 117, 121, 124, 127, 131, 134, 137, 141, 144, 147, 150, 154, 157, 160, 163, 167, 170, 173, 176, 179, 182, 185, 188, 191, 194, 197, 200, 202, 205, 208, 210, 213, 215, 217, 220, 222, 224, 226, 229, 231, 232, 234, 236, 238, 239, 241, 242, 244, 245, 246, 248, 249, 250, 251, 251, 252, 253, 253, 254, 254, 255, 255, 255, 255, 255, 255, 255, 254, 254, 253, 253, 252, 251, 251, 250, 249, 248, 246, 245, 244, 242, 241, 239, 238, 236, 234, 232, 231, 229, 226, 224, 222, 220, 217, 215, 213, 210, 208, 205, 202, 200, 197, 194, 191, 188, 185, 182, 179, 176, 173, 170, 167, 163, 160, 157, 154, 150, 147, 144, 141, 137, 134, 131, 127, 124, 121, 117, 114, 111, 107, 104, 101, 97, 94, 91,  88, 85, 81, 78, 75, 72, 69, 66, 63, 60, 58, 55, 52, 49, 47, 44, 42, 39, 37, 35, 32, 30, 28, 26, 24, 22, 20, 18, 17, 15, 13, 12,  11, 9, 8, 7, 6, 5, 4, 3, 2, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+
+var Integer k = 0 // index variable
+
 rule "Cube One Action"
 when
     Item CubeOne_Action received update
@@ -28,5 +39,75 @@ then
 	}
 	//logInfo("Cube One rules","Old dimmer {}, change {} and calculated {}",(Dim_bulb.state as Number),CubeOne_Angle.state, newBrightness)
 	Dim_bulb.sendCommand(newBrightness)
-    } 
+    }
+    
+    	// set boolean to check if random should run or not
+    	if (CubeOne_Action.state.toString == "slide"){
+		if (colourRunning == true) { //turn off
+			colourRunning = false
+			colourTimer.cancel
+		}
+		else colourRunning = true //turn on
+	}
+	
+	colourTimer = createTimer(now, [ |
+		if (colourRunning == true) {
+
+		// first attempt, using random numbers
+		//	var red = (Math::random * 255.0).intValue + 1
+		//	var green = (Math::random * 255.0).intValue + 1
+		//	var blue = (Math::random * 255.0).intValue + 1
+		//	//logInfo("Cube One","Colour change random {}",value) 
+		//	var String hexColor = String.format("#%02X%02X%02X",red,green,blue)
+		//	sendCommand(Bulb_color, hexColor)
+		//	colourTimer.reschedule(now.plusMillis(2000))
+
+		// second attempt, using an array and index to cycle through all RGB colours
+		// idea taken from https://arduino.stackexchange.com/questions/35734/better-cycling-through-the-rgb-colors
+			if (k < 359){
+				k=k+1
+			}
+			else {
+				k= 0
+			}
+			var red =theColourArray.get( (k+120)%360 ) 
+			var green = theColourArray.get(k)
+			var blue = theColourArray.get((k+240)%360)
+			var String hexColor = String.format("#%02X%02X%02X",red,green,blue)
+			sendCommand(Bulb_color, hexColor)
+			colourTimer.reschedule(now.plusMillis(250))
+		}
+		else colourTimer = null
+	])
+end
+
+rule "Cube One Side"
+when
+	Item CubeOne_Side changed
+then
+	var String hexColor
+	switch (CubeOne_Side.state) {
+		case 0: { //cold white
+			Bulb_color_temp.sendCommand(0)
+		}
+		case 1: {
+			hexColor = String.format("#%02X%02X%02X",255,0,0)
+			sendCommand(Bulb_color, hexColor)
+		}
+		case 2: {
+			hexColor = String.format("#%02X%02X%02X",0,255,0)
+			sendCommand(Bulb_color, hexColor)
+		}
+		case 3: { // warm white
+			Bulb_color_temp.sendCommand(100)
+		}
+		case 4: {
+			hexColor = String.format("#%02X%02X%02X",255,0,255)
+			sendCommand(Bulb_color, hexColor)
+		}
+		case 5: {
+			hexColor = String.format("#%02X%02X%02X",0,0,255)
+			sendCommand(Bulb_color, hexColor)
+		}
+	}
 end
