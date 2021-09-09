@@ -5,6 +5,9 @@ Dimmer Dim_bulb   "Downstairs Livarno bulb [%d %%]" (Lighting) {channel="mqtt:to
 Color Bulb_colorpicker "Downstairs Livarno bulb" (Lighting)
 String Bulb_color "Bulb color hex" {channel="mqtt:topic:mosquitto:bulb:color"}
 Dimmer Bulb_color_temp "Downstairs Livarno bulb 1 color temp [%d %%]" (Lighting) {channel="mqtt:topic:mosquitto:bulb:color_temp", autoupdate="false", stateDescription=""[min="150", max="500"]}
+// colour changing proxy item - this is virtual, as it is not connected to any binding
+// this is necessary, as the colour changing can be initiated by using the switch in the UI, or through the Aqara cube 
+Switch Bulb_colour_cycle "Downstairs colour cycle" (Lighting)
 
 Switch Switch_bulb1 "Upstairs Livarno bulb 1" (Lighting) {channel="mqtt:topic:mosquitto:bulb:onoff1"}
 Dimmer Dim_bulb1   "Upstairs Livarno bulb 1 [%d %%]" (Lighting) {channel="mqtt:topic:mosquitto:bulb:dim1"}
@@ -19,8 +22,6 @@ Dimmer Dim_bulb2   "Upstairs Livarno bulb 2 [%d %%]" (Lighting) {channel="mqtt:t
 Color Bulb2_colorpicker "Upstairs Livarno bulb 2" (Lighting)
 String Bulb2_color "Bulb color hex" {channel="mqtt:topic:mosquitto:bulb:color2"}
 Dimmer Bulb2_color_temp "Upstairs Livarno bulb 2 color temp [%d %%]" (Lighting) {channel="mqtt:topic:mosquitto:bulb:color_temp2"}
-// colour changing
-//Switch Bulb_colour_change "Bulb colour changing mode"
 
 // ZigBee 4 channel relay board
 Switch ptvo1_Switch1 "Switch1 RelayBoard1" {channel="mqtt:topic:mosquitto:ptvo-relay:ptvo1_Switch1"}
