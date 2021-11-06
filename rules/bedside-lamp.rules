@@ -1,0 +1,50 @@
+
+val dimmingTimeInSeconds = 100 // unused for now
+var Timer BedtimeTimer = null 
+
+rule "Smooth transition to bedtime"
+when
+	//Item Bedtime_Bulb1_Bulb2 changed from OFF to ON
+	Item Bedtime_Bulb1_Bulb2 changed
+then
+	if (Bedtime_Bulb1_Bulb2.state == ON) {
+
+		// switch bulb2 off
+		Switch_bulb2.sendCommand(OFF)
+
+		// change bulb1 to red light
+		sendCommand(Bulb1_color,String.format("#%02X%02X%02X",255,0,0))
+
+		// set dimmer to 100%, so that it cannot produce decimals as calculation result
+		Dim_bulb1.sendCommand(100)
+
+		// then start the timed dimming, which will arrive at 0 afer XX minutes	
+		BedtimeTimer = createTimer(now, [ |
+			if ((Dim_bulb1.state as Number) > 1 && Bedtime_Bulb1_Bulb2.state == ON){ // added switch here for early exit
+				//logInfo("Smooth transition to bedtime","Dimmer set to {}",(Dim_bulb1.state as Number) -1 )
+				Dim_bulb1.sendCommand((Dim_bulb1.state as PercentType) - 1) // decrement current dimmer value
+				BedtimeTimer.reschedule(now.plusMillis(1000)) // set up for next round
+			}
+			else{
+				Dim_bulb1.sendCommand(0) // send lowest dimmer value: zero
+				//reached bedtime, cancel timer, reset index
+				BedtimeTimer.cancel
+				BedtimeTimer = null
+				logInfo("Smooth transition to bedtime","All done for you :)")
+				// switch off the initial entry switch item
+				Bedtime_Bulb1_Bulb2.sendCommand(OFF)			
+			}
+
+		])
+	}
+
+end
+
+
+rule "Turning off bedtime light at sunrise"
+
+when
+    Channel 'astro:sun:home:rise#event' triggered START
+then
+	Switch_bulb1.sendCommand(OFF) // turn off bedside lights
+end

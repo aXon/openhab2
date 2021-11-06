@@ -5,10 +5,12 @@
 // slide: cycling through all RGB colours
 
 var Timer colourTimer = null // global vairable for colour changing timer implementation
+var Timer colourTimer2 = null // global vairable for colour changing timer implementation
 
 val theColourArray = newArrayList(0, 0, 0, 0, 0, 1, 1, 2, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 15, 17, 18, 20, 22, 24, 26, 28, 30, 32, 35, 37, 39, 42, 44, 47, 49, 52, 55, 58, 60, 63, 66, 69, 72, 75, 78, 81, 85, 88, 91, 94, 97, 101, 104, 107, 111, 114, 117, 121, 124, 127, 131, 134, 137, 141, 144, 147, 150, 154, 157, 160, 163, 167, 170, 173, 176, 179, 182, 185, 188, 191, 194, 197, 200, 202, 205, 208, 210, 213, 215, 217, 220, 222, 224, 226, 229, 231, 232, 234, 236, 238, 239, 241, 242, 244, 245, 246, 248, 249, 250, 251, 251, 252, 253, 253, 254, 254, 255, 255, 255, 255, 255, 255, 255, 254, 254, 253, 253, 252, 251, 251, 250, 249, 248, 246, 245, 244, 242, 241, 239, 238, 236, 234, 232, 231, 229, 226, 224, 222, 220, 217, 215, 213, 210, 208, 205, 202, 200, 197, 194, 191, 188, 185, 182, 179, 176, 173, 170, 167, 163, 160, 157, 154, 150, 147, 144, 141, 137, 134, 131, 127, 124, 121, 117, 114, 111, 107, 104, 101, 97, 94, 91,  88, 85, 81, 78, 75, 72, 69, 66, 63, 60, 58, 55, 52, 49, 47, 44, 42, 39, 37, 35, 32, 30, 28, 26, 24, 22, 20, 18, 17, 15, 13, 12,  11, 9, 8, 7, 6, 5, 4, 3, 2, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 
 var Integer k = 0 // index variable
+var Integer m = 0 // index variable
 
 rule "Cube One Action"
 when
@@ -19,7 +21,6 @@ then
 	if (Switch_bulb.state == ON){
 		Switch_bulb.sendCommand("OFF")
 		// also disable cycling colour timer
-		colourRunning = false
 		colourTimer.cancel
 	}
 	else{
@@ -43,7 +44,7 @@ then
 	Dim_bulb.sendCommand(newBrightness)
     }
     
-    	// use a proxy item to check and then turn on 
+    	// acting on sliding using a proxy item to check and then turn on/off
     	if (CubeOne_Action.state.toString == "slide"){
 		if (Bulb_colour_cycle.state == ON) { //turn off
 			Bulb_colour_cycle.sendCommand("OFF")
@@ -124,3 +125,125 @@ then
 	])
 
 end
+
+// second cube actions
+
+rule "Cube Two Action"
+when
+    Item CubeTwo_Action received update
+then
+    // acting on shake to change between ON/OFF
+    if (CubeTwo_Action.state.toString == "shake"){
+	if (Switch_bulb1.state == ON){
+		Switch_bulb1.sendCommand("OFF")
+		Switch_bulb2.sendCommand("OFF")
+		// also disable cycling colour timer
+		colourTimer2.cancel
+	}
+	else{
+		Switch_bulb1.sendCommand("ON")
+		Switch_bulb2.sendCommand("ON")
+	}
+    } 
+    // acting on a rotation: clockwise to increase as positive, anto-clockwise to decrease dimming as it is a negative number
+    // this works in conjunction with having added metadata to the actual dimmer item reflecting the brightness levels from 0-254 for the Livarno bulb
+    var Number newBrightness = 0
+    var Number maxBrightness = 100
+    if (CubeTwo_Action.state.toString.contains("rotate")){
+	//calculate new brightness value, taking into account min/max cases
+	newBrightness = (Dim_bulb1.state as Number) + CubeTwo_Angle.state
+	if (newBrightness < 0){
+		newBrightness = 0
+	}
+	else if (newBrightness > maxBrightness) { 
+		newBrightness = maxBrightness
+	}
+	//logInfo("Cube One rules","Old dimmer {}, change {} and calculated {}",(Dim_bulb.state as Number),CubeOne_Angle.state, newBrightness)
+	Dim_bulb1.sendCommand(newBrightness)
+	Dim_bulb2.sendCommand(newBrightness)
+    }
+    
+    	// acting on sliding using a proxy item to check and then turn on/off
+	if (CubeTwo_Action.state.toString == "slide"){
+		if (Bedside_cycle.state == ON) { //turn off
+			Bedside_cycle.sendCommand("OFF")
+		}
+		else Bedside_cycle.sendCommand("ON") // turn on
+	}
+
+end
+
+
+rule "Cube Two Side"
+when
+	Item CubeTwo_Side changed
+then
+	var String hexColor
+	switch (CubeTwo_Side.state) {
+		case 0: { //cold white
+			Bulb1_color_temp.sendCommand(0)
+			Bulb2_color_temp.sendCommand(0)
+		}
+		case 1: { //red
+			hexColor = String.format("#%02X%02X%02X",255,0,0)
+			sendCommand(Bulb1_color, hexColor)
+			sendCommand(Bulb2_color, hexColor)
+		}
+		case 2: { //green
+			hexColor = String.format("#%02X%02X%02X",0,255,0)
+			sendCommand(Bulb1_color, hexColor)
+			sendCommand(Bulb2_color, hexColor)
+		}
+		case 3: { // warm white
+			Bulb1_color_temp.sendCommand(100)
+			Bulb2_color_temp.sendCommand(100)
+		}
+		case 4: { // UV
+			hexColor = String.format("#%02X%02X%02X",255,0,255)
+			sendCommand(Bulb1_color, hexColor)
+			sendCommand(Bulb2_color, hexColor)
+		}
+		case 5: { //blue
+			hexColor = String.format("#%02X%02X%02X",0,0,255)
+			sendCommand(Bulb1_color, hexColor)
+			sendCommand(Bulb2_color, hexColor)
+		}
+	}
+end
+
+
+rule "Colour change timer"
+when
+	Item Bedside_cycle changed
+then
+	colourTimer2 = createTimer(now, [ |
+		if (Bedside_cycle.state == ON) { //if it is running
+
+		// second attempt, using an array and index to cycle through all RGB colours
+		// idea taken from https://arduino.stackexchange.com/questions/35734/better-cycling-through-the-rgb-colors
+		// this solution uses an array and shifting the index for the respective colours
+			if (m < 359){
+				m=m+1
+			}
+			else {
+				m= 0
+			}
+			var red =theColourArray.get( (m+120)%360 ) 
+			var green = theColourArray.get(m)
+			var blue = theColourArray.get((m+240)%360)
+			var String hexColor = String.format("#%02X%02X%02X",red,green,blue) // building the hexadecimal string needed, which will contain six hexadecimal digits
+			sendCommand(Bulb1_color, hexColor) // another variant to send a command, this time, so that a string can be sent
+			sendCommand(Bulb2_color, hexColor) // another variant to send a command, this time, so that a string can be sent
+			colourTimer2.reschedule(now.plusMillis(250)) // next timer tick in ... ms
+		}
+		else {
+			colourTimer2.cancel
+			colourTimer2 = null
+		}
+
+	])
+
+end
+
+// adding rules, which will also take into account time e.g. the cube cannot turn on main light at night
+

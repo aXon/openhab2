@@ -1,6 +1,6 @@
 val String filename = "heating-modes.rules"
 
-// vordefinierte Temperaturen
+// vordefinierte Temperaturen 
 val Number tempHigh = 20.0
 val Number tempBoilerControl = 20.0 // set slightly higher to enable Vaillant controller to reach temperature
 val Number tempComfort = 19.0
@@ -16,7 +16,7 @@ val Wohnraum = 19.0
 val Schlafzimmer = 17.0 
 val Kueche = 18.0
 val Bad = 20.0 // unused until new extension, does not have homematic valve 
-val Flur = 16.0
+val Flur = 17.0
 
 val TagsueberAbwesend = 18.0
 val Nachts = 18.0
@@ -151,7 +151,7 @@ when
     Item VRC700_DayTemp changed
 then
     logInfo(filename, "Wohnzimmer Heizung: Folge VRC700f Sollwert")
-    //WZ_Wandtherm_Manu.sendCommand(receivedCommand)
+    LR_WallThermostat_SetTemp.sendCommand(VRC700_DayTemp.state as Number)
 end
 
 // Home_Heating_Mode Ende PARTY/SICKDAY
@@ -240,11 +240,11 @@ end
 
 rule "08:30 Uhr (Woche Homeoffice)"
 when
-    Time cron "0 30 8 ? * MON-FRI"
+    Time cron "0 30 8 ? * MON,TUE,WED,FRI"
 then
     if (Home_Heating_Mode.state == "HOMEOFFICE") {
         logInfo(filename, "Wohnung Heizmodus: Zeitprogramm: " + now.toString)
-        BAB_Radiator_PresetTemp.postUpdate(Schlafzimmer)
+        BAB_Radiator_PresetTemp.postUpdate(Kueche)
         Home_Heating_UpdateHeater.sendCommand(ON)
     }
 end

@@ -87,6 +87,12 @@ Bridge mqtt:broker:mosquitto [ host="127.0.0.1", port="1883", secure=false,clien
       Type number : CubeOne_Side [stateTopic="zigbee2mqtt/CubeOne/side"] 
     }
 
+    Thing topic cube2 "Aquara Cube  2" @  "Inside" {
+    Channels:
+      Type string : CubeTwo_Action  [stateTopic="zigbee2mqtt/CubeTwo/action"]
+      Type number : CubeTwo_Angle [stateTopic="zigbee2mqtt/CubeTwo/angle"] 
+      Type number : CubeTwo_Side [stateTopic="zigbee2mqtt/CubeTwo/side"] 
+    }
 
     // Airrohr Pi things for environemtal data retrieval - data is pushed by the sensor to a single topic
     // raw data: {"temperature": 7, "pressure": 100970, "humidity": 39, "oxidised": 12, "reduced": 579, "nh3": 714, "lux": 0, "pm1": 23, "pm25": 40, "pm10": 43, "serial": "00000000xyzxyzyx"}
