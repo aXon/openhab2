@@ -17,40 +17,45 @@ when
     Item CubeOne_Action received update
 then
     // acting on shake to change between ON/OFF
-    if (CubeOne_Action.state.toString == "shake"){
-	if (Switch_bulb.state == ON){
-		Switch_bulb.sendCommand("OFF")
-		// also disable cycling colour timer
-		colourTimer.cancel
-	}
-	else{
-		Switch_bulb.sendCommand("ON")
-	}
-    } 
+    // REMOVED as  it is replaced by the brightness_step_onoff ability of the LED lamp
+    //if (CubeOne_Action.state.toString == "shake"){
+//	if (Switch_bulb.state == ON){
+//		Switch_bulb.sendCommand("OFF")
+//		// also disable cycling colour timer
+//		colourTimer.cancel
+//	}
+//	else{
+//		Switch_bulb.sendCommand("ON")
+//	}
+ //   }
+ 
     // acting on a rotation: clockwise to increase as positive, anto-clockwise to decrease dimming as it is a negative number
     // this works in conjunction with having added metadata to the actual dimmer item reflecting the brightness levels from 0-254 for the Livarno bulb
+    // Added functionality: turning the light on/off
     var Number newBrightness = 0
-    var Number maxBrightness = 100
     if (CubeOne_Action.state.toString.contains("rotate")){
-	//calculate new brightness value, taking into account min/max cases
-	newBrightness = (Dim_bulb.state as Number) + CubeOne_Angle.state
-	if (newBrightness < 0){
-		newBrightness = 0
+	// This new approach uses brightness_step_onoff LED bulb capability, which uses relative rather than absolute brightness levels, thus can be + or -
+	// therefore, if the brightness should go to 0 or below, it also turns off the light, however, sometimes one wants the lowest light setting first, before turning it off
+	// caveat: dimmer in OH is 0-100, LED brightness is 0-255, there could be some misinterpretation here, but should work in general
+	newBrightness = (Dim_bulb.state as Number) + CubeOne_Angle.state  // theoretical result, if the current angle result is applied
+	if (newBrightness < 0  && (Dim_bulb.state as Number) > 1 ) { // bulb is currently on and requested to be turned to lowest dimmer value
+		logInfo("Cube One rules","Dimmer set to 1.")
+		Dim_bulb.sendCommand(1) // setting dimmer to 1
 	}
-	else if (newBrightness > maxBrightness) { 
-		newBrightness = maxBrightness
+	else{
+		logInfo("Cube One rules","Old dimmer {}, step {} and calculated {}",(Dim_bulb.state as Number),CubeOne_Angle.state, newBrightness)
+		//Dim_bulb.sendCommand(newBrightness)
+		Step_bulb.sendCommand(CubeOne_Angle.state)
 	}
-	//logInfo("Cube One rules","Old dimmer {}, change {} and calculated {}",(Dim_bulb.state as Number),CubeOne_Angle.state, newBrightness)
-	Dim_bulb.sendCommand(newBrightness)
-    }
-    
-    	// acting on sliding using a proxy item to check and then turn on/off
-    	if (CubeOne_Action.state.toString == "slide"){
-		if (Bulb_colour_cycle.state == ON) { //turn off
-			Bulb_colour_cycle.sendCommand("OFF")
-		}
-		else Bulb_colour_cycle.sendCommand("ON") // turn on
+   }
+ 
+   // acting on sliding using a proxy item to check and then turn on/off
+   if (CubeOne_Action.state.toString == "slide"){
+	if (Bulb_colour_cycle.state == ON) { //turn off
+		Bulb_colour_cycle.sendCommand("OFF")
 	}
+	else Bulb_colour_cycle.sendCommand("ON") // turn on
+  }
 end
 
 rule "Cube One Side"

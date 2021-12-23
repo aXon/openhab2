@@ -1,6 +1,12 @@
+// this functionality can be neatly circumvented using the brightness_move feature of the Lidl lamp
+// but this means it can only do it every second i.e. maximum 100 seconds long or shorter
+// see https://www.zigbee2mqtt.io/devices/HG06106C.html
 
 val dimmingTimeInSeconds = 100 // unused for now
 var Timer BedtimeTimer = null 
+
+var Timer _SunriseTimer = null 
+val _SunriseStepDelayInMS = 10000 // delay between each step of the sunrise dimming
 
 rule "Smooth transition to bedtime"
 when
@@ -37,9 +43,61 @@ then
 
 		])
 	}
+end
+
+// a simple rule to turn on the lights gradually
+// todos: user selectable max dimmer level
+// user selectable time setting instead of fixed rule via timer rule
+
+rule "Sunrise alarm clock"
+when
+        Item SunriseAlarm changed // using a proxy toggle, with the option to cancel it prematurely from the UI/other places
+then
+        if (SunriseAlarm == ON) {
+		
+		// initial setup: set brightness first, then turn lights on
+                // improved version: switch bulbs on using brightness_move_onoff and to 0 causing it to be at 0 initially
+                Dim_bulb1.sendCommand(0) // send lowest dimmer value: 0
+                Dim_bulb2.sendCommand(0) // send lowest dimmer value: 0
+		Switch_bulb2.sendCommand(ON)
+		Switch_bulb1.sendCommand(ON)
+
+                // change bulb colours to final sunrise light RGB value
+                sendCommand(Bulb1_color,String.format("#%02X%02X%02X",253, 94, 83))
+                sendCommand(Bulb2_color,String.format("#%02X%02X%02X",253, 94, 83))
+
+                // then start the timed dimming, which will arrive at the desired level after XX seconds i.e. max brightness * step delay
+                _SunriseTimer = createTimer(now, [ |
+                        if ((Dim_bulb1.state as Number) < 100 && SunriseAlarm == ON){ // added switch here for early exit
+                                logInfo("Sunrise Alarm clock","Dimmer set to {}",(Dim_bulb1.state as Number) +1 )
+                                Dim_bulb1.sendCommand((Dim_bulb1.state as PercentType) + 1) // increment current dimmer value
+                                Dim_bulb2.sendCommand((Dim_bulb2.state as PercentType) + 1) // increment current dimmer value
+                                _SunriseTimer.reschedule(now.plusMillis(_SunriseStepDelayInMS)) // set up for next round sometime later
+                        }
+                        else{
+                                Dim_bulb1.sendCommand(100) // send highest dimmer value: 100
+                                Dim_bulb2.sendCommand(100) // send highest dimmer value: 100
+                                //reached sunrise, cancel timer
+                                _SunriseTimer.cancel
+                                _SunriseTimer = null
+                                logInfo("Sunrise Alarm clock","All done for you :)")
+                                // turn off the proxy item
+                                SunriseAlarm.sendCommand(OFF)
+                        }
+
+                ])
+        }
 
 end
 
+// simple way of having a fixed sunrise alarm clock time
+// the alternative would be to use the sunrise event, although that will change throughout the year
+//rule "Sunrise alarm clock timer"
+//when
+//   Time cron "0 0 8 ? * MON-SUN"
+//then
+//	SunriseAlarm.sendCommand(ON)
+//end
 
 rule "Turning off bedtime light at sunrise"
 
