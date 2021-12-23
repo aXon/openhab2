@@ -15,6 +15,7 @@ Switch Bulb_colour_cycle "Downstairs colour cycle" (Lighting)
 // upstairs bedside lamp Livarno bulbs (2)
 Switch Switch_bulb1 "Upstairs Livarno bulb 1" (Lighting) {channel="mqtt:topic:mosquitto:bulb:onoff1"}
 Dimmer Dim_bulb1   "Upstairs Livarno bulb 1 [%d %%]" (Lighting) {channel="mqtt:topic:mosquitto:bulb:dim1", autoupdate="false", stateDescription=""[min="0", max="100"] }
+Number Move_bulb1   "Upstairs Livarno bulb 1 move dimmer" {channel="mqtt:topic:mosquitto:bulb:move1"}
 // the colour items work together, in that one collects the value from the colorpicker and the other is then used to control the lamp as a result of a rule being applied
 Color Bulb1_colorpicker "Upstairs Livarno bulb 1" (Lighting)
 String Bulb1_color "Bulb color hex" {channel="mqtt:topic:mosquitto:bulb:color1"}
@@ -22,6 +23,7 @@ Dimmer Bulb1_color_temp "Upstairs Livarno bulb 1 color temp [%d %%]" (Lighting) 
 
 Switch Switch_bulb2 "Upstairs Livarno bulb 2" (Lighting) {channel="mqtt:topic:mosquitto:bulb:onoff2"}
 Dimmer Dim_bulb2   "Upstairs Livarno bulb 2 [%d %%]" (Lighting) {channel="mqtt:topic:mosquitto:bulb:dim2", autoupdate="false", stateDescription=""[min="0", max="100"] }
+Number Move_bulb2   "Upstairs Livarno bulb 2 move dimmer" {channel="mqtt:topic:mosquitto:bulb:move2"}
 // the colour items work together, in that one collects the value from the colorpicker and the other is then used to control the lamp as a result of a rule being applied
 Color Bulb2_colorpicker "Upstairs Livarno bulb 2" (Lighting)
 String Bulb2_color "Bulb color hex" {channel="mqtt:topic:mosquitto:bulb:color2"}

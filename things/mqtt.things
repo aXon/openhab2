@@ -54,11 +54,13 @@ Bridge mqtt:broker:mosquitto [ host="127.0.0.1", port="1883", secure=false,clien
 	Type dimmer : color_temp "Hue Livarno bulb" [stateTopic="zigbee2mqtt/bulb/color_temp", commandTopic="zigbee2mqtt/bulb/set/color_temp", min=150, max=500 ,step=1 ]
     	Type switch : onoff1 "Switch Bedroom bulb 1" [stateTopic="zigbee2mqtt/Bedroom_bulb1/state", commandTopic="zigbee2mqtt/Bedroom_bulb1/set/state", on="ON", off="OFF"]
     	Type dimmer : dim1 "Dimmer Bedroom bulb 1" [stateTopic="zigbee2mqtt/Bedroom_bulb1/brightness", commandTopic="zigbee2mqtt/Bedroom_bulb1/set/brightness", min=1, max=255, step=1]
+    	Type number : move1 "Move to dimmer position Bedroom bulb 1" [stateTopic="zigbee2mqtt/Bedroom_bulb1/brightness", commandTopic="zigbee2mqtt/Bedroom_bulb1/set/brightness_move_onoff"]
 	Type string : color1 "Color Bedroom bulb 1" [stateTopic="zigbee2mqtt/Bedroom_bulb1/color", commandTopic="zigbee2mqtt/Bedroom_bulb1/set/color"]
 	Type dimmer : color_temp1 "Hue Bedroom bulb 1" [stateTopic="zigbee2mqtt/Bedroom_bulb1/color_temp", commandTopic="zigbee2mqtt/Bedroom_bulb1/set/color_temp", min=150, max=500 ,step=1 ]
     	Type switch : onoff2 "Switch Bedroom bulb 2" [stateTopic="zigbee2mqtt/Bedroom_bulb2/state", commandTopic="zigbee2mqtt/Bedroom_bulb2/set/state", on="ON", off="OFF"]
     	Type dimmer : dim2 "Dimmer Bedroom bulb 2" [stateTopic="zigbee2mqtt/Bedroom_bulb2/brightness", commandTopic="zigbee2mqtt/Bedroom_bulb2/set/brightness", min=1, max=255, step=1]
-	Type string : color2 "Color Bedroom bulb " [stateTopic="zigbee2mqtt/Bedroom_bulb2/color", commandTopic="zigbee2mqtt/Bedroom_bulb2/set/color"]
+    	Type number : move2 "Move to dimmer position Bedroom bulb 2" [stateTopic="zigbee2mqtt/Bedroom_bulb2/brightness", commandTopic="zigbee2mqtt/Bedroom_bulb2/set/brightness_move_onoff"]
+	Type string : color2 "Color Bedroom bulb" [stateTopic="zigbee2mqtt/Bedroom_bulb2/color", commandTopic="zigbee2mqtt/Bedroom_bulb2/set/color"]
 	Type dimmer : color_temp2 "Hue Bedroom bulb 2" [stateTopic="zigbee2mqtt/Bedroom_bulb2/color_temp", commandTopic="zigbee2mqtt/Bedroom_bulb2/set/color_temp", min=150, max=500 ,step=1 ]
     }
 
