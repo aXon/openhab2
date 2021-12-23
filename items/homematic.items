@@ -179,4 +179,3 @@ Switch Homematic_Reload_Datapoints  "Reload Datapoints"                         
 Switch Homematic_Reload_RSSI        "Reload RSSI"                                           (Home)            {channel="homematic:GATEWAY-EXTRAS-CCU:ccu:GWE00000000:0#RELOAD_RSSI"}
 
 
-// vim: syntax=Xtend

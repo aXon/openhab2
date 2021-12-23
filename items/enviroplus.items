@@ -9,3 +9,4 @@ Number Emviroplus_GasNH3 "Enviro+ Gas NH3 [%d Ω]" <smoke>   (gEnvironment,Histo
 Number Enviroplus_Temp "Enviro+ Temperature [%d ªC]" <temperature>   (gEnvironment,History) {channel="mqtt:topic:mosquitto:enviroplus:AirrohrTemp" }
 Number Enviroplus_Humidity "Enviro+ Humidity [%d %%]"    <humidity>   (gEnvironment,History) {channel="mqtt:topic:mosquitto:enviroplus:AirrohrHumidity" }
 Number Enviroplus_Pressure "Enviro+ Pressure [%d Pa]" <pressure>   (gEnvironment,History) {channel="mqtt:topic:mosquitto:enviroplus:AirrohrPressure" }
+

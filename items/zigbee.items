@@ -1,6 +1,7 @@
 // downstairs Livarno LED bulb items
 Switch Switch_bulb "Downstairs Livarno bulb" (Lighting) {channel="mqtt:topic:mosquitto:bulb:onoff"}
-Dimmer Dim_bulb   "Downstairs Livarno bulb [%d %%]" (Lighting) {channel="mqtt:topic:mosquitto:bulb:dim", autoupdate="false", stateDescription=""[min="0", max="100"] }
+Dimmer Dim_bulb  "Downstairs Livarno bulb [%d %%]" (Lighting) {channel="mqtt:topic:mosquitto:bulb:dim", autoupdate="false", stateDescription=""[min="0", max="100"] }
+Number Step_bulb  "Downstairs Livarno bulb stepper" {channel="mqtt:topic:mosquitto:bulb:step" }
 //Dimmer Dim_bulb   "Downstairs Livarno bulb [%d %%]" (Lighting) {channel="mqtt:topic:mosquitto:bulb:dim"}
 // the colour items work together, in that one collects the value from the colorpicker and the other is then used to control the lamp as a result of a rule being applied
 Color Bulb_colorpicker "Downstairs Livarno bulb" (Lighting)
@@ -28,6 +29,7 @@ Dimmer Bulb2_color_temp "Upstairs Livarno bulb 2 color temp [%d %%]" (Lighting) 
 // control items
 Switch Bedtime_Bulb1_Bulb2 "Sleepy time" (Lighting)
 Switch Bedside_cycle "Upstairs colour cycle" (Lighting)
+Switch SunriseAlarm "Upstairs sunrise alarm clock" (Lighting)
 
 
 // ZigBee 4 channel relay board
@@ -45,3 +47,5 @@ Number  CubeOne_Side "Cube One Angle" {channel="mqtt:topic:mosquitto:cube:CubeOn
 String  CubeTwo_Action "Cube Two Action" {channel="mqtt:topic:mosquitto:cube2:CubeTwo_Action"}
 Number  CubeTwo_Angle "Cube Two Angle" {channel="mqtt:topic:mosquitto:cube2:CubeTwo_Angle"}
 Number  CubeTwo_Side "Cube Two Angle" {channel="mqtt:topic:mosquitto:cube2:CubeTwo_Side"}
+
+

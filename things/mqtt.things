@@ -49,6 +49,7 @@ Bridge mqtt:broker:mosquitto [ host="127.0.0.1", port="1883", secure=false,clien
     Channels:
     	Type switch : onoff "Switch Livarno bulb" [stateTopic="zigbee2mqtt/bulb/state", commandTopic="zigbee2mqtt/bulb/set/state", on="ON", off="OFF"]
     	Type dimmer : dim "Dimmer Livarno bulb" [stateTopic="zigbee2mqtt/bulb/brightness", commandTopic="zigbee2mqtt/bulb/set/brightness", min=1, max=255, step=1]
+    	Type number : step "Dim stepper Livarno bulb" [stateTopic="zigbee2mqtt/bulb/brightness", commandTopic="zigbee2mqtt/bulb/set/brightness_step_onoff"]
 	Type string : color "Color Livarno bulb" [stateTopic="zigbee2mqtt/bulb/color", commandTopic="zigbee2mqtt/bulb/set/color"]
 	Type dimmer : color_temp "Hue Livarno bulb" [stateTopic="zigbee2mqtt/bulb/color_temp", commandTopic="zigbee2mqtt/bulb/set/color_temp", min=150, max=500 ,step=1 ]
     	Type switch : onoff1 "Switch Bedroom bulb 1" [stateTopic="zigbee2mqtt/Bedroom_bulb1/state", commandTopic="zigbee2mqtt/Bedroom_bulb1/set/state", on="ON", off="OFF"]

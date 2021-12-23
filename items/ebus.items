@@ -38,3 +38,4 @@ Number VRC700_GSumHcLastMonth    "Gas usage heating last month  [%d kWh]" <energ
 Number VRC700_GSumHwcLifetime   "Gas usage hot water total [%d kWh]" <energy>       (eBusGroup,History) {channel="mqtt:topic:mosquitto:b7v:GasSumHotWaterLifetime" }
 Number VRC700_GSumHcLifetime    "Gas usage heating total [%d kWh]" <energy>       (eBusGroup,History) {channel="mqtt:topic:mosquitto:b7v:GasSumHeatingLifetime" }
 Number VRC700_GSumLifetime      "Gas usage total [%d kWh]" <energy>       (eBusGroup,History) {channel="mqtt:topic:mosquitto:b7v:GasSumLifetime" }
+
